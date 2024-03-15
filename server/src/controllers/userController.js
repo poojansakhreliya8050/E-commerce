@@ -1,13 +1,19 @@
 const bcrypt = require('bcrypt');
+const Item = require("../models/item")
+const Order = require("../models/order")
 const User = require("../models/userModel")
+
+
+
 const UserOtp = require("../models/userOtpModel")
 const { sendEmail } = require("../utils/sendEmail")
 const { sign, verify } = require("jsonwebtoken");
 const { createJwtToken } = require('../utils/jwt');
 
+//for create user(signup)
 const createUser = async (req, res) => {
     try {
-        console.log(req.body);
+        console.log(req.body,"create....");
 
         // user exist or not
         const userExist = await User.findOne({ email: req.body.email.toLowerCase() })
@@ -44,6 +50,7 @@ const createUser = async (req, res) => {
     }
 }
 
+//for login user
 const loginUser = async (req, res) => {
     try {
         console.log(req.body);

@@ -13,14 +13,25 @@ const sendEmail=async(email,otp)=>{
 
     });
 
+    // const transporter = nodemailer.createTransport({
+    //     host: "Gmail",
+    //     auth: {
+    //         user: 'poojansakhreliya12@gmail.com',  
+    //         pass: "rhbppqqvkhgviedw"
+    //     }
+    // });
+    // console.log(email+"--->"+otp);
+
+
     const info = await transporter.sendMail({
         from: 'poojansakhreliya007@gmail.com',
         to: `${email}`,
         subject: 'Sending Email for authentication',
         text: `For authetication Otp is : ${otp}`
     })
+    console.log(info+"ooooo");
+ 
 
-    console.log(info);
 }
 module.exports={
     sendEmail

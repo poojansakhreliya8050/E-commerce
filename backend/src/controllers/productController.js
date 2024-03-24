@@ -2,7 +2,7 @@ const Product = require("../models/product")
 
 const addProduct=async(req,res)=>{
     try{
-           const product=Product.carete({name:req.body.name,price:req.body.price,categoryId:req.body.categoryId})
+           const product=await Product.create({name:req.body.name,price:req.body.price,subCategoryId:req.body.subCategoryId})
             console.log(product);
 
            return res.status(200).json({

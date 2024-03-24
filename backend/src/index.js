@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser")
 
 require("dotenv").config()
 
-const userRoute=require("./routes/userRoute")
+const api=require("./routes/index")
 
 const app = express()
 
@@ -19,7 +19,7 @@ app.use(cors({
 app.use(cookieParser())
 
 
-app.use("/user",userRoute)
+app.use("/api",api)
 
 
 async function start() {

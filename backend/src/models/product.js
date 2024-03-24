@@ -3,11 +3,10 @@ const mongoose=require("mongoose");
 const productSchema=mongoose.Schema({
     name:String,
     price:Number,
-    categoryId:{
+    subCategoryId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'category'
-    }
-    
+        ref:'subCategory'
+    } 
 })
 
 module.exports=mongoose.model('product',productSchema)

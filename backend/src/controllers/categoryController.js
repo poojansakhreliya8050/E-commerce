@@ -2,7 +2,8 @@ const Category = require("../models/category")
 
 const addCategory=async(req,res)=>{
     try{
-           const category=Category.carete({category:req.body.category})
+        console.log(req.body);
+           const category=await Category.create({category:req.body.category,description:req.body.description})
             console.log(category);
 
            return res.status(200).json({
@@ -16,6 +17,7 @@ const addCategory=async(req,res)=>{
 }
 const fetchAllCategory=async(req,res)=>{
     try {
+        console.log("hello");
         const allCategory = await Category.find();
         res.status(200).json(allCategory)
     } catch (err) {

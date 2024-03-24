@@ -1,9 +1,5 @@
 const bcrypt = require('bcrypt');
-const Item = require("../models/item")
-const Order = require("../models/order")
 const User = require("../models/userModel")
-
-
 
 const UserOtp = require("../models/userOtpModel")
 const { sendEmail } = require("../utils/sendEmail")
@@ -140,15 +136,18 @@ const verifyUser = async (req, res) => {
 
 const userLogout = async (req, res) => {
     res.clearCookie("refreshToken", { path: "/refresh_token" })
+    console.log(req.cookies);
     return res.status(200).json({"message":"user sucessfully logout.."});
 }
 
 const createRefreshToken = async (req, res) => {
+    try
+    {
     const token = req.cookies.refreshToken;
-    // console.log(req.cookies);
+    console.log(req.cookies);
     //token exist ?
     if (!token) {
-        return res.send({ accessToken: "" })
+        return res.send({ accessToken: null })
     }
     let payload = null;
 
@@ -160,7 +159,7 @@ const createRefreshToken = async (req, res) => {
         res.send(err)
     }
 
-    const user = await User.findOne({ _id: payload.id })
+    const user = await User.findOne({ _id: payload?.id })
     //user exist ?
     if (!user) {
         return res.send({ accessToken: "" })
@@ -174,6 +173,11 @@ const createRefreshToken = async (req, res) => {
     // return res.send({ accessToken });
     console.log(accessToken);
     return res.status(200).json({ userdata: user, accessToken: accessToken })
+}
+catch(e)
+{
+    console.log("Error from createRefreshToken!!",e);
+}
 
 }
 

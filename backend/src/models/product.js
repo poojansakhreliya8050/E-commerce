@@ -1,6 +1,6 @@
 const mongoose=require("mongoose");
 
-const itemSchema=mongoose.Schema({
+const productSchema=mongoose.Schema({
     name:String,
     price:Number,
     categoryId:{
@@ -10,4 +10,4 @@ const itemSchema=mongoose.Schema({
     
 })
 
-module.exports=mongoose.model('item',itemSchema)
+module.exports=mongoose.model('product',productSchema)

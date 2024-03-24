@@ -26,7 +26,7 @@ useEffect(() => {
           'Content-Type': 'application/json',
         }
       })).json();
-      // console.log(user);
+      console.log(user);
       dispatch(userData(user))
     }
     checkRefreshToken();

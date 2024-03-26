@@ -6,7 +6,9 @@ const productSchema=mongoose.Schema({
     subCategoryId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'subCategory'
-    } 
+    } ,
+    description:String,
+    img:String
 })
 
 module.exports=mongoose.model('product',productSchema)

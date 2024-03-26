@@ -6,7 +6,8 @@ const subCategorySchema=mongoose.Schema({
         ref:'category'
     },
     subCategory:String,
-    description:String
+    description:String,
+    img:String
 })
 
 module.exports=mongoose.model("subCategory",subCategorySchema)

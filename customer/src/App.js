@@ -9,6 +9,7 @@ import { RouterProvider } from 'react-router-dom'
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userData } from './redux/user/userSlice';
+import { Aavade } from './page/Aavade';
 
 
 
@@ -42,6 +43,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/verifyUser" element={<VerifyUser />} />
+    <Route path="/aavade" element={<Aavade/>}/>
   </Route>
 ));
 

@@ -5,7 +5,8 @@ const cookieParser = require("cookie-parser")
 
 require("dotenv").config()
 
-const api=require("./routes/index")
+const api=require("./routes/index");
+const upload = require("./middleware/multer.middleware");
 
 const app = express()
 
@@ -17,8 +18,6 @@ app.use(cors({
     optionSuccessStatus:200,
  }))
 app.use(cookieParser())
-
-
 app.use("/api",api)
 
 

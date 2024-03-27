@@ -6,6 +6,7 @@ const orderRoute=require("./orderRoute")
 
 const router=express.Router()
 
+
 router.use("/user",userRoute)
 router.use("/category",categoryRoute)
 router.use("/product",productRoute)

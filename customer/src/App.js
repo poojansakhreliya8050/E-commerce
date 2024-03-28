@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userData } from './redux/user/userSlice';
 import { Aavade } from './page/Aavade';
+// import Product from './temp/Product';
 
 
 
@@ -44,7 +45,9 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/register" element={<Register />} />
     <Route path="/verifyUser" element={<VerifyUser />} />
     <Route path="/aavade" element={<Aavade/>}/>
+    {/* <Route path="/slider" element={<Product/>}/> */}
   </Route>
+
 ));
 
 

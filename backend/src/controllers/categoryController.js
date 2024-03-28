@@ -1,13 +1,21 @@
 const Category = require("../models/category")
+const uploadOnCloudinary = require("../utils/cloudinaryUpload");
+
 
 const addCategory=async(req,res)=>{
     try{
+        if(!req.body.categoryTitle  || !req.body.description || !req.file)
+        {
+            return res.status(404).json({message:"please enter valid data.."})
+        }
         console.log(req.body);
-           const category=await Category.create({category:req.body.category,description:req.body.description})
-            console.log(category);
+        const data=await uploadOnCloudinary(req.file.path);
+        console.log(data);
+        const category=await Category.create({categoryTitle:req.body.categoryTitle,description:req.body.description,image:data.url})
 
            return res.status(200).json({
-            message:"successfully add category"
+            message:"successfully add category",
+            category
            })
     }
     catch(e)

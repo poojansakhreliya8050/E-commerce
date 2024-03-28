@@ -5,7 +5,7 @@ const subCategorySchema=mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'category'
     },
-    subCategory:String,
+    subCategoryTitle:String,
     description:String,
     img:String
 })

@@ -1,7 +1,7 @@
 const mongoose=require("mongoose");
 
 const productSchema=mongoose.Schema({
-    name:String,
+    productName:String,
     price:Number,
     subCategoryId:{
         type:mongoose.Schema.Types.ObjectId,

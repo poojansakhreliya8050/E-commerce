@@ -1,10 +1,13 @@
 const express=require("express");
+const upload=require("../../middleware/multer.middleware")
+const {addSubCategory,fetchAllSubCategory,fetchSubCategoryByCateroryId} =require("../../controllers/subCategoryController");
+
 
 const router=express.Router()
 
-const {addSubCategory,fetchAllSubCategory} =require("../../controllers/subCategoryController");
-router.post("/addSubCategory",addSubCategory);
+router.post("/addSubCategory",upload.single("image"),addSubCategory);
 router.get("/fetchAllSubCategory",fetchAllSubCategory);
+router.get("/fetchSubCategoryByCateroryId:categoryId",fetchSubCategoryByCateroryId);
 
 
 module.exports = router

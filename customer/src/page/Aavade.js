@@ -51,23 +51,39 @@ export const Aavade = () => {
     console.log(file);
     const formData = new FormData();
     formData.append('image', file.image[0]);
-    formData.append('categoryTitle', file.categoryTitle);
+    // formData.append('categoryTitle', file.categoryTitle);
+    // formData.append('description', file.description);
+    // const data = await axios.post(`${process.env.REACT_APP_URL}/api/v1/category/addCategory`, formData, {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // })
+
+    formData.append('categoryId', file.categoryId);
+    formData.append('subCategoryTitle', file.subCategoryTitle);
     formData.append('description', file.description);
 
-    const data = await axios.post(`${process.env.REACT_APP_URL}/api/v1/category/addCategory`, formData, {
+    const data = await axios.post(`${process.env.REACT_APP_URL}/api/v1/subCategory/addSubCategory`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     })
     console.log(data);
   }
-  const item=categories[2]
+  // const item=categories[2]
 
   return (
     <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        {/* <form onSubmit={handleSubmit(onSubmit)}>
           <input value={item.categoryTitle} type="text" {...register('categoryTitle')} placeholder="categoryTitle" />
           <input value={item.description} type="text" {...register('description')} placeholder="Description" />
+          <input type='file' {...register("image",)} />
+          <button>Submit</button>
+        </form> */}
+         <form onSubmit={handleSubmit(onSubmit)}>
+          <input type="text" {...register('categoryId')} placeholder="categoryId" />
+          <input type="text" {...register('subCategoryTitle')} placeholder="subCategoryTitle" />
+          <input type="text" {...register('description')} placeholder="Description" />
           <input type='file' {...register("image",)} />
           <button>Submit</button>
         </form>

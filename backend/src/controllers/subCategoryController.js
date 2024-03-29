@@ -1,9 +1,15 @@
 const SubCategory = require("../models/subCategory")
-
+const uploadOnCloudinary=require("../utils/cloudinaryUpload")
 const addSubCategory=async(req,res)=>{
     try{
         console.log(req.body);
-           const subCategory=await SubCategory.create({categoryId:req.body.categoryId,subCategory:req.body.subCategory,description:req.body.description})
+        if(!req.body.categoryId || !req.body.subCategoryTitle  || !req.body.description || !req.file)
+        {
+            return res.status(404).json({message:"please enter valid data.."})
+        }
+        const data=await uploadOnCloudinary(req.file.path);
+        console.log(data);
+           const subCategory=await SubCategory.create({categoryId:req.body.categoryId,subCategoryTitle:req.body.subCategoryTitle,description:req.body.description,image:data.url})
             console.log(subCategory);
 
            return res.status(200).json({
@@ -17,7 +23,6 @@ const addSubCategory=async(req,res)=>{
 }
 const fetchAllSubCategory=async(req,res)=>{
     try {
-        console.log("hello");
         const allSubCategory = await SubCategory.find();
         res.status(200).json(allSubCategory)
     } catch (err) {
@@ -25,9 +30,9 @@ const fetchAllSubCategory=async(req,res)=>{
     }
 }
 
-const fetchSubCategoryByName = async (req, res) => {
+const fetchSubCategoryByCateroryId = async (req, res) => {
     try {
-        const subCategory = await SubCategory.findOne({ email: req.params.name });
+        const subCategory = await SubCategory.find({ categoryId: req.params.categoryId});
         res.status(200).json(subCategory)
     } catch (err) {
         console.log(err);
@@ -43,4 +48,4 @@ const deleteSubCategoryByName = async (req, res) => {
     }
 }
 
-module.exports={addSubCategory,fetchAllSubCategory,fetchSubCategoryByName,deleteSubCategoryByName}
+module.exports={addSubCategory,fetchAllSubCategory,fetchSubCategoryByCateroryId,deleteSubCategoryByName}

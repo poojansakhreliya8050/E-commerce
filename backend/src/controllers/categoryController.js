@@ -25,7 +25,6 @@ const addCategory=async(req,res)=>{
 }
 const fetchAllCategory=async(req,res)=>{
     try {
-        console.log("hello");
         const allCategory = await Category.find();
         res.status(200).json(allCategory)
     } catch (err) {

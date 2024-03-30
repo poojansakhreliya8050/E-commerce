@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import SubCategorySlider from '../component/SubCategorySlider';
 
 
 const SubCategory = () => {
@@ -20,7 +21,7 @@ const SubCategory = () => {
     }, []);
   return (
     <div>
-        
+        <SubCategorySlider/>
     </div>
   )
 }

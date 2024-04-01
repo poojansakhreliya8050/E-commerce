@@ -4,7 +4,7 @@ import SubCategorySlider from '../component/SubCategorySlider';
 
 
 const SubCategory = () => {
-    const [subCategories, setSubCategories] = useState([]);
+    const [subCategories, setSubCategories] = useState(null);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -21,7 +21,9 @@ const SubCategory = () => {
     }, []);
   return (
     <div>
-        <SubCategorySlider/>
+        {subCategories!=null &&
+        <SubCategorySlider subCategories={subCategories}/>
+        }
     </div>
   )
 }

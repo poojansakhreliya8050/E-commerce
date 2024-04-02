@@ -1,17 +1,15 @@
 import './App.css';
-import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Route ,RouterProvider} from 'react-router-dom'
 import Login from './component/Login';
 import Home from './page/Home'
 import Directory from './component/Directory';
 import Register from './component/Register';
 import VerifyUser from './component/VerifyUser';
-import { RouterProvider } from 'react-router-dom'
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userData } from './redux/user/userSlice';
 import { Aavade } from './page/Aavade';
 import SubCategory from './page/SubCategory';
-// import Product from './temp/Product';
 
 
 

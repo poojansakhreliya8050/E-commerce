@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SubCategorySlider from '../component/SubCategorySlider';
 import Productcard from '../component/ProductCard';
-
+import { useParams } from 'react-router-dom';
 
 const SubCategory = () => {
+    const {categoryId}=useParams()
     const [subCategories, setSubCategories] = useState(null);
 
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/subCategory/fetchAllSubCategory`);
+          const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/subCategory/fetchSubCategoryByCateroryId/${categoryId}`);
           console.log(response);
           setSubCategories(response.data); 
         } catch (error) {

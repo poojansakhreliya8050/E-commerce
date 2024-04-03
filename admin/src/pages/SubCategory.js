@@ -36,15 +36,16 @@ const SubCategory = () => {
 
         const formData = new FormData();
         formData.append('image', image);
+        formData.append("categoryId",categoryId);
         formData.append('subCategoryTitle', subCategoryTitle);
         formData.append('description', subCategoryDescription);
 
-        // const res = await axios.post(`${process.env.REACT_APP_URL}/api/v1/subCategory/addSubCategory`, formData, {
-        //     headers: {
-        //         "Content-Type": "multipart/form-data",
-        //     },
-        // })
-        // console.log(res);
+        const res = await axios.post(`${process.env.REACT_APP_URL}/api/v1/subCategory/addSubCategory`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        })
+        console.log(res);
 
     }
 
@@ -62,7 +63,7 @@ const SubCategory = () => {
                                     <div className="relative border border-gray-300 text-gray-900 bg-gray-100 focus:outline-none focus:shadow-outline">
                                         <select className="appearance-none w-full py-1 px-2 bg-gray-100" name="whatever" id="frm-whatever" onChange={e=>setCategoryId(e.target.value)}>
                                             <option value="">Select Category</option>
-                                            { categories.map(category=> <option value={category._id}>{category.categoryTitle}</option>)}
+                                            { categories.map(category=> <option key={category._id} value={category._id}>{category.categoryTitle}</option>)}
                                             
                                         </select>
                                         <div className="pointer-events-none absolute right-0 top-0 bottom-0 flex items-center px-2 text-gray-700 border-l">

@@ -7,7 +7,7 @@ const router=express.Router()
 
 router.post("/addSubCategory",upload.single("image"),addSubCategory);
 router.get("/fetchAllSubCategory",fetchAllSubCategory);
-router.get("/fetchSubCategoryByCateroryId:categoryId",fetchSubCategoryByCateroryId);
+router.get("/fetchSubCategoryByCateroryId/:categoryId",fetchSubCategoryByCateroryId);
 
 
 module.exports = router

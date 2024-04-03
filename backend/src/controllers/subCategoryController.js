@@ -1,5 +1,7 @@
+const mongoose=require("mongoose");
 const SubCategory = require("../models/subCategory")
 const uploadOnCloudinary=require("../utils/cloudinaryUpload")
+
 const addSubCategory=async(req,res)=>{
     try{
         console.log(req.body);
@@ -32,7 +34,7 @@ const fetchAllSubCategory=async(req,res)=>{
 
 const fetchSubCategoryByCateroryId = async (req, res) => {
     try {
-        const subCategory = await SubCategory.find({ categoryId: req.params.categoryId});
+        const subCategory = await SubCategory.find({categoryId:req.params.categoryId});
         res.status(200).json(subCategory)
     } catch (err) {
         console.log(err);

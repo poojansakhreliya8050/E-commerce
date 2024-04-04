@@ -8,12 +8,12 @@ import Card from './Card';
 
 const SubCategorySlider = ({subCategories}) => {
 
-    console.log(subCategories);
+    console.log(subCategories.length);
 
     const settings = {
         dots: true,
         infinite: true,
-        slidesToShow: 5,
+        slidesToShow: subCategories.length>=5?5:4,
         slidesToScroll: 1,
         autoplay: true,
         speed: 2000,

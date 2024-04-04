@@ -24,7 +24,7 @@ const Directory = () => {
        <div className='w-full h-full relative' >
         <img src={require('../images/3.jpg')} className='w-full h-full absolute'/> 
        </div>
-
+        <h1 className='text-5xl font-bold text-center m-5'>Category</h1>
      <div className='w-full flex justify-center items-center'>
        <div className='flex min-h-screen w-4/5 items-center justify-around flex-wrap'>
           {

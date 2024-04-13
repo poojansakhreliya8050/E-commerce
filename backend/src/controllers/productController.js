@@ -1,22 +1,48 @@
 const Product = require("../models/product")
+const uploadOnCloudinary = require("../utils/cloudinaryUpload");
 
-const addProduct=async(req,res)=>{
-    try{
-           const product=await Product.create({name:req.body.name,price:req.body.price,subCategoryId:req.body.subCategoryId})
-            console.log(product);
 
-           return res.status(200).json({
-            message:"successfully add product"
-           })
+const addProduct = async (req, res) => {
+    console.log(req.body);
+    console.log(req.file);
+    try {
+        if (!req.body.categoryId || !req.body.subCategoryId || !req.body.productName || !req.body.productDescription || !req.body.price || !req.body.quantity || !req.file) {
+            return res.status(404).json({ message: "please enter valid data.." })
+        }
+        const imageData = await uploadOnCloudinary(req.file.path);
+        console.log(imageData);
+        const product = await Product.create({ categoryId: req.body.categoryId, subCategoryId: req.body.subCategoryId, productName: req.body.productName, productDescription: req.body.productDescription, price: req.body.price, quantity: req.body.quantity, img: imageData.url })
+        console.log(product);
+
+        return res.status(200).json({
+            message: "successfully add product"
+        })
     }
-    catch(e)
-    {
+    catch (e) {
         console.log(e);
     }
 }
-const fetchAllProduct=async(req,res)=>{
+const fetchAllProduct = async (req, res) => {
     try {
         const allProduct = await Product.find();
+        res.status(200).json(allProduct)
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const fetchAllProductByCategoryId = async (req, res) => {
+    try {
+        const allProduct = await Product.find({categoryId:req.params.categoryId});
+        res.status(200).json(allProduct)
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const fetchAllProductBySubCategoryId = async (req, res) => {
+    try {
+        const allProduct = await Product.find({subCategoryId:req.params.subCategoryId});
         res.status(200).json(allProduct)
     } catch (err) {
         console.log(err);
@@ -35,10 +61,10 @@ const fetchProductByName = async (req, res) => {
 const deleteProductByid = async (req, res) => {
     try {
         await Product.deleteOne({ id: req.params.id })
-        res.status(200).json({message:`delete product : ${req.params.id}`})
+        res.status(200).json({ message: `delete product : ${req.params.id}` })
     } catch (err) {
         console.log(err);
     }
 }
 
-module.exports={addProduct,fetchAllProduct,fetchProductByName,deleteProductByid}
+module.exports = { addProduct, fetchAllProduct, fetchProductByName, deleteProductByid ,fetchAllProductByCategoryId,fetchAllProductBySubCategoryId}

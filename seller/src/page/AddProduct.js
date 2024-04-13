@@ -10,7 +10,9 @@ const AddProduct = () => {
 
     const[productDescription,setProductDescription]=useState("");
     const[productName,setProductName]=useState("");
-    const[price,setPrice]=useState("");
+    const[price,setPrice]=useState(0);
+    const[quantity,setQuantity]=useState(0);
+
 
 
     const [image, setImage] = useState(null);
@@ -46,18 +48,21 @@ const AddProduct = () => {
 
     const addProduct = async (e) => {
         e.preventDefault();
-
-        if (categoryId == null || subCategoryId == null || image == null)
+ 
+        if (categoryId == null || subCategoryId == null || productName==""|| productDescription=="" ||price==""||quantity==""|| image == null)
             return;
 
         console.log(image);
         const formData = new FormData();
         formData.append('image', image);
         formData.append('categoryId', categoryId);
-        formData.append('subCatgoryId', subCategoryId);
+        formData.append('subCategoryId', subCategoryId);
         formData.append('productName', productName);
-        formData.append('price', price);
         formData.append('productDescription', productDescription);
+        formData.append('price', price); 
+        formData.append('quantity', quantity);
+        console.log(categoryId,subCategoryId,productName,productDescription,price,quantity);
+
 
 
         const res = await axios.post(`${process.env.REACT_APP_URL}/api/v1/product/addProduct`, formData, {
@@ -77,6 +82,8 @@ const AddProduct = () => {
                         <div className="flex">
                             <h1 className="font-bold uppercase text-5xl">ADD CATEGORY</h1>
                         </div>
+
+                        {/* category dropdown */}
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
                             <div className="relative border border-gray-300 text-gray-900 bg-gray-100 focus:outline-none focus:shadow-outline">
                                 <select className="appearance-none w-full py-1 px-2 bg-gray-100" name="whatever" id="frm-whatever" onChange={e => setCategoryId(e.target.value)}>
@@ -91,6 +98,8 @@ const AddProduct = () => {
                             </div>
                         </div>
 
+                        {/* subcategory dropdown */}
+  
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
                             <div className="relative border border-gray-300 text-gray-900 bg-gray-100 focus:outline-none focus:shadow-outline">
                             <select className="appearance-none w-full py-1 px-2 bg-gray-100" name="whatever" id="frm-whatever" onChange={e => setSubCategoryId(e.target.value)}>
@@ -114,7 +123,11 @@ const AddProduct = () => {
                         </div>
 
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
-                            <input value={price} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="text" placeholder="Price*" onChange={e=>setPrice(e.target.value)} />
+                            <input value={price} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="number" placeholder="Price*" onChange={e=>setPrice(e.target.value)} />
+                        </div>
+ 
+                        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
+                            <input value={quantity} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="number" placeholder="quantity*" onChange={e=>setQuantity(e.target.value)} />
                         </div>
 
 

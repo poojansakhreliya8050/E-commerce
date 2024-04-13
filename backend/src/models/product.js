@@ -10,9 +10,11 @@ const productSchema=mongoose.Schema({
         ref:'subCategory'
     } ,
     productName:String,
-    price:Number,
     productDescription:String,
-    img:String
+    img:String,
+    price:Number,
+    quantity:Number
+
 })
 
 module.exports=mongoose.model('product',productSchema)

@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { userData } from './redux/user/userSlice';
 import { Aavade } from './page/Aavade';
 import SubCategory from './page/SubCategory';
+import Cart from './page/Cart';
 
 
 
@@ -43,8 +44,9 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/verifyUser" element={<VerifyUser />} />
-    <Route path="/aavade" element={<Aavade/>}/>
     <Route path="/category/:categoryId" element={<SubCategory/>}/>
+    <Route path="/products" element={<SubCategory/>}/>
+    <Route path="/cart" element={<Cart/>}/>
     {/* <Route path="/slider" element={<Product/>}/> */}
   </Route>
 

@@ -15,6 +15,6 @@ const productSchema=mongoose.Schema({
     price:Number,
     quantity:Number
 
-})
+},{ timestamps: true})
 
 module.exports=mongoose.model('product',productSchema)

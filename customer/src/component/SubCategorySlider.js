@@ -6,9 +6,9 @@ import "slick-carousel/slick/slick-theme.css";
 import SubCategoryCard from './SubCategoryCard';
 import Card from './Card';
 
-const SubCategorySlider = ({subCategories}) => {
+const SubCategorySlider = ({subCategories,setSubCategoryId}) => {
 
-    console.log(subCategories.length);
+    // console.log(subCategories.length);
 
     const settings = {
         dots: true,
@@ -25,10 +25,9 @@ const SubCategorySlider = ({subCategories}) => {
         <div>
             <div className="slider-container">
                 <Slider {...settings}>
-               { subCategories.map(subCategory=><SubCategoryCard subCategory={subCategory}/>)}
+               { subCategories.map(subCategory=><SubCategoryCard subCategory={subCategory} setSubCategoryId={setSubCategoryId}/>)}
                 </Slider>
             </div>
-
         </div>
     )
 }

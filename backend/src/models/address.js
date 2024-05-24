@@ -6,6 +6,6 @@ const addressSchema = mongoose.Schema({
     city: String,
     state: String,
     pincode: Number
-})
+},{ timestamps: true})
 
 module.exports=mongoose.model("address",addressSchema);

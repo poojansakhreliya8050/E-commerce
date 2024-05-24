@@ -1,9 +1,9 @@
 import React from 'react'
 
-const SubCategoryCard = ({ subCategory }) => {
-    console.log(subCategory);
+const SubCategoryCard = ({ subCategory,setSubCategoryId }) => {
+    // console.log(subCategory);
     return (
-        <div className="w-60 h-64 m-1">
+        <div className="w-60 h-64 m-1" onClick={()=>{setSubCategoryId(subCategory._id)}}>
             <div className="bg-white shadow-md rounded-lg  dark:bg-gray-800 dark:border-gray-700 cursor-pointer">
                 <div className='h-4/5'>
                     <img className="rounded-t-lg p-8 w-56 h-48" src={subCategory.image} alt="product image" />

@@ -77,10 +77,10 @@ const AddProduct = () => {
     return (
         <div className='flex justify-center items-center w-screen h-screen bg-white'>
             <div className="flex justify-center items-center w-10/12 ">
-                <div className="container mx-auto my-4 px-4 lg:px-20">
+                <div className="flex justify-center items-center container mx-auto my-4 px-4 lg:px-20">
                     <div className="w-full p-8 my-4 md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40 mr-auto rounded-2xl shadow-2xl">
                         <div className="flex">
-                            <h1 className="font-bold uppercase text-5xl">ADD CATEGORY</h1>
+                            <h1 className="font-bold uppercase text-5xl">ADD PRODUCT</h1>
                         </div>
 
                         {/* category dropdown */}

@@ -9,7 +9,7 @@ const orderSchema=mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"user"
     }],
-    count:Number,
+    quantity:Number,
     deliveryStatus:{
         type:String,
         enum:["pending","dispatched","delivered"],
@@ -20,6 +20,6 @@ const orderSchema=mongoose.Schema({
         enum:["cod","online"],
         default:"cod"
     },
-})
+},{ timestamps: true})
 
 module.exports=mongoose.model('order',orderSchema)

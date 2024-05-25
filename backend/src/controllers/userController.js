@@ -189,6 +189,7 @@ const fetchAllUser = async (req, res) => {
         console.log(err);
     }
 }
+
 const fetchUserByEmail = async (req, res) => {
     try {
         const user = await User.findOne({ email: req.params.email });
@@ -197,6 +198,7 @@ const fetchUserByEmail = async (req, res) => {
         console.log(err);
     }
 }
+
 const deleteUserByEmail = async (req, res) => {
     try {
         await User.deleteOne({ email: req.params.email })
@@ -205,8 +207,6 @@ const deleteUserByEmail = async (req, res) => {
         console.log(err);
     }
 }
-
-
 
 
 module.exports = {

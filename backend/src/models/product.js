@@ -13,7 +13,10 @@ const productSchema=mongoose.Schema({
     productDescription:String,
     img:String,
     price:Number,
-    quantity:Number
+    quantity:{
+        type:Number,
+        default:1
+    }
 
 },{ timestamps: true})
 

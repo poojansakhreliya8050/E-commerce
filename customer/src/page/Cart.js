@@ -1,20 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import CartItem from '../component/CartItem'
+import { useSelector } from 'react-redux';
+
 
 const Cart = () => {
+  
+  const cart=useSelector(state=>state.cartData.cart)
+
   return (
   <div className=" bg-gray-100 pt-20">
     <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
     <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
 
       <div className="rounded-lg md:w-2/3 overflow-y-scroll h-screen">
-        <CartItem/>
-        <CartItem/>
-        <CartItem/>
-        <CartItem/>
-        <CartItem/>
-        <CartItem/>
-        <CartItem/>
+        {
+          cart!=null && cart?.items?.map((item,index)=><CartItem key={index} item={item}/>)
+        }
         
       </div>
 

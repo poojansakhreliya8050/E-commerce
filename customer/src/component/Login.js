@@ -13,7 +13,7 @@ const Login = () => {
     const onSubmit = async data => {
         try{
 
-            const user=await axios.post(`${process.env.REACT_APP_URL}/user/loginUser`,data, {
+            const user=await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/loginUser`,data, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',

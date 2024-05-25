@@ -10,7 +10,7 @@ const Navbar = () => {
 
   const logout = async () => {
     try {
-      const logout = await axios.get(`${process.env.REACT_APP_URL}/user/logout`);
+      const logout = await axios.get(`${process.env.REACT_APP_URL}/api/v1/user/logout`);
       localStorage.removeItem('refreshToken')
       console.log(logout);
       dispatch(userData(null));

@@ -12,7 +12,7 @@ const Register = () => {
     {   
         try{
 
-            const d=await axios.post(`${process.env.REACT_APP_URL}/user/createUser`,data, {
+            const d=await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/createUser`,data, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json',

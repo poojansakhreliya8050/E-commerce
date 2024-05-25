@@ -16,7 +16,7 @@ const VerifyUser = () => {
     const onSubmit = async data => {
         try {
 
-            const user= await axios.post(`${process.env.REACT_APP_URL}/user/verifyUser`, {email:searchparams.get("email"),...data})
+            const user= await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/verifyUser`, {email:searchparams.get("email"),...data})
             console.log(user)
             if(user.status==200)
             {

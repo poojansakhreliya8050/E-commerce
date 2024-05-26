@@ -25,6 +25,7 @@ const addToCart=async(req,res)=>{
             }
             cartExist=await cartExist.save()
         }
+        cartExist=await cart.findOne({userId:userId}).populate("items.item")
         return res.status(200).json(cartExist)
     }
     catch(err){
@@ -45,6 +46,7 @@ const getCart=async(req,res)=>{
 
 const removeFromCart=async(req,res)=>{
     try{
+        console.log(req.body);
         const {userId,productId}=req.body
         let cartExist=await cart.findOne({userId:userId})
         if(!cartExist){
@@ -61,6 +63,7 @@ const removeFromCart=async(req,res)=>{
             cartExist.items=cartExist.items.filter(item=>item.item!=productId)
         }
         cartExist=await cartExist.save()
+        cartExist=await cart.findOne({userId:userId}).populate("items.item")
         return res.status(200).json(cartExist)
     }
     catch(err){
@@ -68,5 +71,38 @@ const removeFromCart=async(req,res)=>{
     }
 }
 
-module.exports={addToCart,getCart,removeFromCart}
+const emptyCart=async(req,res)=>{
+    try{
+        const userId=req.params.userId
+        let cartExist=await cart.findOne({userId:userId})
+        if(!cartExist){
+            return res.status(404).json({message:"cart not found"})
+        }       
+        cartExist.items=[]
+        cartExist=await cartExist.save()
+        return res.status(200).json(cartExist)
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+const removeItemFromCart=async(req,res)=>{
+    try{
+        const {userId,productId}=req.body
+        let cartExist=await cart.findOne({userId:userId})
+        if(!cartExist){
+            return res.status(404).json({message:"cart not found"})
+        }
+        cartExist.items=cartExist.items.filter(item=>item.item!=productId)
+        cartExist=await cartExist.save()
+        cartExist=await cart.findOne({userId:userId}).populate("items.item")
+        return res.status(200).json(cartExist)
+    }
+    catch(err){
+        console.log(err)
+    }
+}
+
+module.exports={addToCart,getCart,removeFromCart,emptyCart,removeItemFromCart}
     

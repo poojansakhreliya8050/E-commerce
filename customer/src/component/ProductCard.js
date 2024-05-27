@@ -18,7 +18,7 @@ const Productcard = ({ product }) => {
   const removeFromcart = async () => {
     console.log("remove");
     try {
-      if (user != null && user?.accessToken != null) {
+      if (user != null && user?.accessToken != "") {
         const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/removeFromCart`, { userId: user.userdata._id, productId: product._id })
         console.log(cart);
         dispatch(cartData(cart.data))
@@ -31,7 +31,7 @@ const Productcard = ({ product }) => {
   const addToCart = async () => {
     console.log("add");
     try {
-      if (user != null && user?.accessToken != null) {
+      if (user != null && user?.accessToken != "") {
         const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/addToCart`, { userId: user.userdata._id, productId: product._id })
         console.log(cart);
         dispatch(cartData(cart.data))

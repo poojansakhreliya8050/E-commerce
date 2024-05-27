@@ -44,7 +44,7 @@ useEffect(() => {
 
 useEffect(() => {
   try {
-    if(user!=null && user?.accessToken!=null){
+    if(user!=null && user?.accessToken!=""){
     async function cart() {
       const cart = await (await fetch(`${process.env.REACT_APP_URL}/api/v1/cart/getCart/${user.userdata._id}`)).json();
       console.log(cart);

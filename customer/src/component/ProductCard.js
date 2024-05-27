@@ -41,6 +41,7 @@ const Productcard = ({ product }) => {
     }
   }
 
+ 
   return (
     <div className="w-full md:w-1/2 lg:w-1/4 pl-5 pr-5 mb-5 lg:pl-2 lg:pr-2">
       <div className="bg-white rounded-lg m-h-64 p-2 transform hover:translate-y-2 hover:shadow-xl transition duration-300">

@@ -19,7 +19,6 @@ const CartItem = ({ item }) => {
     } catch (err) {
       console.log(err);
     }
-
   }
 
   const addToCart = async () => {
@@ -27,6 +26,18 @@ const CartItem = ({ item }) => {
     try {
       if (user != null && user?.accessToken != null) {
         const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/addToCart`, { userId: user.userdata._id, productId: item.item._id })
+        console.log(cart);
+        dispatch(cartData(cart.data))
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  const removeItemFromCart=async()=>{
+    console.log("removeItemFromCart");
+    try {
+      if (user != null && user?.accessToken != null) {
+        const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/removeItemFromCart`, { userId: user.userdata._id, productId: item.item._id })
         console.log(cart);
         dispatch(cartData(cart.data))
       }
@@ -50,9 +61,11 @@ const CartItem = ({ item }) => {
           </div>
           <div className="flex items-center space-x-4">
             <p className="text-sm">RS. {item.item.price}</p>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="h-5 w-5 cursor-pointer duration-150 hover:text-red-500">
+
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="h-5 w-5 cursor-pointer duration-150 hover:text-red-500" onClick={removeItemFromCart}>
               <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
+
           </div>
         </div>
       </div>

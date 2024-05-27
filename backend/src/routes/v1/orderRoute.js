@@ -1,9 +1,9 @@
 const express=require("express");
-const { createOrder, fetchAllOrder, fetchOrderByUserId } = require("../../controllers/orderController");
+const {addToOrder,getOrders,getOrder} = require("../../controllers/orderController");
 const router=express.Router()
 
-router.post("/createOrder",createOrder);
-router.get("/fetchAllOrder",fetchAllOrder);
-router.get("/fetchOrderByUserId",fetchOrderByUserId);
+router.post("/addToOrder",addToOrder)
+router.get("/getOrders/:userId",getOrders)
+router.get("/getOrder/:orderId",getOrder)
 
 module.exports=router

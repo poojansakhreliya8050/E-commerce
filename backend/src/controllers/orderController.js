@@ -1,45 +1,46 @@
 const Order = require("../models/order")
+const cart=require('../models/cart')
 
-const createOrder=async(req,res)=>{
+const addToOrder=async(req,res)=>{
     try{
-        console.log(req.body);
-           const order=await Order.create({itemId:req.body.itemId,userId:req.body.userId,count:req.body.count,deliveryStatus:req.body.deliveryStatus,payment:req.body.payment})
-            console.log(order);
-
-           return res.status(200).json({
-            message:"successfully create order"
-           })
+        const {userId,addressId,paymentId}=req.body
+        const cartExist=await cart.findOne({userId:userId}).populate("items.item")
+        if(!cartExist){
+            return res.status(404).json({message:"cart not found"})
+        }
+        const items=cartExist.items.map(item=>({item:item.item,quantity:item.quantity}))
+        const amount=cartExist.items.reduce((acc,item)=>acc+item.item.price*item.quantity,0)
+        console.log(items,amount);
+        // const order=await Order.create({items:items,userId:userId,amount:amount,address:addressId,paymentId:paymentId})
+        let orderData=await Order.create({items:items,userId:userId,amount:amount})
+        orderData=await Order.findOne({userId}).populate("items.item")
+        return res.status(200).json(orderData)
     }
-    catch(e)
-    {
-        console.log(e);
-    }
-}
-const fetchAllOrder=async(req,res)=>{
-    try {
-        const allOrder = await Order.find();
-        res.status(200).json(allOrder)
-    } catch (err) {
-        console.log(err);
+    catch(err){
+        console.log(err)
     }
 }
 
-const fetchOrderByUserId = async (req, res) => {
-    try {
-        const orders = await Order.findOne({ userId: req.params.userId });
-        res.status(200).json(orders)
-    } catch (err) {
-        console.log(err);
+const getOrders=async(req,res)=>{
+    try{
+        const userId=req.params.userId
+        const orders=await Order.find({userId:userId}).populate("items.item")
+        return res.status(200).json(orders)
+    }
+    catch(err){
+        console.log(err)
     }
 }
 
-const deleteOrderByOrderId = async (req, res) => {
-    try {
-        await Order.deleteOne({ id: req.params.id })
-        res.status(200).json({message:`delete order : ${req.params.id}`})
-    } catch (err) {
-        console.log(err);
+const getOrder=async(req,res)=>{
+    try{
+        const orderId=req.params.orderId
+        const order=await Order.findById(orderId).populate("items.item")
+        return res.status(200).json(order)
+    }
+    catch(err){
+        console.log(err)
     }
 }
 
-module.exports={createOrder,fetchAllOrder,fetchOrderByUserId,deleteOrderByOrderId}
+module.exports={addToOrder,getOrders,getOrder}

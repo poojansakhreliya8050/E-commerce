@@ -3,6 +3,7 @@ const mongoose = require("mongoose")
 const userSchema = mongoose.Schema({
     name: String,
     email: String,
+    mobileNumber:Number,
     password: String,
     refreshToken: String,
     isVerify: { type: Boolean, default: false },

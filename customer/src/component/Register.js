@@ -4,7 +4,7 @@ import { useForm} from "react-hook-form";
 import { redirect,NavLink,createSearchParams,useNavigate } from "react-router-dom";
 
 const Register = () => {
-    console.log(process.env.REACT_APP_URL);
+    // console.log(process.env.REACT_APP_URL);
     const { register, handleSubmit } = useForm();
     const [userData,setUserData]=useState(null)
     const navigate=useNavigate()
@@ -50,6 +50,10 @@ const Register = () => {
                     <div className='flex flex-col w-1/2'>
                         <lable>Email</lable>
                         <input {...register("email",{pattern:/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,required:true})} className='h-9 border-2 p-5 border-gray-400 rounded-sm' />
+                    </div>
+                    <div className='flex flex-col w-1/2'>
+                        <lable>Mobile Number</lable>
+                        <input {...register("mobileNumber",{pattern:/^[1-9]{1}[0-9]{9}$/,required:true})} className='h-9 border-2 p-5 border-gray-400 rounded-sm' />
                     </div>
                     <div className=' flex flex-col w-1/2'>
                         <lable>Password</lable>

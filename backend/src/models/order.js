@@ -15,7 +15,7 @@ const orderSchema = mongoose.Schema({
     }],
     deliveryStatus: {
         type: String,
-        enum: ["pending", "dispatched", "delivered"],
+        enum: ["pending", "dispatched","ontheway" ,"delivered"],
         default: "pending"
     },
     payment: {

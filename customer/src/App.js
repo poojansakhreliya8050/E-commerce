@@ -13,6 +13,7 @@ import Cart from './page/Cart';
 
 import { userData } from './redux/user/userSlice';
 import { cartData } from './redux/cart/cartSlice';
+import Profile from './page/Profile';
 
 
 
@@ -68,6 +69,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/category/:categoryId" element={<SubCategory/>}/>
     <Route path="/products" element={<SubCategory/>}/>
     <Route path="/cart" element={<Cart/>}/>
+    <Route path="/profile" element={<Profile/>}/>
     {/* <Route path="/slider" element={<Product/>}/> */}
   </Route>
 

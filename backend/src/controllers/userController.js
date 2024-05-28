@@ -36,7 +36,7 @@ const createUser = async (req, res) => {
         //create user in database
         // const user = user({name:req.body.name,email: req.body.email, password: hashPassword})
         // await user.save()
-        const user = await User.create({ name: req.body.name, email: req.body.email.toLowerCase(), password: hashPassword })
+        const user = await User.create({ name: req.body.name, email: req.body.email.toLowerCase(), password: hashPassword,mobileNumber:req.body.mobileNumber })
         console.log(user);
 
         return res.status(200).json(user)

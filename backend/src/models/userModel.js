@@ -7,10 +7,6 @@ const userSchema = mongoose.Schema({
     password: String,
     refreshToken: String,
     isVerify: { type: Boolean, default: false },
-    address: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "address"
-    }],
     role:{
         type:String,
         enum:["admin","customer","seller"]

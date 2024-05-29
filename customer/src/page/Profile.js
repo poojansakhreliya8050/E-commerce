@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import avatar from "../images/avatar.jpg";
+import Addresses from "../component/Addresses";
 
 // import UserAddress from "../components/UserAddress";
 // import ChangePasswordPopup from "../components/ChangePasswordPopup";
@@ -143,14 +144,14 @@ const [openTab,setOpenTab]=useState(1);
               </div>
             </div>
             
-            {/* <div className="mb-2 shadow-md rounded-bl-3xl rounded-tr-3xl bg-orange-700 bg-opacity-40 ">
+            <div className="mb-2 shadow-md rounded-bl-3xl rounded-tr-3xl bg-orange-700 bg-opacity-40 ">
               <h1 className="text-2xl font-normal text-white capitalize border-b-4 border-yellow-300 p-5">
                 Your Address
               </h1>
               <div className="bg-orange-200 pl-5 py-5 rounded-bl-3xl">
-                <UserAddress /> 
+                <Addresses /> 
               </div>
-            </div> */}
+            </div> 
 
           </div>
           {/* order module  */}

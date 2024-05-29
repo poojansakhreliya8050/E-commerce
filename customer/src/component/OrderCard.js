@@ -5,7 +5,7 @@ import { BsArrowRightCircle } from "react-icons/bs";
 import { AiTwotoneStar } from "react-icons/ai";
 
 const OrderCard = ({ items }) => {
-  console.log(items);
+  // console.log(items);
   const [bgReview,setBgReview] = useState("bg-green-600")
 
   useEffect(() => {

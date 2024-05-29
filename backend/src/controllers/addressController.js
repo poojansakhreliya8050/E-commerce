@@ -1,15 +1,5 @@
 const Address=require('../models/addressModel')
 
-//fileds are
-// userId: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: "user"
-// },
-// streetName: String,
-// area: String,
-// city: String,
-// state: String,
-// pincode: Number
 
 const addAddress=async(req,res)=>{
     try {

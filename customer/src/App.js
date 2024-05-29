@@ -33,7 +33,7 @@ useEffect(() => {
           'Content-Type': 'application/json',
         }
       })).json();
-      console.log(user);
+      // console.log(user);
       dispatch(userData(user))
     }
     checkRefreshToken();
@@ -48,7 +48,7 @@ useEffect(() => {
     if(user!=null && user?.accessToken!=""){
     async function cart() {
       const cart = await (await fetch(`${process.env.REACT_APP_URL}/api/v1/cart/getCart/${user.userdata._id}`)).json();
-      console.log(cart);
+      // console.log(cart);
       dispatch(cartData(cart))
     }
     cart();

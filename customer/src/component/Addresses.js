@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 // import swal from "sweetalert";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-// import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 import AddAddressPopUp from "./AddAddressPopUp";
 
 // import { set, useForm } from "react-hook-form";
@@ -18,7 +18,9 @@ const Addresses = () => {
     const user = useSelector((state) => state.userData.user);
 
     const [showModal, setShowModal] = useState(false);
+    const [isUpdate, setIsUpdate] = useState(false);
     const [address, setaddress] = useState(null);
+    const [addressId,setAddressId]=useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,76 +39,18 @@ const Addresses = () => {
     }, []);
 
 
-
-    //   const handelChangeAddress = async (e) => {
-    //     e.preventDefault();
-    //     setIsValidLoading(true);
-    //     try {
-    //       const response = await axios.put(
-    //         `${process.env.REACT_APP_BASEURL}/user/editAddress`,
-    //         {
-    //           itemId: changeAddress,
-    //           userId: user._id,
-    //           area: address,
-    //           city: city,
-    //           state: state,
-    //           pincode: pincode,
-    //         }
-    //       );
-    //       console.log(response.data);
-    //       dispatch(userData(response.data.response));
-    //       localStorage.setItem(
-    //         "userData",
-    //         JSON.stringify(response?.data?.response)
-    //       );
-    //       setaddress("");
-    //       setCity("");
-    //       setState("");
-    //       setPincode("");
-    //       setChangeAddress("");
-    //       swal("Address changed successfully", "", "success");
-    //       setIsValidLoading(false);
-    //     } catch (err) {
-    //       if (err.response.status == 500) {
-    //         swal(`${err.response.data.message}`, "", "error");
-    //       }
-    //       setIsValidLoading(false);
-    //     }
-    //   };
-
-    //   const handleDelete = (ids) => {
-    //     swal({
-    //       title: "Are you sure! you want to delete this address?",
-    //       icon: "warning",
-    //       buttons: ["NO", "YES"],
-    //       cancelButtonColor: "#DD6B55",
-    //       confirmButtonColor: "#DD6B55",
-    //       dangerMode: true,
-    //     }).then(async (willDelete) => {
-    //       if (willDelete) {
-    //         addressDelete(ids);
-    //       }
-    //     });
-    //   };
-
-    //   const addressDelete = async (id) => {
-    //     try {
-    //       const response = await axios.get(
-    //         `${process.env.REACT_APP_BASEURL}/user/delteAddress?userId=${user._id}&itemId=${id}`
-    //       );
-    //       dispatch(userData(response.data.response));
-    //       localStorage.setItem(
-    //         "userData",
-    //         JSON.stringify(response?.data?.response)
-    //       );
-    //     //   toast.success("🔥Address deleted successfully.");
-    //     } catch (err) {
-    //       if (err) {
-    //         swal("something went wrong", "", "error");
-    //       }
-    //     }
-    //   };
-
+  const handleDeleteAddress=async(addressId)=>{
+    try {
+        const userId=user.userdata._id;
+        console.log(userId,addressId);
+        if(user!=null && user.accessToken!=null && user.accessToken!="" && addressId!=null){
+        const deleteAddress = await axios.delete(`${process.env.REACT_APP_URL}/api/v1/address/deleteAddress`, { data: { userId, addressId } });
+        setaddress(deleteAddress.data.address);
+    }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
 
     return (
         <div>
@@ -119,11 +63,22 @@ const Addresses = () => {
                                     <HiOutlineLocationMarker className="text-center" />
                                     <p className="font-semibold text-xl">Address {i + 1}</p>
                                     <p className="w-10/12 font-[350] text-slate-500">
-                                        {address.streetName + " " +address.area +" " +address.city +" " +address.state +"-" +address.pincode}
+                                        {address.streetName + " " + address.area + " " + address.city + " " + address.state + "-" + address.pincode}
                                     </p>
-                                    <p className="font-semibold text-sm uppercase py-5 ">
+                                    {/* <p className="font-semibold text-sm uppercase py-5 ">
                                         16 mins
-                                    </p>
+                                    </p> */}
+
+                                    <div className="mt-3 flex justify-evenly justify-items-center">
+                                        <button type="button" class="h-10 w-10 rounded-lg  items-center gap-x-2  bg-transparent px-2 py-2 text-sm font-semibold text-gray-400 shadow-sm hover:bg-gray-400 hover:text-white" onClick={() => { setIsUpdate(!isUpdate); setShowModal(true); setAddressId(address._id)}}>
+                                            <FiEdit className="w-full h-full" />
+                                        </button>
+
+                                        <button type="button" class="h-10 w-10 rounded-lg  items-center gap-x-2  bg-transparent px-2 py-2 text-sm font-semibold text-red-400 shadow-sm hover:bg-gray-400 hover:text-white" onClick={() => {handleDeleteAddress(address._id) }}>
+                                            <FiTrash2 className="w-full h-full" />
+                                        </button>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -131,12 +86,30 @@ const Addresses = () => {
                 ) : <></>
                 }
 
-                <AddAddressPopUp showModal={showModal} setShowModal={setShowModal} setaddress={setaddress} />
+
+                <div className="py-2 flex-1">
+                    <div className="w-full md:w-[32%] sm::w-[49%] flex shadow-black hover:shadow-xl  bg-orange-100 p-3 rounded-3xl">
+                        <div className="flex flex-row w-full sm:block justify-between">
+                            <HiOutlineLocationMarker className="text-center" />
+                            <p className="font-semibold text-xl">Add New Address</p>
+                            <button
+                                className="w-[50%] text-center hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-black uppercase mt-5"
+                                type="button"
+                                onClick={() => setShowModal(true)}>
+                                add new
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <AddAddressPopUp showModal={showModal} setShowModal={setShowModal} setaddress={setaddress} isUpdate={isUpdate} setIsUpdate={setIsUpdate} addressId={addressId} setAddressId={setAddressId}/>
+                </div>
+
+
             </div>
-
-
-        </div>
-    );
+            );
 };
 
-export default Addresses;
+            export default Addresses;

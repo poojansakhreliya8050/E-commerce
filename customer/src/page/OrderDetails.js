@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from "axios";
+import OrderTracking from '../component/OrderTracking';
 
 const OrderDetails = () => {
 
@@ -27,10 +28,15 @@ const OrderDetails = () => {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold pb-5 capitalize">
+      <h1 className="text-xl font-semibold pb-5 capitalize text-center">
         Order Detail
       </h1>
       <div className="w-full flex flex-wrap  gap-2 justify-evenly ">
+      {order!=null?
+      <h1 className="text-xl font-semibold pb-5 capitalize ">
+        Order Id : {order._id}
+      </h1>:<></>
+      }
         {order != null
           ? order.items.map((item) =>
           (<div className="w-4/5 h-48 bg-white rounded-lg p-4">
@@ -64,6 +70,7 @@ const OrderDetails = () => {
           )) : <></>
         }
       </div>
+      <OrderTracking/>
     </div >
 
 

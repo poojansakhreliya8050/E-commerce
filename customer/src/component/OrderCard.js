@@ -2,7 +2,6 @@ import React,{useState,useEffect  } from "react";
 import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 import { BsArrowRightCircle } from "react-icons/bs";
-import { AiTwotoneStar } from "react-icons/ai";
 
 const OrderCard = ({ items }) => {
   // console.log(items);

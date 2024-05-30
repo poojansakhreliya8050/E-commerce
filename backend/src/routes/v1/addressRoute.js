@@ -2,7 +2,7 @@ const express=require("express");
 
 const router=express.Router()
 
-const { addAddress,getAddress,updateAddress,deleteAddress } = require('../../controllers/addressController');
+const { addAddress,getAddress,updateAddress,deleteAddress,getAddressByAddressId} = require('../../controllers/addressController');
 // const { authenticate } = require('../../middlewares/authenticate');
 
 // router.post('/create', authenticate, createAddress);
@@ -13,6 +13,7 @@ const { addAddress,getAddress,updateAddress,deleteAddress } = require('../../con
 
 router.post('/createAddress', addAddress);
 router.get('/getAddress/:userId', getAddress);
+router.get("/getAddressByAddressId/:addressId",getAddressByAddressId)
 router.put('/updateAddress', updateAddress);
 router.delete('/deleteAddress', deleteAddress);
 

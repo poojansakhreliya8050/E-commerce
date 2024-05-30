@@ -8,7 +8,7 @@ import Addresses from "../component/Addresses";
 // import ChangePasswordPopup from "../components/ChangePasswordPopup";
 // import UpdateProfileDetails from "../components/UpdateProfileDetails";
 import axios from "axios";
-import OrderCard from "../component/OrderCard";
+import OrderComponent from "../component/OrderComponent";
  
 
 
@@ -16,6 +16,7 @@ const Profile = () => {
 
 const user=useSelector(state=>state.userData.user)
 const [openTab,setOpenTab]=useState(1);
+
   // const logout = () => {
   //   swal({
   //     title: "Are you Sure! you want to logout?",
@@ -155,22 +156,8 @@ const [openTab,setOpenTab]=useState(1);
 
           </div>
           {/* order module  */}
-          <div
-            className={`${
-              openTab === 2 ? "block" : "hidden"
-            } w-full sm:w-4/5 p-5`}
-          >
-            <h1 className="text-xl font-semibold pb-5 capitalize">
-              Order Detail
-            </h1>
-            <OrderCard items={order}/>
-            <div className="w-full flex flex-wrap  gap-2 justify-evenly ">
-              {/* {order
-                ? order.map((item) => {
-                    return <OrderDetailsCard items={item} />;
-                  })
-                : ""} */}
-            </div>
+          <div className={`${openTab === 2 ? "block" : "hidden"} w-full sm:w-4/5 p-5`}>
+             <OrderComponent/>
           </div>
         </div>
 

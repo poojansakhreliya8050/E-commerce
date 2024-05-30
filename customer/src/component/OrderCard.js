@@ -6,26 +6,12 @@ import { AiTwotoneStar } from "react-icons/ai";
 
 const OrderCard = ({ items }) => {
   // console.log(items);
-  const [bgReview,setBgReview] = useState("bg-green-600")
-
-  useEffect(() => {
-    if (items != null && items.resturant!=null && items.resturant.rating!=null) {
-      if (+items?.resturant.rating <= 1.5) {
-        setBgReview("bg-red-600") 
-      } else if (+items.resturant.rating > 1.5 && items.resturant.rating < 3.5) {
-        setBgReview("bg-orange-600") 
-      } else {
-        setBgReview("bg-green-600") 
-      }
-    }
-  }, [])
-  
 
  
   return (
     <div className="flex w-[32%] relative  text-gray-900 antialiased">
       <div>
-        <div className="overflow-hidden w-full   rounded-lg">
+        <div className="overflow-hidden w-full  rounded-lg">
         <img src={items?.items[0]?.item.img} alt=" random imgee" className=" w-full rounded-lg object-cover object-center hover:scale-110 shadow-md transition-all duration-300" />
         </div>
         <Link to={`/orderDetails/${items._id}`}>
@@ -51,11 +37,8 @@ const OrderCard = ({ items }) => {
               </div>
               <div className="mt-4 flex justify-between items-center">
                 <span className="text-md font-semibold text-teal-600">
-                  <div
-                    className={` ${bgReview} py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}
-                  >
-                    {items != null && items?.resturant?.rating} &nbsp;{" "}
-                    <AiTwotoneStar />
+                  <div className={`py-1 my-2  px-3 bg-green-600 flex items-center w-fit rounded-md text-white font-bold `}>
+                    items no
                   </div>
                 </span>
                 <BsArrowRightCircle className="text-xl group-hover:translate-x-3 transition-all duration-500" />

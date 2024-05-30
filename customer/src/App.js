@@ -14,6 +14,7 @@ import Cart from './page/Cart';
 import { userData } from './redux/user/userSlice';
 import { cartData } from './redux/cart/cartSlice';
 import Profile from './page/Profile';
+import OrderDetails from './page/OrderDetails';
 
 
 
@@ -45,7 +46,7 @@ useEffect(() => {
 
 useEffect(() => {
   try {
-    if(user!=null && user?.accessToken!=""){
+    if(user!=null && user?.accessToken!="" && user.accessToken!=null){
     async function cart() {
       const cart = await (await fetch(`${process.env.REACT_APP_URL}/api/v1/cart/getCart/${user.userdata._id}`)).json();
       // console.log(cart);
@@ -70,7 +71,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/products" element={<SubCategory/>}/>
     <Route path="/cart" element={<Cart/>}/>
     <Route path="/profile" element={<Profile/>}/>
-    {/* <Route path="/slider" element={<Product/>}/> */}
+    <Route path="/orderDetails/:orderId" element={<OrderDetails/>}/>
   </Route>
 
 ));

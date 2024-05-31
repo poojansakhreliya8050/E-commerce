@@ -28,7 +28,7 @@ const Directory = () => {
      <div className='w-full flex justify-center items-center'>
        <div className='flex min-h-screen w-4/5 items-center justify-around flex-wrap'>
           {
-            categories.map(category=> <CategoryCard category={category} />)
+            categories.map(category=> <CategoryCard key={category._id} category={category} />)
           }
        </div>
      </div>

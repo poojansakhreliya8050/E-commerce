@@ -31,7 +31,7 @@ const OrderComponent = () => {
             {/* <OrderCard items={order}/> */}
             <div className="w-full flex flex-wrap  gap-2 justify-evenly ">
               {  order!=null
-                ? order.map((item) =>  <OrderCard items={item} />):<></>
+                ? order.map((item) =>  <OrderCard key={item._id} items={item} />):<></>
               }
             </div>
     </>

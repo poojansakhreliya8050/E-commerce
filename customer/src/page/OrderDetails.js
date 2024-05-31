@@ -39,7 +39,7 @@ const OrderDetails = () => {
       }
         {order != null
           ? order.items.map((item) =>
-          (<div className="w-4/5 h-48 bg-white rounded-lg p-4">
+          (<div  key={item._id}  className="w-4/5 h-48 bg-white rounded-lg p-4">
 
             <div class="lg:flex shadow rounded-lg border  border-gray-400 h-full">
 
@@ -70,7 +70,7 @@ const OrderDetails = () => {
           )) : <></>
         }
       </div>
-      <OrderTracking/>
+      <OrderTracking order={order}/>
     </div >
 
 

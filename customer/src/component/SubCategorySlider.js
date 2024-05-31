@@ -25,7 +25,7 @@ const SubCategorySlider = ({subCategories,setSubCategoryId}) => {
         <div>
             <div className="slider-container">
                 <Slider {...settings}>
-               { subCategories.map(subCategory=><SubCategoryCard subCategory={subCategory} setSubCategoryId={setSubCategoryId}/>)}
+               { subCategories.map(subCategory=><SubCategoryCard key={subCategory._id} subCategory={subCategory} setSubCategoryId={setSubCategoryId}/>)}
                 </Slider>
             </div>
         </div>

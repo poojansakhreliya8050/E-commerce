@@ -57,7 +57,7 @@ const Addresses = () => {
             <div className="flex flex-wrap gap-2 justify-center">
                 {address != null ? (
                     address.map((address, i) => (
-                        <div className=" w-full md:w-[32%] sm:w-[49%] flex shadow-black hover:shadow-xl bg-orange-100 p-3 rounded-3xl">
+                        <div key={address._id} className=" w-full md:w-[32%] sm:w-[49%] flex shadow-black hover:shadow-xl bg-orange-100 p-3 rounded-3xl">
                             <div className="flex flex-row w-full sm:block justify-between">
                                 <div className="flex flex-col">
                                     <HiOutlineLocationMarker className="text-center" />
@@ -70,7 +70,7 @@ const Addresses = () => {
                                     </p> */}
 
                                     <div className="mt-3 flex justify-evenly justify-items-center">
-                                        <button type="button" class="h-10 w-10 rounded-lg  items-center gap-x-2  bg-transparent px-2 py-2 text-sm font-semibold text-gray-400 shadow-sm hover:bg-gray-400 hover:text-white" onClick={() => { setIsUpdate(!isUpdate); setShowModal(true); setAddressId(address._id)}}>
+                                        <button type="button" class="h-10 w-10 rounded-lg  items-center gap-x-2  bg-transparent px-2 py-2 text-sm font-semibold text-gray-400 shadow-sm hover:bg-gray-400 hover:text-white" onClick={() => { setIsUpdate(!isUpdate); setAddressId(address._id);setShowModal(true);}}>
                                             <FiEdit className="w-full h-full" />
                                         </button>
 
@@ -103,8 +103,10 @@ const Addresses = () => {
                     </div>
 
 
-
+                { 
+                    showModal &&
                     <AddAddressPopUp showModal={showModal} setShowModal={setShowModal} setaddress={setaddress} isUpdate={isUpdate} setIsUpdate={setIsUpdate} addressId={addressId} setAddressId={setAddressId}/>
+                }
                 </div>
 
 

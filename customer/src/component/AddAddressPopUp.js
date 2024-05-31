@@ -10,6 +10,7 @@ const AddAddressPopUp = ({ showModal, setShowModal, setaddress,isUpdate,setIsUpd
   // console.log(addressId);
   const { register, handleSubmit, reset } = useForm();
   const user = useSelector((state) => state.userData.user);
+  console.log(addressId);
 
 
   const handleSubmitForAddress = async (data) => {
@@ -57,19 +58,18 @@ const AddAddressPopUp = ({ showModal, setShowModal, setaddress,isUpdate,setIsUpd
   useEffect(() => {
     const fetchData = async () => {
         try {
-            if (addressId!= null ) {
+            if (isUpdate==true && addressId!= null ) {
                 const addresses = await axios.get(`${process.env.REACT_APP_URL}/api/v1/address/getAddressByAddressId/${addressId}`);
                 console.log(addresses);
                 reset(addresses.data.address);
-                setAddressId(null)
             }
         }
         catch (error) {
             console.error('Error fetching data:', error);
         }
     };
-    fetchData(); // call the function to fetch data when the component mounts
-}, [addressId]);
+    fetchData(); 
+}, []);
 
   return (
     <div className="w-full md:w-[32%] sm::w-[49%] flex shadow-black hover:shadow-xl  bg-orange-100 p-3 rounded-3xl">

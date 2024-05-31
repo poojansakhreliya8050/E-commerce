@@ -6,6 +6,7 @@ const productRoute=require("./productRoute")
 const orderRoute=require("./orderRoute")
 const cartRoute=require("./cartRoute")
 const addressRoute=require("./addressRoute")
+const sellerRoute=require("./sellerRoute")
 
 const router=express.Router()
 
@@ -17,6 +18,7 @@ router.use("/product",productRoute)
 router.use("/order",orderRoute)
 router.use("/cart",cartRoute)
 router.use("/address",addressRoute)
+router.use("/seller",sellerRoute)
 
 
 

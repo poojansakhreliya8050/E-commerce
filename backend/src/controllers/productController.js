@@ -6,12 +6,12 @@ const addProduct = async (req, res) => {
     console.log(req.body);
     console.log(req.file);
     try {
-        if (!req.body.categoryId || !req.body.subCategoryId || !req.body.productName || !req.body.productDescription || !req.body.price || !req.body.quantity || !req.file) {
+        if (!req.body.categoryId || !req.body.subCategoryId || !req.body.productName || !req.body.productDescription || !req.body.price || !req.body.quantity || !req.body.userId ||!req.file) {
             return res.status(404).json({ message: "please enter valid data.." })
         }
         const imageData = await uploadOnCloudinary(req.file.path);
         console.log(imageData);
-        const product = await Product.create({ categoryId: req.body.categoryId, subCategoryId: req.body.subCategoryId, productName: req.body.productName, productDescription: req.body.productDescription, price: req.body.price, quantity: req.body.quantity, img: imageData.url })
+        const product = await Product.create({ categoryId: req.body.categoryId, subCategoryId: req.body.subCategoryId, productName: req.body.productName, productDescription: req.body.productDescription, price: req.body.price, quantity: req.body.quantity, img: imageData.url,userId:req.body.userId})
         console.log(product);
 
         return res.status(200).json({

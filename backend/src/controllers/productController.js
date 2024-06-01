@@ -40,6 +40,33 @@ const fetchAllProductByCategoryId = async (req, res) => {
     }
 }
 
+
+const changeProductState = async (req, res) => {
+    try {
+        console.log(req.params.productId);
+        const product = await
+            Product.findOne({ _id: req.params.productId });
+            console.log(product);
+
+        if(product==null)
+        {
+            return res.status(404).json({message:"product not found"})
+        }
+
+        if (product.status == "active") {
+            product.status = "deactive";
+        }
+        else {
+            product.status = "active";
+        }
+        await product.save();
+        res.status(200).json(product.status)
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
 const fetchAllProductBySubCategoryId = async (req, res) => {
     try {
         const allProduct = await Product.find({subCategoryId:req.params.subCategoryId});
@@ -67,4 +94,4 @@ const deleteProductByid = async (req, res) => {
     }
 }
 
-module.exports = { addProduct, fetchAllProduct, fetchProductByName, deleteProductByid ,fetchAllProductByCategoryId,fetchAllProductBySubCategoryId}
+module.exports = { addProduct, fetchAllProduct, fetchProductByName, deleteProductByid ,fetchAllProductByCategoryId,fetchAllProductBySubCategoryId,changeProductState}

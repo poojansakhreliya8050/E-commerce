@@ -1,7 +1,24 @@
 import React from 'react'
+import axios from 'axios';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product,setProducts}) => {
     console.log(product);
+    const changeProductState=async()=>{
+        try {
+            const response = await axios.put(`${process.env.REACT_APP_URL}/api/v1/product/changeProductState/${product._id}`);
+            setProducts(state=>state.map((item)=>{
+                if(item._id==product._id)
+                {
+                    return {...item,status:response.data}
+                }
+                return item;
+            }));
+            console.log(response);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
     return (
         <div className="w-4/5 h-48 bg-white rounded-lg p-4">
 
@@ -21,17 +38,17 @@ const ProductCard = ({ product }) => {
                         </div>
                     </div>
                     <div class="font-semibold text-gray-800 text-xl text-center lg:text-left px-2">
-                        <h1 className="text-lg font-semibold">Product Name  {product.productName}</h1>
+                        <h1 className="text-lg font-semibold">Product Name : {product.productName}</h1>
                     </div>
                     <div class="text-gray-600 font-medium text-sm pt-1 text-center lg:text-left px-2">
-                        Product Description: {product.productDescription}
+                        Product Description : {product.productDescription}
                     </div>
                     <div class="text-gray-600 font-medium text-sm pt-1 text-center lg:text-left px-2">
                         Status : 
                         {product.status=="active"? <div class="ml-2 center relative inline-block select-none whitespace-nowrap rounded-lg bg-green-500 py-2 px-3.5 align-baseline font-sans text-xs font-bold uppercase leading-none text-black">
-                            <div class="mt-px">Active</div></div>:
+                            <button class="mt-px" onClick={()=>changeProductState()}>Active</button></div>:
                             <div class="ml-2 center relative inline-block select-none whitespace-nowrap rounded-lg bg-red-500 py-2 px-3.5 align-baseline font-sans text-xs font-bold uppercase leading-none text-black">
-                            <div class="mt-px">Deactive</div></div>
+                            <button class="mt-px" onClick={()=>changeProductState()}>Deactive</button></div>
                         }
                     </div>
                     <div class="text-gray-700 font-medium text-sm text-center lg:text-left px-2">

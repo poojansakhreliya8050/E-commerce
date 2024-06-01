@@ -23,7 +23,7 @@ const productSchema=mongoose.Schema({
     },
     status:{
         type:String,
-        enum:["active","inactive"],
+        enum:["active","deactive"],
         default:"active"
     },
     rating:{

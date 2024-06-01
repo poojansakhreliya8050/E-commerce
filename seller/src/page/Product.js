@@ -24,7 +24,7 @@ const Product = () => {
     <div className='w-screen flex-col items-center content-evenly justify-evenly'>
         {
             products!=null?
-            products.map(product=><ProductCard key={product._id} product={product} />):<></>
+            products.map(product=><ProductCard key={product._id} product={product} setProducts={setProducts} />):<></>
         }
     </div>
   )

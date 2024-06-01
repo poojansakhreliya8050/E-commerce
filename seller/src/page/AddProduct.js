@@ -34,9 +34,11 @@ const AddProduct = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                if(categoryId!=null){
                 const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/subCategory/fetchSubCategoryByCateroryId/${categoryId}`);
                 console.log(response);
                 setSubCategories(response.data);
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -122,12 +124,12 @@ const AddProduct = () => {
                             <input value={productDescription} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="text" placeholder="Product description*" onChange={e=>setProductDescription(e.target.value)} />
                         </div>
 
-                        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
-                            <input value={price} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="number" placeholder="Price*" onChange={e=>setPrice(e.target.value)} />
+                        <div className="grid grid-cols-1  md:grid-cols-2 mt-5">
+                            Price  <input value={price} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="number" placeholder="Price*" onChange={e=>setPrice(e.target.value)} />
                         </div>
  
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
-                            <input value={quantity} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="number" placeholder="quantity*" onChange={e=>setQuantity(e.target.value)} />
+                           Quantity  <input value={quantity} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="number" placeholder="quantity*" onChange={e=>setQuantity(e.target.value)} />
                         </div>
 
 

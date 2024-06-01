@@ -1,8 +1,8 @@
-import React from 'react'
+import React,{useState} from 'react'
 import axios from 'axios';
 
-const ProductCard = ({ product,setProducts}) => {
-    console.log(product);
+const ProductCard = ({ product,setProducts,setShowModel,setProductId}) => {
+    // console.log(product);
     const changeProductState=async()=>{
         try {
             const response = await axios.put(`${process.env.REACT_APP_URL}/api/v1/product/changeProductState/${product._id}`);
@@ -51,15 +51,14 @@ const ProductCard = ({ product,setProducts}) => {
                             <button class="mt-px" onClick={()=>changeProductState()}>Deactive</button></div>
                         }
                     </div>
-                    <div class="text-gray-700 font-medium text-sm text-center lg:text-left px-2">
+                    <div class="text-gray-700 font-medium text-sm text-center lg:text-left px-2">   
                             <p className="text-sm text-gray-500">Rating : {product.rating}</p>
                     </div>
                 </div>
 
                 <div class="w-1/5 h-full  px-1 bg-white py-5 lg:px-2 lg:py-2 tracking-wide ">
-                       <button>Update</button>
+                       <button onClick={()=>{setProductId(product._id);setShowModel(true);}}>Update</button>
                 </div>
-
             </div>
         </div>
     )

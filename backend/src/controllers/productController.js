@@ -94,4 +94,24 @@ const deleteProductByid = async (req, res) => {
     }
 }
 
-module.exports = { addProduct, fetchAllProduct, fetchProductByName, deleteProductByid ,fetchAllProductByCategoryId,fetchAllProductBySubCategoryId,changeProductState}
+const fetchProductById = async (req, res) => {
+    try {
+        const product = await
+            Product.findOne({ _id: req.params.productId });
+        res.status(200).json(product)
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+module.exports = 
+{ addProduct, 
+fetchAllProduct, 
+fetchProductByName, 
+deleteProductByid ,
+fetchAllProductByCategoryId,
+fetchAllProductBySubCategoryId,
+changeProductState,
+fetchProductById
+}

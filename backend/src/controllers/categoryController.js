@@ -32,6 +32,18 @@ const fetchAllCategory=async(req,res)=>{
     }
 }
 
+//fetchcategory by id
+const fetchCategoryById=async(req,res)=>{
+    try {
+        const category = await Category.findOne({ _id: req.params.id });
+        res.status(200).json(category)
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+
+
 const fetchCategoryByName = async (req, res) => {
     try {
         const category = await Category.findOne({ email: req.params.name });
@@ -50,4 +62,4 @@ const deleteCategoryByName = async (req, res) => {
     }
 }
 
-module.exports={addCategory,fetchAllCategory,fetchCategoryByName,deleteCategoryByName}
+module.exports={addCategory,fetchAllCategory,fetchCategoryByName,deleteCategoryByName,fetchCategoryById}

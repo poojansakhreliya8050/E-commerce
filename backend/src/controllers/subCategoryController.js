@@ -32,6 +32,15 @@ const fetchAllSubCategory=async(req,res)=>{
     }
 }
 
+const fetchSubCategoryById=async(req,res)=>{
+    try {
+        const subCategory = await SubCategory.findOne({ _id: req.params.id });
+        res.status(200).json(subCategory)
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 const fetchSubCategoryByCateroryId = async (req, res) => {
     try {
         const subCategory = await SubCategory.find({categoryId:req.params.categoryId});
@@ -50,4 +59,4 @@ const deleteSubCategoryByName = async (req, res) => {
     }
 }
 
-module.exports={addSubCategory,fetchAllSubCategory,fetchSubCategoryByCateroryId,deleteSubCategoryByName}
+module.exports={addSubCategory,fetchAllSubCategory,fetchSubCategoryByCateroryId,deleteSubCategoryByName,fetchSubCategoryById}

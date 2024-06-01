@@ -1,10 +1,14 @@
 import React,{ useEffect,useState } from 'react'
 import axios from 'axios'
 import ProductCard from '../components/ProductCard';
+import UpdateProductPopup from '../components/UpdateProductPopup';
 
 const Product = () => {
 
     const [products, setProducts] = useState(null);
+    const [productId,setProductId]=useState(null);
+    const [showModel, setShowModel] = useState(false);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,8 +28,11 @@ const Product = () => {
     <div className='w-screen flex-col items-center content-evenly justify-evenly'>
         {
             products!=null?
-            products.map(product=><ProductCard key={product._id} product={product} setProducts={setProducts} />):<></>
+            products.map(product=><ProductCard key={product._id} product={product} setProducts={setProducts} setShowModel={setShowModel} setProductId={setProductId}/>):<></>
         }
+          {
+                    showModel ? <UpdateProductPopup showModel={showModel} setShowModel={setShowModel} productId={productId} setProductId={setProductId}/>:<></>
+          }
     </div>
   )
 }

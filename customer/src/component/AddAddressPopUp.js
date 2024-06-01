@@ -81,7 +81,7 @@ const AddAddressPopUp = ({ showModal, setShowModal, setaddress,isUpdate,setIsUpd
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                   <h3 className="text-xl font-semibold text-gray-900">
-                    Add New Address
+                    {isUpdate==true?"Update Address":"Add New Address"}
                   </h3>
                   <button
                     type="button"

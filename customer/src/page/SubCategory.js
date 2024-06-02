@@ -4,6 +4,7 @@ import SubCategorySlider from '../component/SubCategorySlider';
 import Productcard from '../component/ProductCard';
 import { useParams } from 'react-router-dom';
 import Loading from '../component/Loading';
+import FilterHeader from '../component/FilterHeader';
 
 const SubCategory = () => {
     const {categoryId}=useParams()
@@ -84,11 +85,12 @@ const SubCategory = () => {
    
 
   return (
-    <div>
+    <div className='mt-16'>
         {subCategories!=null &&
         <SubCategorySlider subCategories={subCategories} setSubCategoryId={setSubCategoryId}/>
         }
         <div className='flex flex-wrap'>
+          <FilterHeader/>
           
           {
             products==null ? <Loading/>:

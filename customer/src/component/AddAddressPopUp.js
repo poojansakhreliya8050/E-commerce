@@ -10,9 +10,7 @@ const AddAddressPopUp = ({ showModal, setShowModal, setaddress,isUpdate,setIsUpd
   // console.log(addressId);
   const { register, handleSubmit, reset } = useForm();
   const user = useSelector((state) => state.userData.user);
-  console.log(addressId);
-
-
+  
   const handleSubmitForAddress = async (data) => {
     try {
       if (user != null && user.accessToken != null) {
@@ -86,8 +84,9 @@ const AddAddressPopUp = ({ showModal, setShowModal, setaddress,isUpdate,setIsUpd
                   <button
                     type="button"
                     onClick={() => {
-                      setShowModal(false);
                       setAddressId(null);
+                      setIsUpdate(false);
+                      setShowModal(false);
                     }}
                     className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                   >

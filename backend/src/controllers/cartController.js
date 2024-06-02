@@ -104,5 +104,7 @@ const removeItemFromCart=async(req,res)=>{
     }
 }
 
+
+
 module.exports={addToCart,getCart,removeFromCart,emptyCart,removeItemFromCart}
     

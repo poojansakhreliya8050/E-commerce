@@ -70,7 +70,7 @@ const Addresses = () => {
                                     </p> */}
 
                                     <div className="mt-3 flex justify-evenly justify-items-center">
-                                        <button type="button" class="h-10 w-10 rounded-lg  items-center gap-x-2  bg-transparent px-2 py-2 text-sm font-semibold text-gray-400 shadow-sm hover:bg-gray-400 hover:text-white" onClick={() => { setIsUpdate(!isUpdate); setAddressId(address._id);setShowModal(true);}}>
+                                        <button type="button" class="h-10 w-10 rounded-lg  items-center gap-x-2  bg-transparent px-2 py-2 text-sm font-semibold text-gray-400 shadow-sm hover:bg-gray-400 hover:text-white" onClick={() => { setIsUpdate(true); setAddressId(address._id);setShowModal(true);}}>
                                             <FiEdit className="w-full h-full" />
                                         </button>
 
@@ -95,7 +95,7 @@ const Addresses = () => {
                             <button
                                 className="w-[50%] text-center hover:bg-black text-black hover:text-white p-2 rounded-lg duration-200 border border-black uppercase mt-5"
                                 type="button"
-                                onClick={() => setShowModal(true)}>
+                                onClick={() => {setIsUpdate(false);setShowModal(true)}}>
                                 add new
                             </button>
                             </div>

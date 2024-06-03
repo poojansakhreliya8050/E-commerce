@@ -13,7 +13,6 @@ const Productcard = ({ product }) => {
   if (cart != null) {
     isAvailable = cart.items.find(item => item.item._id == product._id)
   }
-  console.log(isAvailable);
 
   const removeFromcart = async () => {
     console.log("remove");

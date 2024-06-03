@@ -9,7 +9,7 @@ const Directory = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/category/fetchAllCategory`);
-        console.log(response);
+        // console.log(response);
         setCategories(response.data); 
       } catch (error) {
         console.error('Error fetching data:', error);

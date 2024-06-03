@@ -2,8 +2,9 @@ import React from 'react'
 import { useState } from 'react';
 import { IoFilter } from "react-icons/io5";
 import Popup from './Popup';
+import FilterMenu from './FilterMenu';
 
-const FilterHeader = () => {
+const FilterHeader = ({setFilterChoice,filterChoice}) => {
     const [isOpen,setIsOpen]=useState(false)
   return (
         <header >
@@ -16,7 +17,7 @@ const FilterHeader = () => {
                     </div>
                 </div>
             </nav>
-            <Popup isOpen={isOpen} setIsOpen={setIsOpen}/>
+            <Popup isOpen={isOpen} setIsOpen={setIsOpen}> <FilterMenu setFilterChoice={setFilterChoice} filterChoice={filterChoice}/> </Popup>
         </header>
   )
 }

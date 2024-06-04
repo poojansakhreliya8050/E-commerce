@@ -105,6 +105,15 @@ const fetchProductById = async (req, res) => {
     }
 }
 
+const fetchProductByUserId=async (req,res)=>{
+    try {
+        const allProduct = await Product.find({userId:req.params.userId});
+        res.status(200).json(allProduct)
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 module.exports = 
 { addProduct, 
 fetchAllProduct, 
@@ -113,5 +122,6 @@ deleteProductByid ,
 fetchAllProductByCategoryId,
 fetchAllProductBySubCategoryId,
 changeProductState,
-fetchProductById
+fetchProductById,
+fetchProductByUserId
 }

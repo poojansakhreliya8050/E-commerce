@@ -85,8 +85,7 @@ const SubCategory = () => {
 
 
    useEffect(() => {
-    const fetchData = () => {
-      try {
+
         if(filterChoice!=null && products!=null){
             let filtered;
             
@@ -98,15 +97,10 @@ const SubCategory = () => {
              filtered=products.sort((a,b)=>b.rating-a.rating);
 
             
-            console.log(filtered);
-            setFilterData(state=>filtered);
-            console.log(filterData);
+            // console.log(filtered);
+            setFilterData([...filtered]);
+            // console.log(filterData);
         }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData(); // call the function to fetch data when the component mounts
   }
   , [filterChoice]);
 
@@ -120,12 +114,11 @@ const SubCategory = () => {
         }
         <div className='flex flex-wrap'>
           <FilterHeader setFilterChoice={setFilterChoice} filterChoice={filterChoice}/>
-          
+
           {
-            products==null && filterData==null ? <Loading/>: filterData!=null ? filterData.map(product=><Productcard key={product._id} product={product}/>):
+            products==null ? <Loading/>: filterData!=null && filterData.length!=0 ? filterData.map(product=><Productcard key={product._id} product={product}/>):
             products.map(product=><Productcard key={product._id} product={product}/>)
           }
-
 
         </div>
     </div>

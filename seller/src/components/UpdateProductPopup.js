@@ -31,6 +31,7 @@ const UpdateProductPopup = ({ showModel, setShowModel, productId, setProductId }
     useEffect(() => {
         const fetchData = async () => {
             try {
+                // if(productId!=null){
                 const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/product/fetchProductById/${productId}`);
                 console.log(response);
                 setProductName(response.data.productName);
@@ -40,6 +41,7 @@ const UpdateProductPopup = ({ showModel, setShowModel, productId, setProductId }
                 setCategoryId(response.data.categoryId);
                 setSubCategoryId(response.data.subCategoryId);
                 setImgUrl(response.data.img);
+                // }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }

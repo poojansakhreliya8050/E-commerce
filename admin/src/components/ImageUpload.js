@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-const ImageUpload = ({setImage}) => {
+const ImageUpload = ({setImage,imgUrl}) => {
     const [selectedFile, setSelectedFile] = useState();
     const [checkFile, setCheckFile] = useState(false);
 
@@ -17,7 +17,7 @@ const ImageUpload = ({setImage}) => {
                     <div className="h-24 cursor-pointer relative flex justify-center items-center border-2 rounded-md bg-gray-200">
                         <input type="file" name="image" onChange={imageHandler} className="z-20 opacity-0 cursor-pointer h-full w-full" />
                         <div className="absolute flex justify-center items-center gap-2">
-                            <img className={`h-20 w-20 rounded-full ${checkFile?'opacity-1':'opacity-0'}`} src={selectedFile ? URL.createObjectURL(selectedFile) : null} />
+                            <img className={`h-20 w-20 rounded-full `} src={selectedFile ? URL.createObjectURL(selectedFile) : imgUrl != null ? imgUrl : null} />
                             <span className="text-[16px] w-56 truncate">{checkFile?selectedFile.name:'choose a file'}</span>
                         </div>        
                     </div>

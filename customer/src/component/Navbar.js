@@ -25,7 +25,7 @@ const Navbar = () => {
 
           <Link href="https://flowbite.com/" className="flex items-center">
             <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 mr-3" alt="Flowbite Logo" />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">E-commerce</span>
+            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BuyBazaar</span>
           </Link>
 
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">

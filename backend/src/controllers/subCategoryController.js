@@ -59,4 +59,27 @@ const deleteSubCategoryByName = async (req, res) => {
     }
 }
 
-module.exports={addSubCategory,fetchAllSubCategory,fetchSubCategoryByCateroryId,deleteSubCategoryByName,fetchSubCategoryById}
+const updateSubCategory = async (req, res) => {
+    try {
+        
+        if (!req.body.subCategoryTitle || !req.body.description) {
+            return res.status(404).json({ message: "please enter valid data.." })
+        }
+        let data;
+        console.log(req.file);
+        if(req.file!=undefined){
+        const img = await uploadOnCloudinary(req.file.path);
+        data=img.url;
+        }
+        else
+        data=req.body.image;
+
+        const subCategoryId = req.params.subCategoryId;
+        await SubCategory.findByIdAndUpdate(subCategoryId, { subCategoryTitle: req.body.subCategoryTitle, description: req.body.description,image:data}, { new: true })
+        res.status(200).json({ message: "successfully updated category" })
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports={addSubCategory,fetchAllSubCategory,fetchSubCategoryByCateroryId,deleteSubCategoryByName,fetchSubCategoryById,updateSubCategory}

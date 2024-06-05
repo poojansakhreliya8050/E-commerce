@@ -1,7 +1,7 @@
 // components/Popup.js
 import React from 'react';
 
-const Popup = ({ isOpen, setIsOpen, children}) => {
+const Popup = ({ isOpen, setIsOpen, setIsUpdate,children}) => {
     if (!isOpen) return;
 
     return (
@@ -9,7 +9,7 @@ const Popup = ({ isOpen, setIsOpen, children}) => {
             <div className="bg-white rounded-lg shadow-lg w-1/2">
 
                 <div className="p-4 ">
-                    <button className="float-right text-gray-600 hover:text-gray-800 text-3xl" onClick={() => { setIsOpen(false) }}>
+                    <button className="float-right text-gray-600 hover:text-gray-800 text-3xl" onClick={() => { setIsOpen(false);setIsUpdate(false)}}>
                         &times;
                     </button>
                 </div>
@@ -22,7 +22,7 @@ const Popup = ({ isOpen, setIsOpen, children}) => {
 
 
                 <div className="p-4 border-t">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { setIsOpen(false) }}>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { setIsOpen(false);setIsUpdate(false) }}>
                         Close
                     </button>
                 </div>

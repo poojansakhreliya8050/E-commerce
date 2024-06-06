@@ -11,7 +11,7 @@ const Register = () => {
 
     const onSubmit = async (data) => {
         try {
-
+            console.log(data+"first........");
             const user = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/createUser`, data, {
                 withCredentials: true,
                 headers: {

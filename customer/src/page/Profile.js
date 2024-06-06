@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import avatar from "../images/avatar.jpg";
 import Addresses from "../component/Addresses";
+import { userData} from "../redux/user/userSlice";
 
 // import UserAddress from "../components/UserAddress";
 // import ChangePasswordPopup from "../components/ChangePasswordPopup";
@@ -16,30 +17,22 @@ const Profile = () => {
 
 const user=useSelector(state=>state.userData.user)
 const [openTab,setOpenTab]=useState(1);
+const dispatch=useDispatch();
+const navigate=useNavigate();
 
-  // const logout = () => {
-  //   swal({
-  //     title: "Are you Sure! you want to logout?",
-  //     icon: "warning",
-  //     buttons: ["NO", "YES"],
-  //     cancelButtonColor: "#DD6B55",
-  //     confirmButtonColor: "#DD6B55",
-  //     dangerMode: true,
-  //   }).then(async (willDelete) => {
-  //     if (willDelete) {
-  //       dispatch(userData(null));
-  //       localStorage.clear();
-  //       removeCookie("connect.sid")
-  //       // removeCookie("refresh_token")
-  //       dispatch(userData(null))
-  //       dispatch(userLogIn(false));
-  //       swal("Successfully logout", {
-  //         icon: "success",
-  //       });
-  //       navigate("/");
-  //     }
-  //   });
-  // };
+  const handleLogout = async() => {
+
+    try{
+      const res=await axios.get(`${process.env.REACT_APP_URL}/api/v1/user/logout`)
+      console.log(res.data);
+      dispatch(userData(null))
+      navigate("/")
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+
 
   let order={
     "_id": "66549498e9466b94b5184d7b",
@@ -92,19 +85,19 @@ const [openTab,setOpenTab]=useState(1);
 
           <div className="w-full sm:w-1/5 p-5">
             <ul className="space-y-3">
-              <li className={`text-lg ${openTab == 1?"border-orange-700 border-2":"bg-orange-200 border-orange-200 border-2" } font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300`} onClick={() => setOpenTab(1)} > Profile</li>
-              <li className={`text-lg ${openTab == 2? "border-orange-700 border-2":"bg-orange-200 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300`} onClick={() => setOpenTab(2)}>Your Orders</li>
+              <li className={`text-lg ${openTab == 1?"border-orange-700 border-2":"bg-orange-200 border-orange-200 border-2" } font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-xl hover:pl-8 duration-300`} onClick={() => setOpenTab(1)} > Profile</li>
+              <li className={`text-lg ${openTab == 2? "border-orange-700 border-2":"bg-orange-200 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-xl hover:pl-8 duration-300`} onClick={() => setOpenTab(2)}>Your Orders</li>
 
               <li className="bg-orange-800 h-1 w-full rounded-full"></li>
-              <li className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}>
+              <li className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}>
                 <i className="fas fa-repeat"></i> Update Profile
               </li>
               {  user!=null && user.googleId==null &&
-                <li className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}>
+                <li className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}>
                   Change Password
                 </li>
               }
-              <li className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-3xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}>LogOut</li>
+              <li onClick={()=>handleLogout()} className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}>LogOut</li>
             </ul>
           </div>
 

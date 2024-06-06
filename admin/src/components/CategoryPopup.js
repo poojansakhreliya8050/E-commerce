@@ -33,6 +33,10 @@ const CategoryPopup = ({setIsOpen, isUpdate, setIsUpdate ,categoryId,setCategory
                 "Content-Type": "multipart/form-data",
             },
         })
+        setIsUpdate(false);
+        setIsOpen(false);
+        setImage(null);
+        setCategoryId(null)
         console.log(res);
 
     }

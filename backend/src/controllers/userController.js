@@ -208,6 +208,109 @@ const deleteUserByEmail = async (req, res) => {
     }
 }
 
+//changePassword
+const changePassword = async (req, res) => {
+    try {
+        console.log(req.body);
+
+        // user exist or not
+        let user=   await User.findOne({ email: req.body.email.toLowerCase() })
+        if (!user) {
+            return res.status(404).json({ message: "user not found" })
+        }
+
+        //password check
+        const matchPassword = await bcrypt.compare(req.body.oldPassword, user.password)
+        if (!matchPassword) {
+            return res.status(404).json({ message: "user not found" })
+        }
+
+        //hash password
+        const saltRounds = 10;
+        const hashPassword = await bcrypt.hash(req.body.newPassword, saltRounds);
+
+        //update password
+        await User.updateOne({ email: req.body.email }, { password: hashPassword });
+         user = await User.findOne({ email: req.body.email })
+        return res.status(200).json({ userdata: user })
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
+
+//forgetPassword
+const forgetPassword = async (req, res) => {
+    try {
+        console.log(req.body);
+
+        // user exist or not
+        let user=   await User.findOne({ email: req.body.email.toLowerCase() })
+        if (!user) {
+            return res.status(404).json({ message: "user not found" })
+        }
+
+        //generate otp
+        let otp = '';
+        for (let i = 0; i < 4; i++) {
+            otp += Math.floor(Math.random() * 10);
+        }
+
+        // send otp through email
+        await sendEmail(req.body.email, otp);
+
+        //insert otp in userotp table
+        const userOtp = await UserOtp.updateOne({email:req.body.email.toLowerCase()}, {$set: { otp: otp }}, {upsert: true})
+
+        return res.status(200).json({ message: "otp send to your email" })
+
+    }
+    catch (err) {
+        console.log(err);
+    }
+}
+
+//resetPassword
+const resetPassword = async (req, res) => {
+    try {
+        console.log(req.body);
+
+        // user exist or not
+        let user=   await User.findOne({ email: req.body.email.toLowerCase() })
+        if (!user) {
+            return res.status(404).json({ message: "user not found" })
+        }
+
+        //find otp from userotp table
+        const userExist = await UserOtp.findOne({ email:req.body.email.toLowerCase() })
+        if (!userExist) {
+            return res.status(404).json({ message: "user not found" })
+        }
+        
+        //otp match
+        if (req.body.otp != userExist.otp) {
+            return res.status(406).json({ message: "otp wrong!" })
+        }
+
+        //hash password
+        const saltRounds = 10;
+        const hashPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+        //update password
+        await User.updateOne({email: req.body.email },{password: hashPassword });
+        await UserOtp.deleteMany({ email: req.body.email })
+        user = await User.findOne({ email: req.body.email })
+
+        return res.status(200).json({ userdata: user })
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+
+
 
 module.exports = {
     createUser,
@@ -218,4 +321,7 @@ module.exports = {
     fetchAllUser,
     fetchUserByEmail,
     deleteUserByEmail,
+    changePassword,
+    forgetPassword,
+    resetPassword
 }

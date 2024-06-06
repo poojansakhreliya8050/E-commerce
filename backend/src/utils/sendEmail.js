@@ -29,7 +29,7 @@ const sendEmail=async(email,otp)=>{
         subject: 'Sending Email for authentication',
         text: `For authetication Otp is : ${otp}`
     })
-    console.log(info+"ooooo");
+    console.log(info+"from email function");
  
 
 }

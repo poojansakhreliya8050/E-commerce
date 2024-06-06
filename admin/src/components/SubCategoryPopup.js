@@ -34,6 +34,9 @@ const SubCategoryPopup = ({setIsOpen, isUpdate, setIsUpdate ,categoryId,subCateg
                 "Content-Type": "multipart/form-data",
             },
         })
+        setIsUpdate(false);
+        setIsOpen(false);
+        setSubCategoryId(null)
         console.log(res);
 
     }
@@ -93,10 +96,10 @@ const SubCategoryPopup = ({setIsOpen, isUpdate, setIsUpdate ,categoryId,subCateg
                     <h1 className="font-bold uppercase text-5xl">{isUpdate ? 'UPDATE SUBCATEGORY' : 'ADD SUBCATEGORY'}</h1>
                 </div>
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
-                    <input value={subCategoryTitle} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="text" placeholder="Category title*" onChange={e => setSubCategoryTitle(e.target.value)} />
+                    <input value={subCategoryTitle} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="text" placeholder="SubCategory title*" onChange={e => setSubCategoryTitle(e.target.value)} />
                 </div>
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
-                    <input value={subCategoryDescription} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="text" placeholder="Category description*" onChange={e => setSubCategoryDescription(e.target.value)} />
+                    <input value={subCategoryDescription} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="text" placeholder="SubCategory description*" onChange={e => setSubCategoryDescription(e.target.value)} />
                 </div>
                 <div className="my-4">
                     <ImageUpload setImage={setImage} imgUrl={imgUrl} />

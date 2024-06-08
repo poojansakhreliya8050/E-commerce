@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { userData } from '../redux/user/userSlice';
 
 
+
 const Login = () => {
     const { register, handleSubmit } = useForm();
     const navigate=useNavigate()
@@ -53,6 +54,8 @@ const Login = () => {
                     <button type='submit' className='h-9 border-gray-500 rounded-sm w-1/2 bg-pink-400 hover:bg-pink-500 transition-all'>Login</button>
                 </form>
                 <p>No Account? <NavLink to="/register">Register</NavLink></p>
+                <NavLink to="/forgetPassword"  className='cursor-pointer hover:text-purple-500'>Forget Password?</NavLink>
+
             </div>
         </div>
     )

@@ -17,6 +17,7 @@ import Profile from './page/Profile';
 import OrderDetails from './page/OrderDetails';
 
 import { useGetCartQuery } from './redux/cart/cartApi';
+import ForgetPassword from './page/ForgetPassword';
 
 
 
@@ -74,6 +75,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/login" element={<Login />} />
     <Route path="/register" element={<Register />} />
     <Route path="/verifyUser" element={<VerifyUser />} />
+    <Route path="/forgetPassword" element={<ForgetPassword/>}/>
     <Route path="/category/:categoryId" element={<SubCategory/>}/>
     <Route path="/products" element={<SubCategory/>}/>
     <Route path="/cart" element={<Cart/>}/>

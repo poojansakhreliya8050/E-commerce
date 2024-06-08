@@ -10,6 +10,7 @@ import { userData} from "../redux/user/userSlice";
 // import UpdateProfileDetails from "../components/UpdateProfileDetails";
 import axios from "axios";
 import OrderComponent from "../component/OrderComponent";
+import ChangePasswordPopUp from "../component/ChangePasswordPopUp";
  
 
 
@@ -17,6 +18,8 @@ const Profile = () => {
 
 const user=useSelector(state=>state.userData.user)
 const [openTab,setOpenTab]=useState(1);
+const [changePasswordModel,setChangePasswordModel]=useState(false);
+
 const dispatch=useDispatch();
 const navigate=useNavigate();
 
@@ -93,7 +96,7 @@ const navigate=useNavigate();
                 <i className="fas fa-repeat"></i> Update Profile
               </li>
               {  user!=null && user.googleId==null &&
-                <li className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}>
+                <li onClick={()=>setChangePasswordModel(true)} className={`text-base ${"bg-orange-100 border-orange-200 border-2"} font-mono font-semibold text-orange-700 pl-5 py-2 cursor-pointer  rounded-xl hover:pl-8 duration-300 hover:border-black hover:text-white hover:bg-black`}>
                   Change Password
                 </li>
               }
@@ -160,9 +163,9 @@ const navigate=useNavigate();
         ) : null} */}
 
         {/* change password component  */}
-        {/* {changePassword ? (
-          <ChangePasswordPopup setChangePassword={setChangePassword} />
-        ) : null} */}
+        {changePasswordModel? (
+          <ChangePasswordPopUp showModal={changePasswordModel} setShowModal={setChangePasswordModel} />
+        ) : null}
       </div>
     </>
   );

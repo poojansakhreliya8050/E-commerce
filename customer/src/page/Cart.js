@@ -24,7 +24,7 @@ const Cart = () => {
     try {
       if (user != null && user?.accessToken != "") {
         const order = await axios.post(`${process.env.REACT_APP_URL}/api/v1/order/addToOrder`, { userId: user.userdata._id })
-        const cart = await axios.delete(`${process.env.REACT_APP_URL}/api/v1/cart/emptyCart/${user.userdata._id}`)
+        // const cart = await axios.delete(`${process.env.REACT_APP_URL}/api/v1/cart/emptyCart/${user.userdata._id}`)
         dispatch(cartData(null))
         console.log(order);
         navigate("/");

@@ -1,4 +1,4 @@
-const Product = require("../models/product")
+const Product = require("../models/product.model")
 const uploadOnCloudinary = require("../utils/cloudinaryUpload");
 
 

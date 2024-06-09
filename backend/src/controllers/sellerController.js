@@ -1,4 +1,4 @@
-const Product=require('../models/product');
+const Product=require('../models/product.model');
 
 //fecth all products by userId
 const fetchAllProductByUserId=async(req,res)=>{

@@ -1,5 +1,5 @@
-const cart=require('../models/cart')
-const product=require('../models/product')
+const cart=require('../models/cart.model')
+const product=require('../models/product.model')
 
 
 //also increse or decrese quantity in  product model
@@ -30,6 +30,7 @@ const addToCart=async(req,res)=>{
     }
     catch(err){
         console.log(err)
+        res.status(500).json({ error: error.message });
     }
 }
 
@@ -42,6 +43,7 @@ const getCart=async(req,res)=>{
     }
     catch(err){
         console.log(err)
+        res.status(500).json({ error: error.message });
     }
 }
 
@@ -69,6 +71,7 @@ const removeFromCart=async(req,res)=>{
     }
     catch(err){
         console.log(err)
+        res.status(500).json({ error: error.message });
     }
 }
 
@@ -85,6 +88,7 @@ const emptyCart=async(req,res)=>{
     }
     catch(err){
         console.log(err)
+        res.status(500).json({ error: error.message });
     }
 }
 
@@ -102,6 +106,7 @@ const removeItemFromCart=async(req,res)=>{
     }
     catch(err){
         console.log(err)
+        res.status(500).json({ error: error.message });
     }
 }
 

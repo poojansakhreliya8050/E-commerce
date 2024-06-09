@@ -1,5 +1,5 @@
 const mongoose=require("mongoose");
-const SubCategory = require("../models/subCategory")
+const SubCategory = require("../models/subCategory.model")
 const uploadOnCloudinary=require("../utils/cloudinaryUpload")
 
 const addSubCategory=async(req,res)=>{

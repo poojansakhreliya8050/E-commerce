@@ -6,12 +6,12 @@ import { BsArrowRightCircle } from "react-icons/bs";
 const OrderCard = ({ items }) => {
   // console.log(items);
 
- 
+ let totalAmount=items.subOrders[0].items.reduce((acc, item) => acc + item.price, 0);
   return (
     <div className="flex w-[32%] relative  text-gray-900 antialiased">
       <div>
         <div className="overflow-hidden w-full  rounded-lg">
-        <img src={items?.items[0]?.item.img} alt=" random imgee" className=" w-full rounded-lg object-cover object-center hover:scale-110 shadow-md transition-all duration-300" />
+        <img src={items?.subOrders[0]?.items[0]?.productId?.img} alt=" random imgee" className=" w-full rounded-lg object-cover object-center hover:scale-110 shadow-md transition-all duration-300" />
         </div>
         <Link to={`/orderDetails/${items._id}`}>
           <div className="relative group -mt-16 px-4 hover:skew-x-1 transition-all duration-500">
@@ -28,10 +28,10 @@ const OrderCard = ({ items }) => {
                 </div>
               </div>
               <h4 className="mt-1 truncate text-xl font-semibold uppercase leading-tight">
-                {items?.resturant?.name}
+                {/* {items?.resturant?.name} */}
               </h4>
               <div className="mt-1 font-medium">
-                ₹{items?.amount}
+                ₹{totalAmount}
                 <span className="text-sm text-gray-600"> /Total Amount</span>
               </div>
               <div className="mt-4 flex justify-between items-center">

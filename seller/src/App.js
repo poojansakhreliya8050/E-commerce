@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { userData } from './redux/user/userSlice';
+import Orders from './page/Orders';
 
 export const App = () => {
 
@@ -44,6 +45,8 @@ export const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/verifyUser" element={<VerifyUser />} />
+      <Route path="/orders" element={<Orders />} />
+      <Route path="*"  element={<Home/>} />
     </Route>
 
   ));

@@ -141,7 +141,9 @@ const getOrder = async (req, res) => {
 const getOrderBySellerId = async (req, res) => {
   try {
     const sellerId = req.params.sellerId;
-    const orders = await Order.find({ 'subOrders.sellerId': sellerId }).populate('subOrders.items.productId');
+
+    const orders = await Order.find({ 'subOrders.sellerId': sellerId }).populate('subOrders.items.productId').sort({ createdAt: -1 });
+
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -4,8 +4,8 @@ import dispatchIcon from '../images/icons/dispatch.gif'
 import scooterIcon from '../images/icons/delivery-scooter.png'
 import deliveredIcon from '../images/icons/delivered.png'
 
-const OrderTracking = ({ order }) => {
-    console.log(order);
+const OrderTracking = ({ status }) => {
+    console.log(status);
     return (
 
         <div className="w-full py-6">
@@ -30,7 +30,7 @@ const OrderTracking = ({ order }) => {
                     <div className="relative mb-2">
 
                         {
-                            order != null && order.deliveryStatus == "pending" ?
+                            status == "pending" ?
                                 <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
                                     <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
                                         <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "40%" }}></div>
@@ -57,8 +57,7 @@ const OrderTracking = ({ order }) => {
                 <div className="w-1/4">
                     <div className="relative mb-2">
                         {
-
-                            order != null && order.deliveryStatus == "pending" ?
+                            status == "pending" ?
                                 <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
                                     <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
                                         <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "0%" }}></div>
@@ -71,7 +70,7 @@ const OrderTracking = ({ order }) => {
                         }
 
                         {
-                            order != null && order.deliveryStatus == "dispatched" ?
+                            status == "dispatched" ?
                                 <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
                                     <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
                                         <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "40%" }}></div>
@@ -95,7 +94,7 @@ const OrderTracking = ({ order }) => {
 
                         {
 
-                            order != null && order.deliveryStatus == "delivered" ?
+                            status == "delivered" ?
                                 <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
                                     <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
                                         <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "100%" }}></div>
@@ -107,7 +106,7 @@ const OrderTracking = ({ order }) => {
                                 </div>
                         }
                         {
-                            order != null && order.deliveryStatus == "ontheway" ?
+                           status == "ontheway" ?
                                 <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
                                     <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
                                         <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "40%" }}></div>

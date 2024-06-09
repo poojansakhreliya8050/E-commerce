@@ -20,7 +20,7 @@ const ProductCard = ({ product,setProducts,setShowModel,setProductId}) => {
     }
 
     return (
-        <div className="w-4/5 h-48 bg-white rounded-lg p-4">
+        <div className="w-full h-48 bg-white rounded-lg p-4">
 
             <div class="lg:flex shadow rounded-lg border  border-gray-400 h-full">
 

@@ -56,13 +56,15 @@ const subOrderSchema = new mongoose.Schema({
 const orderSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
     subOrders: [subOrderSchema],
+    deliveryStatus: { type: String, default: 'pending', enum: ["pending", "dispatched", "ontheway", "delivered", "cancelled"] },
+    // totalAmount: { type: Number, required: true },
     address: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "address"
     },
     paymentId: {
         type: String
-    } 
+    }
 }, { timestamps: true });
 
 

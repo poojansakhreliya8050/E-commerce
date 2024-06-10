@@ -3,7 +3,7 @@ import OrderCard from "../component/OrderCard";
 import { useSelector } from 'react-redux';
 import axios from "axios";
 const OrderComponent = () => {
-    const [order, setOrder] = useState(null);
+    const [orders, setOrders] = useState(null);
     const user=useSelector(state=>state.userData.user)
     
     useEffect(() => {
@@ -13,7 +13,7 @@ const OrderComponent = () => {
             {
             const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getOrders/${user.userdata._id}`);
             console.log(response);
-            setOrder(response.data);
+            setOrders(response.data);
             }
           }
           catch (error) {
@@ -30,8 +30,8 @@ const OrderComponent = () => {
             </h1>
             {/* <OrderCard items={order}/> */}
             <div className="w-full flex flex-wrap  gap-2 justify-evenly ">
-              {  order!=null
-                ? order.map((item) =>  <OrderCard key={item._id} items={item} />):<></>
+              {  orders!=null
+                ? orders.map((order) =>  <OrderCard key={order._id} order={order} />):<></>
               }
             </div>
     </>

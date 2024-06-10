@@ -5,7 +5,7 @@ import scooterIcon from '../images/icons/delivery-scooter.png'
 import deliveredIcon from '../images/icons/delivered.png'
 
 const OrderTracking = ({ status }) => {
-    console.log(status);
+    // console.log(status);
     return (
 
         <div className="w-full py-6">

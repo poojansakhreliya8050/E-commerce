@@ -2,13 +2,14 @@ import React from 'react'
 import { useForm } from "react-hook-form";
 import ImageUpload from './ImageUpload'
 
-const PanInfo = ({ setTabOpen,panInfo,setPanInfo }) => {
+const PanInfo = ({ setTabOpen,setPanInfo,handleUpload,setPanImage}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const handlePanInfo = (data) => {
         console.log(data);
         if(!errors.panno && !errors.panHolderName)
         {
-        setTabOpen(2);
+           setPanInfo(data);
+           handleUpload();
         }
     }
     return (
@@ -27,7 +28,7 @@ const PanInfo = ({ setTabOpen,panInfo,setPanInfo }) => {
                         id="grid-first-name"
                         type="text"
                         placeholder="PAN Number"
-                        {...register('panno', { required: true,pattern:{value:/^[A-Z]{5}\d{4}[A-Z]{1}$/,message:"Invalid Pan Number"}})}
+                        {...register('panNumber', { required: true,pattern:{value:/^[A-Z]{5}\d{4}[A-Z]{1}$/,message:"Invalid Pan Number"}})}
                     />
                     <span className="text-sm text-red-500">
                         {errors.panno && errors.panno.type === "required" && <span>This is required</span>}
@@ -43,7 +44,7 @@ const PanInfo = ({ setTabOpen,panInfo,setPanInfo }) => {
                         id="grid-last-name"
                         type="text"
                         placeholder="PAN holder name"
-                        {...register('panHolderName', { required: true })}
+                        {...register('holderName', { required: true })}
 
                     />
                     <span className="text-sm text-red-500">
@@ -59,7 +60,7 @@ const PanInfo = ({ setTabOpen,panInfo,setPanInfo }) => {
                     <div className="mt-4">
                         <label className="block">
                             <span className="sr-only">Choose PAN card image</span>
-                            <ImageUpload />
+                            <ImageUpload setImage={setPanImage}/>
                         </label>
                     </div>
                 </div>
@@ -70,7 +71,7 @@ const PanInfo = ({ setTabOpen,panInfo,setPanInfo }) => {
                 {"<"} Previous 
                 </button>
 
-                <button type='button' className={`hover:bg-white hover:text-black md:w-1/3 w-full bg-black text-white p-2 rounded-lg mt-4 hover:border duration-200 border border-gray-300`}>
+                <button onClick={handleSubmit(handlePanInfo)} type='button' className={`hover:bg-white hover:text-black md:w-1/3 w-full bg-black text-white p-2 rounded-lg mt-4 hover:border duration-200 border border-gray-300`}>
                  Submit {">"}
                 </button>
             </div>

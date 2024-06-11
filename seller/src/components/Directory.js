@@ -1,18 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setCurrentColor } from "../redux/user/userSlice";
+import axios from "axios";
 import HowToSell from "./HowToSell";
 import WhyChoose from "./WhyChoose";
 
 const Directory = () => {
+    const [sellerData,setSellerData]=useState(null);
     const navigate = useNavigate();
-    const owner = useSelector((state) => state.userData.user);
+    const user = useSelector((state) => state.userData.user);
+    console.log(user);
     const dispatch = useDispatch();
 
-    //   useEffect(() => {
-    //     dispatch(setCurrentColor("white"))
-    //   }, [])
+        //fetch seller data using useEffect
+       useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (user != null && user.accessToken != "" && user.accessToken != null) {
+                const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/seller/fetchSellerByUserId/${user.userdata._id}`);
+                console.log(response);
+                setSellerData(response.data);
+                }
+            }
+            catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        fetchData(); // call the function to fetch data when the component mounts
+    }, []);
+
+
+
+
     const checkMark = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -57,19 +76,19 @@ const Directory = () => {
 
             <div className="relative h-screen w-screen">
                 <img
-                    className="h-4/6 w-full object-cover" 
+                    className="h-4/6 w-full object-cover"
                     src="https://images.unsplash.com/photo-1585518419759-7fe2e0fbf8a6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=700&h=300&q=80"
                     alt="img"
                 />
 
                 <div className="absolute flex justify-center top-40 sm:left-[40px] md:left-[400px] space-y-3">
                     <p className="text-4xl text-black ">
-                    Become an BuyBazar seller
+                        Become an BuyBazar seller
                     </p>
                     <p className=" text-xl text-slate-600 font-light">
                         and get more customers!
                     </p>
-                   
+
                     <div className="absolute bg-gray-200 top-72 left-0 w-full h-fit rounded-md shadow-md p-10">
                         <div className="pb-10 space-y-2">
                             <h1 className="text-center text-3xl text-slate-800">
@@ -96,17 +115,20 @@ const Directory = () => {
                             </div>
                         </div>
                         <div className="pt-5 flex justify-center">
-                            <Link to="/verifySeller" className="bg-yellow-500 text-white px-10 py-2 rounded-md">
-                              Start  Selling 
-                            </Link>
+                            {
+                                user != null && user.accessToken != "" && user.accessToken != null && sellerData==null?
+                                    <Link to="/verifySeller" className="bg-yellow-500 text-white px-10 py-2 rounded-md">
+                                        Start  Selling
+                                    </Link> : <></>
+                            }
                         </div>
                     </div>
                 </div>
 
             </div>
-            <WhyChoose/>
+            <WhyChoose />
             <HowToSell />
-           
+
         </div>
 
     );

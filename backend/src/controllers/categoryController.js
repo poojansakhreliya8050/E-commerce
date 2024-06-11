@@ -18,7 +18,7 @@ const addCategory = async (req, res) => {
         })
     }
     catch (e) {
-        console.log(e);
+        res.status(404).json({ message: error.message });
     }
 }
 const fetchAllCategory = async (req, res) => {
@@ -27,6 +27,7 @@ const fetchAllCategory = async (req, res) => {
         res.status(200).json(allCategory)
     } catch (err) {
         console.log(err);
+         res.status(404).json({ message: err.message });
     }
 }
 
@@ -37,6 +38,7 @@ const fetchCategoryById = async (req, res) => {
         res.status(200).json(category)
     } catch (err) {
         console.log(err);
+    res.status(404).json({ message: err.message });
     }
 }
 
@@ -48,6 +50,7 @@ const fetchCategoryByName = async (req, res) => {
         res.status(200).json(category)
     } catch (err) {
         console.log(err);
+    res.status(404).json({ message: err.message });
     }
 }
 
@@ -57,6 +60,8 @@ const deleteCategoryByName = async (req, res) => {
         res.status(200).json({ message: `delete category : ${req.params.category}` })
     } catch (err) {
         console.log(err);
+    res.status(404).json({ message: err.message });
+
     }
 }
 
@@ -80,6 +85,8 @@ const updateCategory = async (req, res) => {
         res.status(200).json({ message: "successfully updated category" })
     } catch (err) {
         console.log(err);
+    res.status(404).json({ message: err.message });
+
     }
 }
 

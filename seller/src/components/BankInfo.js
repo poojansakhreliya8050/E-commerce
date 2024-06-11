@@ -1,9 +1,19 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 import { useForm } from "react-hook-form";
-import ImageUpload from './ImageUpload';
 
 
-const BankInfo = ({setTabOpen,bankInfo,setBankInfo}) => {
+const BankInfo = ({setTabOpen,bankInfo,setBankInfo,bankImage,setBankImage}) => {
+
+  const [selectedFile, setSelectedFile] = useState();
+  const [checkFile, setCheckFile] = useState(false);
+
+  const imageHandler = (e) => {
+      setBankImage(e.target.files[0])
+      setSelectedFile(e.target.files[0]);
+      setCheckFile(true);
+  }
+
+
     const { register, handleSubmit,reset, formState: { errors } } = useForm();
     const handleBankInfo = (data) => {
       console.log(data);
@@ -20,6 +30,9 @@ const BankInfo = ({setTabOpen,bankInfo,setBankInfo}) => {
       if(bankInfo!=null){
          reset(bankInfo);
       }
+      if(bankImage!=null){
+        setSelectedFile(bankImage);
+    }
   }, []);
   return (
     <form className="lg:px-16 lg:py-10 p-5 bg-slate-200 hover:shadow-2xl duration-500 lg:w-10/12 shadow-lg lg:mx-10 rounded-2xl my-5">
@@ -103,7 +116,16 @@ const BankInfo = ({setTabOpen,bankInfo,setBankInfo}) => {
                   <div className="mt-4">
                     <label className="block">
                       <span className="sr-only">Choose profile photo</span>
-                      <ImageUpload/>
+                      <div className="w-[320px] grid gap-2">
+                                    <div className="h-24 cursor-pointer relative flex justify-center items-center border-2 rounded-md bg-gray-200">
+                                        <input type="file" name="image" onChange={imageHandler} className="z-20 opacity-0 cursor-pointer h-full w-full" />
+                                        <div className="absolute flex justify-center items-center gap-2">
+                                            <img className={`h-20 w-20 rounded-full `} src={selectedFile ? URL.createObjectURL(selectedFile) : null} />
+                                            <span className="text-[16px] w-56 truncate">{checkFile ? selectedFile.name : 'choose a file'}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
                     </label>
                   </div>
                 </div>

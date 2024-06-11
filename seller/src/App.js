@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 
 import { userData } from './redux/user/userSlice';
 import Orders from './page/Orders';
+import VerifySeller from './page/VerifySeller';
 
 export const App = () => {
 
@@ -46,6 +47,7 @@ export const App = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/verifyUser" element={<VerifyUser />} />
       <Route path="/orders" element={<Orders />} />
+      <Route path="/VerifySeller" element={<VerifySeller />} />
       <Route path="*"  element={<Home/>} />
     </Route>
 

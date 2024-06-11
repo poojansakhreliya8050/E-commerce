@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setCurrentColor } from "../redux/user/userSlice";
 import HowToSell from "./HowToSell";
 import WhyChoose from "./WhyChoose";
@@ -96,9 +96,9 @@ const Directory = () => {
                             </div>
                         </div>
                         <div className="pt-5 flex justify-center">
-                            <button className="bg-yellow-500 text-white px-10 py-2 rounded-md">
+                            <Link to="/verifySeller" className="bg-yellow-500 text-white px-10 py-2 rounded-md">
                               Start  Selling 
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

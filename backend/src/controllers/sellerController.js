@@ -49,6 +49,7 @@ const addSellerDetails=async(req,res)=>{
             pincode:pincode
         })
         const addressData=await address.save();
+
         const bank=new Bank({
             userId:userId,
             accountNumber:accountNumber,
@@ -57,18 +58,19 @@ const addSellerDetails=async(req,res)=>{
             passbookImg:bankImage.url
         })
         const bankData=await bank.save();
+
         const seller=new Seller({
             userId:userId,
             bankInfo:bankData._id,
             panInfo:{
                 panNumber:panNumber,
                 holderName:holderName,
-                panImage:panImage.url
+                panImg:panImage.url
             },
             address:addressData._id,
             brandName:brandName,
             brandOwnerName:brandOwnerName,
-            brandImage:brandImage.url
+            brandImg:brandImage.url
         })
         const sellerData=await seller.save();
         return res.status(200).json(sellerData);

@@ -47,8 +47,7 @@ const VerifySeller = () => {
     
       const formData = new FormData();
       
-      formData.append("userId", seller._id);
-      formData.append("userId", "65f47716c1f778c761717e1b");
+      formData.append("userId", seller.userdata._id);
       formData.append("accountNumber", bankInfo.accountno);
       formData.append("ifscCode", bankInfo.ifscCode);
       formData.append("accountType", bankInfo.accountType);
@@ -68,6 +67,7 @@ const VerifySeller = () => {
 
       const response = await axios.post(`${process.env.REACT_APP_URL}/api/v1/seller/addSellerDetails`, formData);
       console.log(response);
+      navigate("/");
     } catch (err) {
       console.log(err);
     }

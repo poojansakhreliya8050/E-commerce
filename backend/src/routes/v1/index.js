@@ -1,12 +1,12 @@
 const express = require("express");
-const userRoute=require("./userRoute")
-const categoryRoute=require("./categoryRoute")
-const subCategoryRoute=require("./subCategoryRoute")
-const productRoute=require("./productRoute")
-const orderRoute=require("./orderRoute")
-const cartRoute=require("./cartRoute")
-const addressRoute=require("./addressRoute")
-const sellerRoute=require("./sellerRoute")
+const userRoute=require("./user.route")
+const categoryRoute=require("./category.route")
+const subCategoryRoute=require("./subCategory.route")
+const productRoute=require("./product.route")
+const orderRoute=require("./order.route")
+const cartRoute=require("./cart.route")
+const addressRoute=require("./address.route")
+const sellerRoute=require("./seller.route")
 
 const router=express.Router()
 

@@ -59,7 +59,7 @@ const Category = () => {
 
 
                 {
-                    isSubCategoryOpen && <Popup isOpen={isSubCategoryOpen} setIsOpen={setIsSubCategoryOpen} setIsUpdate={setIsSubCategoryUpdate}><SubCategoryPopup setIsOpen={setIsSubCategoryOpen} isUpdate={isSubCategoryUpdate} setIsUpdate={setIsSubCategoryUpdate} categoryId={categoryId} subCategoryId={subCategoryId} setSubCategoryId={setSubCategoryId}/></Popup>
+                    isSubCategoryOpen && <Popup isOpen={isSubCategoryOpen} setIsOpen={setIsSubCategoryOpen} setIsUpdate={setIsSubCategoryUpdate} setId={setSubCategoryId}><SubCategoryPopup setIsOpen={setIsSubCategoryOpen} isUpdate={isSubCategoryUpdate} setIsUpdate={setIsSubCategoryUpdate} categoryId={categoryId} subCategoryId={subCategoryId} setSubCategoryId={setSubCategoryId}/></Popup>
                 }
 
 

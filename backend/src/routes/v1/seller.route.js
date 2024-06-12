@@ -2,7 +2,7 @@ const express = require('express');
 const upload = require("../../middleware/multer.middleware");
 
 
-const {fetchAllProductByUserId,addSellerDetails,fetchSellerByUserId}=require('../../controllers/sellerController')
+const {fetchAllProductByUserId,addSellerDetails,fetchSellerByUserId,approveSeller,rejectSeller,fetchAllPendingSeller,fetchAllApprovedSeller,fetchAllRejectedSeller}=require('../../controllers/sellerController')
 
 
 const router = express.Router();
@@ -16,6 +16,11 @@ const uploadFields = upload.fields([
   ]);
 router.post("/addSellerDetails",uploadFields,addSellerDetails);
 router.get("/fetchSellerByUserId/:userId",fetchSellerByUserId);
+router.get("/approveSeller/:userId",approveSeller);
+router.get("/rejectSeller/:userId",rejectSeller);
+router.get("/fetchAllPendingSeller",fetchAllPendingSeller);
+router.get("/fetchAllApprovedSeller",fetchAllApprovedSeller);
+router.get("/fetchAllRejectedSeller",fetchAllRejectedSeller);
 
 
 

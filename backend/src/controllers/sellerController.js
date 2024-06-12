@@ -2,6 +2,7 @@ const Product=require('../models/product.model');
 const Address=require('../models/address.model');
 const Bank=require('../models/bank.model');
 const Seller=require('../models/seller.model');
+const User=require('../models/user.model');
 const uploadOnCloudinary = require("../utils/cloudinaryUpload");
 
 //fecth all products by userId
@@ -99,5 +100,70 @@ const fetchSellerByUserId=async(req,res)=>{
 
 }
 
+//change status to approve of seller
+const approveSeller=async(req,res)=>{
+    try{
+        const userId=req.params.userId;
+        const seller=await Seller.findOneAndUpdate({userId:userId},{statusOfVerify:"approved"}, {new: true})
+        const user=await User.findOneAndUpdate({_id:userId},{isSeller:true}, {new: true})
+        return res.status(200).json(seller)
+    }
+    catch(err){
+        console.log(err);
+        res.status(404).json({ message: err.message });
+    }
+}
 
-module.exports={fetchAllProductByUserId,addSellerDetails,fetchSellerByUserId}
+//change status to reject of seller
+const rejectSeller=async(req,res)=>{
+    try{
+        const userId=req.params.userId;
+        const seller=await Seller.findOneAndUpdate({userId:userId},{statusOfVerify:"rejected"}, {new: true})
+        const user=await User.findOneAndUpdate({_id:userId},{isSeller:false}, {new: true})
+        return res.status(200).json(seller)
+    }
+    catch(err){
+        console.log(err);
+        res.status(404).json({ message: err.message });
+    }
+}
+
+//fetch all seller by statusOfVerify in pending
+const fetchAllPendingSeller=async(req,res)=>{
+    try{
+        const sellers=await Seller.find({statusOfVerify:"pending"}).populate('userId').populate('bankInfo').populate('address')
+        return res.status(200).json(sellers)
+    }
+    catch(err){
+        console.log(err);
+        res.status(404).json({ message: err.message });
+    }
+}
+
+//fetch all seller by statusOfVerify in approved
+const fetchAllApprovedSeller=async(req,res)=>{
+    try{
+        const sellers=await Seller.find({statusOfVerify:"approved"}).populate('userId').populate('bankInfo').populate('address')
+        return res.status(200).json(sellers)
+    }
+    catch(err){
+        console.log(err);
+        res.status(404).json({ message: err.message });
+    }
+}
+
+//fetch all seller by statusOfVerify in rejected
+const fetchAllRejectedSeller=async(req,res)=>{
+    try{
+        const sellers=await Seller.find({statusOfVerify:"rejected"}).populate('userId').populate('bankInfo').populate('address')
+        return res.status(200).json(sellers)
+    }
+    catch(err){
+        console.log(err);
+        res.status(404).json({ message: err.message });
+    }
+}
+
+
+
+module.exports={fetchAllProductByUserId,addSellerDetails,fetchSellerByUserId,approveSeller,rejectSeller,fetchAllPendingSeller,fetchAllApprovedSeller,fetchAllRejectedSeller}

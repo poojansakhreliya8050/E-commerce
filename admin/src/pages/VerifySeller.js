@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
@@ -28,13 +28,12 @@ const VerifySeller = () => {
 
     return (
         <div>
-            VerifySeller {status}
             <div class="flex h-screen w-auto items-center justify-center bg-indigo-50 px-4">
 
 
                 {
                     seller && seller.map((seller) => (
-                        <div class="w-2/3 h-52 cursor-pointer overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl">
+                        <Link to={`/sellerDetails/${seller.userId._id}`} class="w-2/3 h-52 cursor-pointer overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl">
                             <div class="lg:flex shadow rounded-lg border  border-gray-400 h-full">
                                 <div class=" rounded-lg lg:w-2/12 py-4 h-full shadow-inner ml-6 w-1/5">
                                     <img src={seller.brandImg} alt="" className="w-32 h-32 object-cover rounded-lg" />
@@ -81,7 +80,7 @@ const VerifySeller = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))
                 }
 

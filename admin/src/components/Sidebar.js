@@ -17,6 +17,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { FaUserGroup } from "react-icons/fa6";
 import { FaUserCheck } from "react-icons/fa6";
 import { FaUserSlash } from "react-icons/fa6";
+import { FaUserClock } from "react-icons/fa6";
 
 
 
@@ -52,7 +53,7 @@ export default function Sidebar() {
         id: 5,
         subMenu: [
           {
-            icons: <IoLogoBuffer size={30} />,
+            icons: <FaUserClock size={30} />,
             label: 'pending',
             isOpen: false,
             url: 'verifySeller/pending',
@@ -109,7 +110,7 @@ export default function Sidebar() {
   }
 
   return (
-    <nav className={`shadow-md h-screen p-2 flex flex-col duration-500 bg-blue-600 text-white ${open ? 'w-60' : 'w-16'}`}>
+    <nav className={`h-screen sticky top-0 left-0 shadow-md  p-2 flex flex-col duration-500 bg-blue-600 text-white ${open ? 'w-60' : 'w-16'}`}>
 
       {/* Header */}
       <div className=' px-3 py-2 h-20 flex justify-between items-center'>
@@ -117,7 +118,7 @@ export default function Sidebar() {
         <div><MdMenuOpen size={34} className={` duration-500 cursor-pointer ${!open && ' rotate-180'}`} onClick={() => closeMenu()} /></div>
       </div>
 
-      {/* Body */}
+      {/* Menu Items */}
 
       <ul className='flex-1'>
         {menuItems.map((item, index) => (
@@ -169,7 +170,6 @@ export default function Sidebar() {
 
         </div>
       </div>
-
 
     </nav>
   )

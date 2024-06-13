@@ -26,6 +26,32 @@ const VerifySeller = () => {
         fetchData()
     }, [status])
 
+    const handelApprove = async (userId) => {
+        try {
+            if (userId != null) {
+                const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/seller/approveSeller/${userId}`)
+                console.log(response.data);
+                setSeller(seller.filter((seller) => seller.userId._id !== userId))
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    const handelReject = async (userId) => {
+        try {
+            if (userId != null) {
+                const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/seller/rejectSeller/${userId}`)
+                console.log(response.data);
+                setSeller(seller.filter((seller) => seller.userId._id !== userId))
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <div>
             <div class="flex h-screen w-auto items-center justify-center bg-indigo-50 px-4">
@@ -33,8 +59,9 @@ const VerifySeller = () => {
 
                 {
                     seller && seller.map((seller) => (
-                        <Link to={`/sellerDetails/${seller.userId._id}`} class="w-2/3 h-52 cursor-pointer overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl">
-                            <div class="lg:flex shadow rounded-lg border  border-gray-400 h-full">
+                        <div class="w-2/3 h-52 overflow-hidden rounded-xl bg-white shadow-lg duration-200 hover:scale-105 hover:shadow-xl border">
+                           
+                            <Link Link to={`/sellerDetails/${seller.userId._id}`} class="lg:flex cursor-pointer h-3/5">
                                 <div class=" rounded-lg lg:w-2/12 py-4 h-full shadow-inner ml-6 w-1/5">
                                     <img src={seller.brandImg} alt="" className="w-32 h-32 object-cover rounded-lg" />
                                 </div>
@@ -51,36 +78,39 @@ const VerifySeller = () => {
                                     <div class="text-gray-600 font-medium text-sm pt-1 text-center lg:text-left px-2">
                                         Owner Name : {seller.brandOwnerName}
                                     </div>
-
-                                    <div className=" flex justify-around my-2 w-4/5">
-                                        {
-                                            status === 'pending' &&
-                                            <>
-                                                <button className="hover:bg-red-600 mt-5 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
-                                                    Reject
-                                                </button>
-                                                <button className="hover:bg-green-600 mt-5 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
-                                                    Approve
-                                                </button>
-                                            </>
-                                        }
-                                        {
-                                            status === 'approved' &&
-                                            <button className="hover:bg-red-600 mt-5 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
-                                                Reject
-                                            </button>
-                                        }
-                                        {
-                                            status === 'rejected' &&
-                                            <button className="hover:bg-green-600 mt-5 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
-                                                Approve
-                                            </button>
-                                        }
-
-                                    </div>
                                 </div>
+
+                            </Link>
+
+                            <div className=" flex justify-around w-4/5">
+                                {
+                                    status === 'pending' &&
+                                    <>
+                                        <button onClick={(e) => { e.stopPropagation(); handelReject(seller.userId._id) }} className="hover:bg-red-600  uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
+                                            Reject
+                                        </button>
+                                        <button onClick={(e) => { e.stopPropagation(); handelApprove(seller.userId._id) }} className="hover:bg-green-600 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
+                                            Approve
+                                        </button>
+                                    </>
+                                }
+                                {
+                                    status === 'approved' &&
+                                    <button onClick={(e) => { e.stopPropagation(); handelReject(seller.userId._id) }} className="hover:bg-red-600  uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
+                                        Reject
+                                    </button>
+                                }
+                                {
+                                    status === 'rejected' &&
+                                    <button onClick={(e) => { e.stopPropagation(); handelApprove(seller.userId._id) }} className="hover:bg-green-600  uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
+                                        Approve
+                                    </button>
+                                }
+
+
                             </div>
-                        </Link>
+
+                        </div>
                     ))
                 }
 

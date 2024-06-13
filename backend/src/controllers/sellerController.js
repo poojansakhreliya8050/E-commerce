@@ -18,12 +18,25 @@ const fetchAllProductByUserId=async(req,res)=>{
     }
 }
 
+//add seller details
 const addSellerDetails=async(req,res)=>{
     try{
         const {userId,accountNumber,ifscCode,accountType,panNumber,holderName,streetName,area,city,state,pincode,brandName,brandOwnerName}=req.body;
 
         if (!userId || !accountNumber || !ifscCode || !accountType || !panNumber || !holderName || !streetName || !area || !city || !state || !pincode || !brandName || !brandOwnerName || !req.files) {
             return res.status(404).json({ message: "please enter valid data.." })
+        }
+
+        const user=await User.findOne({_id:userId});
+        if(!user)
+        {
+            return res.status(404).json({ message: "user not found" })
+        }
+
+        const sellerExist=await Seller.findOne({userId});
+        if(sellerExist)
+        {
+            return res.status(404).json({ message: "seller already exist" });
         }
 
         console.log(req.files);
@@ -84,7 +97,6 @@ const addSellerDetails=async(req,res)=>{
         res.status(404).json({ message: err.message });
     }
 }
-
 
 //fetchSellerByUserId
 const fetchSellerByUserId=async(req,res)=>{

@@ -3,11 +3,34 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 
 const SellerDetails = () => {
-    let status = "rejected"
-
     const [seller, setSeller] = useState(null)
     const { userId } = useParams()
-    console.log(userId);
+
+    const handelApprove = async () => {
+        try {
+            if(userId!=null){
+            const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/seller/approveSeller/${userId}`)
+            // console.log(response.data);
+            setSeller({...seller,statusOfVerify : "approved"})
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    const handelReject = async () => {
+        try {
+            if(userId!=null){
+            const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/seller/rejectSeller/${userId}`)
+            // console.log(response.data);
+            setSeller({...seller,statusOfVerify : "rejected"})
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
     
     useEffect(() => {
         const fetchData = async () => {
@@ -142,10 +165,10 @@ const SellerDetails = () => {
                             <div className="bg-gradient-to-r from-cyan-300 to-cyan-500 h-px mb-6"></div>
 
                             <div className='w-full flex justify-around'>
-                                <button className="hover:bg-red-600 mt-5 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
+                                <button onClick={()=>handelReject()} className="hover:bg-red-600 mt-5 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
                                     Reject
                                 </button>
-                                <button className="hover:bg-green-600 mt-5 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
+                                <button onClick={()=>handelApprove()} className="hover:bg-green-600 mt-5 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
                                     Approve
                                 </button>
                             </div>

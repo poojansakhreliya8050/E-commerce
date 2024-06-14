@@ -1,5 +1,5 @@
 import './App.css';
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider ,Navigate} from 'react-router-dom'
 import Home from './page/Home'
 import AddProduct from './page/AddProduct';
 import Product from './page/Product';
@@ -48,7 +48,7 @@ export const App = () => {
       <Route path="/verifyUser" element={<VerifyUser />} />
       <Route path="/orders" element={<Orders />} />
       <Route path="/VerifySeller" element={<VerifySeller />} />
-      <Route path="*"  element={<Home/>} />
+      <Route path="*"  element={<Navigate replace to="/" />}/>
     </Route>
 
   ));

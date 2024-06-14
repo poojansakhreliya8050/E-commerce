@@ -2,12 +2,15 @@ import React from 'react'
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartData } from '../redux/cart/cartSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Productcard = ({ product }) => {
   // console.log(product);
   const user = useSelector(state => state.userData.user)
   const cart = useSelector(state => state.cartData.cart)
   const dispatch = useDispatch();
+
+  const navigate=useNavigate()
 
   let isAvailable = false;
   if (cart != null) {
@@ -28,7 +31,10 @@ const Productcard = ({ product }) => {
   }
 
   const addToCart = async () => {
-    console.log("add");
+    
+    if(user==null || user.accessToken==null)
+      return navigate("/login")
+
     try {
       if (user != null && user?.accessToken != "") {
         const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/addToCart`, { userId: user.userdata._id, productId: product._id })

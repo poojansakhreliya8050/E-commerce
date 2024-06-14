@@ -2,11 +2,11 @@ const express = require("express")
 const mongoose = require('mongoose');
 const cors = require("cors")
 const cookieParser = require("cookie-parser")
+const morgan = require('morgan')
 
 require("dotenv").config()
 
 const api=require("./routes/index");
-const upload = require("./middleware/multer.middleware");
 
 const app = express()
 
@@ -18,6 +18,14 @@ app.use(cors({
     optionSuccessStatus:200,
  }))
 app.use(cookieParser())
+morgan.token('body', req => {
+    return JSON.stringify(req.body)
+  })
+  
+  morgan.token('reqCookies', (req) => {
+    return JSON.stringify(req.cookies);
+  });
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms  :body :reqCookies '));
 app.use("/api",api)
 
 

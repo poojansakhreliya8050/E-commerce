@@ -1,5 +1,7 @@
 const Product = require("../models/product.model")
 const uploadOnCloudinary = require("../utils/cloudinaryUpload");
+const Category = require("../models/category.model");
+const SubCategory = require("../models/subCategory.model");
 
 
 const addProduct = async (req, res) => {
@@ -114,6 +116,30 @@ const fetchProductByUserId=async (req,res)=>{
     }
 }
 
+//give me efficient search query to search product by name and also after append category and subcategory name wise product
+
+const searchProducts=async (req,res)=>{
+    try {
+        let query=req.query.query;
+        const products = await Product.find({productName: { $regex: query, $options: 'i' }});
+        //also append category and subcategory name wise product
+        const subCategoriesId=await SubCategory.find({subCategoryTitle: { $regex: query, $options: 'i' }},{_id:1});
+        const categoryId=await Category.find({categoryTitle: { $regex: query, $options: 'i' }},{_id:1});
+        const subCategoryProduct=await Product.find({subCategoryId:{$in:subCategoriesId}});
+        const categoryProduct=await Product.find({categoryId:{$in:categoryId}});
+
+        const allProduct=products.concat(subCategoryProduct).concat(categoryProduct);
+        res.status(200).json(allProduct)
+    }
+    catch (e) {
+        console.log(e);
+        res.status(404).json({message:"product not found"})
+    }
+}
+
+
+
+
 module.exports = 
 { addProduct, 
 fetchAllProduct, 
@@ -123,5 +149,6 @@ fetchAllProductByCategoryId,
 fetchAllProductBySubCategoryId,
 changeProductState,
 fetchProductById,
-fetchProductByUserId
+fetchProductByUserId,
+searchProducts
 }

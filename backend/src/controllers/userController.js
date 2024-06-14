@@ -132,6 +132,7 @@ const verifyUser = async (req, res) => {
 
     } catch (err) {
         console.log(err);
+        res.status(404).json(err)
     }
 }
 
@@ -145,10 +146,10 @@ const createRefreshToken = async (req, res) => {
     try
     {
     const token = req.cookies.refreshToken;
-    console.log(req.cookies);
+    // console.log(req.cookies);
     //token exist ?
     if (!token) {
-        return res.send({ accessToken: null })
+        return res.status(404).json(null)
     }
     let payload = null;
 
@@ -157,17 +158,17 @@ const createRefreshToken = async (req, res) => {
         payload = verify(token, process.env.REFRESH_TOKEN_SECRET)
     }
     catch (err) {
-        res.send(err)
+        res.status(404).json(err)
     }
 
-    const user = await User.findOne({ _id: payload?.id })
+    const user = await User.findOne(null)
     //user exist ?
     if (!user) {
-        return res.send({ accessToken: "" })
+        return res.status(404).json(null)
     }
     //refreshToken exist ?
     if (user.refreshToken !== token) {
-        return res.send({ accessToken: "" })
+        return res.status(404).json({ accessToken: null })
     }
     id = user._id
     const accessToken = await createJwtToken(id, res)

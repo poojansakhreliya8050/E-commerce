@@ -1,5 +1,5 @@
 import './App.css';
-import { createBrowserRouter, createRoutesFromElements, Route,RouterProvider} from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Route,RouterProvider,Navigate} from 'react-router-dom'
 import Home from './pages/Home';
 import Category from './pages/Category';
 import SubCategory from './pages/SubCategory';
@@ -14,6 +14,7 @@ function App() {
       <Route path="/subCategory" element={<SubCategory/>}/>
       <Route path="/verifySeller/:status" element={<VerifySeller/>}/>
       <Route path="/sellerDetails/:userId" element={<SellerDetails/>}/>
+      <Route path="*"  element={<Navigate replace to="/" />}/>
     </Route>
 
   ));

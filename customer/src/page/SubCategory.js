@@ -12,10 +12,10 @@ const SubCategory = () => {
     const [subCategoryId, setSubCategoryId] = useState(null);
     const [products, setProducts] = useState(null);
     const [filterData, setFilterData] = useState(null);
-    const [filterChoice, setFilterChoice] = useState(null);
+    console.log(filterData);
 
     
-        useEffect(() => {
+  useEffect(() => {
           const fetchData = async () => {
             try {
               if(categoryId==undefined)
@@ -84,40 +84,18 @@ const SubCategory = () => {
     }, [subCategoryId]);
 
 
-   useEffect(() => {
-
-        if(filterChoice!=null && products!=null){
-            let filtered;
-            
-            if(filterChoice=="lowToHigh")
-             filtered=products.sort((a,b)=>a.price-b.price);
-            else if(filterChoice=="highToLow")
-             filtered=products.sort((a,b)=>b.price-a.price);
-            else if(filterChoice=="customerReview")
-             filtered=products.sort((a,b)=>b.rating-a.rating);
-
-            
-            // console.log(filtered);
-            setFilterData([...filtered]);
-            // console.log(filterData);
-        }
-  }
-  , [filterChoice]);
-
-
-
-
+ 
   return (
     <div className='mt-16'>
         {subCategories!=null &&
         <SubCategorySlider subCategories={subCategories} setSubCategoryId={setSubCategoryId}/>
         }
         <div className='flex flex-wrap'>
-          <FilterHeader setFilterChoice={setFilterChoice} filterChoice={filterChoice}/>
+          <FilterHeader filterData={filterData} products={products} setFilterData={setFilterData} />
 
           {
-            products==null ? <Loading/>: filterData!=null && filterData.length!=0 ? filterData.map(product=><Productcard key={product._id} product={product}/>):
-            products.map(product=><Productcard key={product._id} product={product}/>)
+            products==null ? <Loading/>: (filterData!=null && filterData.length!=0 ? filterData.map(product=><Productcard key={product._id} product={product}/>):
+            products.map(product=><Productcard key={product._id} product={product}/>))
           }
 
         </div>

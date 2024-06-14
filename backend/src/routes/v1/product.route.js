@@ -9,7 +9,8 @@ const {
   deleteProductByid,
   changeProductState,
   fetchProductById,
-  fetchProductByUserId
+  fetchProductByUserId,
+  searchProducts
 } = require("../../controllers/productController");
 const router = express.Router();
 
@@ -22,5 +23,6 @@ router.delete("/deleteProductByid/:id", deleteProductByid);
 router.put("/changeProductState/:productId", changeProductState);
 router.get("/fetchProductById/:productId", fetchProductById);
 router.get("/fetchProductByUserId/:userId",fetchProductByUserId)
+router.get("/searchProducts",searchProducts)
 
 module.exports = router;

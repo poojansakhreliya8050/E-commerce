@@ -11,119 +11,130 @@ const OrderTracking = ({ status }) => {
         <div className="w-full py-6">
             <div className="flex">
 
-                <div className="w-1/4">
-                    <div className="relative mb-2">
-                        <div className="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
-                            <span className="text-center text-white w-full">
+                {
+                    status == "cancelled" ? 
+                    <div class="ml-44 py-4 center rounded-lg bg-red-500 px-6 align-baseline font-sans text-xl font-bold uppercase  text-black">
+                        <button class="mt-px" >Order Cancelled</button>
+                    </div> :
 
-                                <img className="w-full fill-current" src={pendingIcon} width="24" height="24" />
+                        <>
+                            <div className="w-1/4">
+                                <div className="relative mb-2">
+                                    <div className="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
+                                        <span className="text-center text-white w-full">
 
-                            </span>
-                        </div>
-                    </div>
+                                            <img className="w-full fill-current" src={pendingIcon} width="24" height="24" />
 
-                    <div className="text-xs text-center md:text-base">Pending</div>
-                </div>
-
-                <div className="w-1/4">
-
-                    <div className="relative mb-2">
-
-                        {
-                            status == "pending" ?
-                                <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
-                                    <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
-                                        <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "40%" }}></div>
-                                    </div>
-                                </div> :
-                                <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
-                                    <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
-                                        <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "100%" }}></div>
+                                        </span>
                                     </div>
                                 </div>
-                        }
 
-                        <div className="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
-                            <span className="text-center text-white w-full">
-                                <img className="w-full fill-current" src={dispatchIcon} width="24" height="24" />
+                                <div className="text-xs text-center md:text-base">Pending</div>
+                            </div>
 
-                            </span>
-                        </div>
-                    </div>
+                            <div className="w-1/4">
 
-                    <div className="text-xs text-center md:text-base">Dispatched</div>
-                </div>
+                                <div className="relative mb-2">
 
-                <div className="w-1/4">
-                    <div className="relative mb-2">
-                        {
-                            status == "pending" ?
-                                <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
-                                    <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
-                                        <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "0%" }}></div>
-                                    </div>
-                                </div> : <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
-                                    <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
-                                        <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "100%" }}></div>
-                                    </div>
-                                </div>
-                        }
+                                    {
+                                        status == "pending" ?
+                                            <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
+                                                <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
+                                                    <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "40%" }}></div>
+                                                </div>
+                                            </div> :
+                                            <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
+                                                <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
+                                                    <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "100%" }}></div>
+                                                </div>
+                                            </div>
+                                    }
 
-                        {
-                            status == "dispatched" ?
-                                <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
-                                    <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
-                                        <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "40%" }}></div>
-                                    </div>
-                                </div> : <></>
-                        }
+                                    <div className="w-10 h-10 mx-auto bg-green-500 rounded-full text-lg text-white flex items-center">
+                                        <span className="text-center text-white w-full">
+                                            <img className="w-full fill-current" src={dispatchIcon} width="24" height="24" />
 
-                        <div className="w-10 h-10 mx-auto bg-white border-2 border-gray-200 rounded-full text-lg text-white flex items-center">
-                            <span className="text-center text-gray-600 w-full">
-                                <img className="w-full fill-current" src={scooterIcon} width="20" height="20" />
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="text-xs text-center md:text-base">On the way</div>
-                </div>
-
-                <div className="w-1/4">
-                    <div className="relative mb-2">
-
-
-                        {
-
-                            status == "delivered" ?
-                                <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
-                                    <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
-                                        <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "100%" }}></div>
-                                    </div>
-                                </div> : <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
-                                    <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
-                                        <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "0%" }}></div>
+                                        </span>
                                     </div>
                                 </div>
-                        }
-                        {
-                           status == "ontheway" ?
-                                <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
-                                    <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
-                                        <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "40%" }}></div>
+
+                                <div className="text-xs text-center md:text-base">Dispatched</div>
+                            </div>
+
+                            <div className="w-1/4">
+                                <div className="relative mb-2">
+                                    {
+                                        status == "pending" ?
+                                            <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
+                                                <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
+                                                    <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "0%" }}></div>
+                                                </div>
+                                            </div> : <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
+                                                <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
+                                                    <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "100%" }}></div>
+                                                </div>
+                                            </div>
+                                    }
+
+                                    {
+                                        status == "dispatched" ?
+                                            <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
+                                                <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
+                                                    <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "40%" }}></div>
+                                                </div>
+                                            </div> : <></>
+                                    }
+
+                                    <div className="w-10 h-10 mx-auto bg-white border-2 border-gray-200 rounded-full text-lg text-white flex items-center">
+                                        <span className="text-center text-gray-600 w-full">
+                                            <img className="w-full fill-current" src={scooterIcon} width="20" height="20" />
+                                        </span>
                                     </div>
-                                </div> : <></>
-                        }
+                                </div>
 
-                        <div className="w-10 h-10 mx-auto bg-white border-2 border-gray-200 rounded-full text-lg text-white flex items-center">
-                            <span className="text-center text-gray-600 w-full">
-                                <img className="w-full fill-current" src={deliveredIcon} width="24" height="24" />
+                                <div className="text-xs text-center md:text-base">On the way</div>
+                            </div>
 
-                            </span>
-                        </div>
-                    </div>
+                            <div className="w-1/4">
+                                <div className="relative mb-2">
 
-                    <div className="text-xs text-center md:text-base">Delivered</div>
-                </div>
+
+                                    {
+
+                                        status == "delivered" ?
+                                            <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
+                                                <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
+                                                    <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "100%" }}></div>
+                                                </div>
+                                            </div> : <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
+                                                <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
+                                                    <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "0%" }}></div>
+                                                </div>
+                                            </div>
+                                    }
+                                    {
+                                        status == "ontheway" ?
+                                            <div className="absolute flex align-center items-center align-middle content-center" style={{ "width": "calc(100% - 2.5rem - 1rem)", "top": "50%", "transform": "translate(-50%, -50%)" }}>
+                                                <div className="w-full bg-gray-200 rounded items-center align-middle align-center flex-1">
+                                                    <div className="w-0 bg-green-300 py-1 rounded" style={{ "width": "40%" }}></div>
+                                                </div>
+                                            </div> : <></>
+                                    }
+
+                                    <div className="w-10 h-10 mx-auto bg-white border-2 border-gray-200 rounded-full text-lg text-white flex items-center">
+                                        <span className="text-center text-gray-600 w-full">
+                                            <img className="w-full fill-current" src={deliveredIcon} width="24" height="24" />
+
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div className="text-xs text-center md:text-base">Delivered</div>
+                            </div>
+
+                        </>
+                }
+
 
             </div>
         </div>

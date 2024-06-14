@@ -24,7 +24,7 @@ const SearchBar = ({setFilterData}) => {
     }, [search])
 
     return (
-        <div className=" h-4/5 bg-white rounded-full border-none p-3 shadow-lg w-1/3 ">
+        <div className=" h-4/5 bg-white rounded-full p-3 shadow-lg w-1/3 hover:border-2 hover:border-slate-500 ">
             <div className="flex items-center">
                 <i className="px-3 fas fa-search ml-1"></i>
                 <input type="text" value={search} onChange={(e)=>setSearch(e.target.value)}  placeholder="search Product..." className="ml-3 focus:outline-none w-full" />

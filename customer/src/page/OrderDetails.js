@@ -26,6 +26,18 @@ const OrderDetails = () => {
     fetchData();
   }, []);
 
+  const handelCancleOrder = async () => {
+    try {
+      if(orderId!=null){
+      const response = await axios.put(`${process.env.REACT_APP_URL}/api/v1/order/cancelledOrder/${orderId}`);
+      console.log(response);
+      setOrder({...order,deliveryStatus:'cancelled'});
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
   return (
 
 
@@ -48,7 +60,13 @@ const OrderDetails = () => {
               <div class="text-gray-700 font-medium text-sm text-center lg:text-left px-2">
                 <p className="text-sm text-gray-500">Seller Id: {order?.sellerId?._id}</p>
               </div>
-              
+              {
+                order?.deliveryStatus == 'pending' &&
+              <button onClick={(e)=>handelCancleOrder()} className=" hover:bg-red-500  mt-5 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
+                Cancle Order
+              </button>
+              }
+
               {order != null
                 ? order?.items?.map((item) =>
                 (
@@ -84,8 +102,6 @@ const OrderDetails = () => {
               }
             </div>
           </div>
-
-
           <OrderTracking status={order?.deliveryStatus} />
         </div>
       </div>

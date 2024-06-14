@@ -4,7 +4,7 @@ import dateFormat from "dateformat";
 import { BsArrowRightCircle } from "react-icons/bs";
 
 const OrderCard = ({ order }) => {
-  // console.log(order);
+  console.log(order);
 
 //  let totalAmount=order.subOrders[0].order.reduce((acc, item) => acc + item.price, 0);
   return (
@@ -36,8 +36,8 @@ const OrderCard = ({ order }) => {
               </div>
               <div className="mt-4 flex justify-between order-center">
                 <span className="text-md font-semibold text-teal-600">
-                  <div className={`py-1 my-2  px-3 bg-green-600 flex order-center w-fit rounded-md text-white font-bold `}>
-                    orderId : {order._id.slice(0, 5)}..
+                  <div className={`py-2 uppercase my-2  px-3 ${ order.deliveryStatus!="approved" &&'bg-green-600'} ${ order.deliveryStatus=="cancelled" &&'bg-red-600'} ${ order.deliveryStatus=="pending" &&'bg-yellow-600'} flex order-center w-fit rounded-md text-white font-bold `}>
+                    {order.deliveryStatus}
                   </div>
                 </span>
                 <BsArrowRightCircle className="text-xl group-hover:translate-x-3 transition-all duration-500" />

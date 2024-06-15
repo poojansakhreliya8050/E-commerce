@@ -37,35 +37,6 @@ const navigate=useNavigate();
   }
 
 
-  let order={
-    "_id": "66549498e9466b94b5184d7b",
-    "items": [
-        {
-            "item": {
-                "_id": "661abc236a651a8c63083637",
-                "categoryId": "66059fcc58cd6a10c5f97a12",
-                "subCategoryId": "6606e50fc79d958539de6176",
-                "productName": "iphone",
-                "productDescription": "lovely",
-                "img": "http://res.cloudinary.com/dkffxyhkn/image/upload/v1713028136/hdowereud82ohhvbjfv4.jpg",
-                "price": 120000,
-                "quantity": 346,
-                "__v": 0
-            },
-            "quantity": 1,
-            "_id": "66549498e9466b94b5184d7c"
-        }
-    ],
-    "userId": [
-        "65f47716c1f778c761717e1b"
-    ],
-    "deliveryStatus": "pending",
-    "payment": "cod",
-    "amount": 120000,
-    "createdAt": "2024-05-27T14:11:36.306Z",
-    "updatedAt": "2024-05-27T14:11:36.306Z",
-    "__v": 0
-}
 
   return (
     <>

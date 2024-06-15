@@ -17,6 +17,30 @@ const Orders = () => {
         fetchData();
     }, []);
 
+    const handleStartDelivery = async (orderId) => {
+        try {
+            if (orderId != null) {
+                const response = await axios.patch(`${process.env.REACT_APP_URL}/api/v1/order/onTheWayOrder/${orderId}`);
+                console.log(response);
+                setOrders(orders.map(order => order._id == orderId ? { ...order, deliveryStatus: 'ontheway' } : order))
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    const handleDeliveredOrder = async (orderId) => {
+        try {
+            if (orderId != null) {
+                const response = await axios.patch(`${process.env.REACT_APP_URL}/api/v1/order/deliveredOrder/${orderId}`);
+                console.log(response);
+                setOrders(orders.map(order => order._id == orderId ? { ...order, deliveryStatus: 'delivered' } : order))
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
     return (
         <div className="pt-6 pb-12 bg-gray-300">
             <div id="card" className="">
@@ -30,7 +54,7 @@ const Orders = () => {
                                     <img className="inset-0 h-full w-full object-cover object-center" src={order.img} />
                                 </div>
                                 <div className="w-full py-4 px-6 text-gray-800 flex flex-col justify-between">
-                                    <div class={`w-24 ${order.deliveryStatus=="pending" && 'bg-yellow-500'} ${order.deliveryStatus=="cancelled" && 'bg-red-500'} ${order.deliveryStatus=="dispatched" && 'bg-blue-500'} ${order.deliveryStatus=="delivered" && 'bg-green-500'} ${order.deliveryStatus=="onTheWay" && 'bg-purple-500'} center relative inline-block select-none whitespace-nowrap rounded-lg  py-2 px-3.5 align-baseline font-sans text-xs font-bold  leading-none text-black `}>
+                                    <div class={`w-24 ${order.deliveryStatus=="pending" && 'bg-yellow-500'} ${order.deliveryStatus=="cancelled" && 'bg-red-500'} ${order.deliveryStatus=="dispatched" && 'bg-blue-500'} ${order.deliveryStatus=="delivered" && 'bg-green-500'} ${order.deliveryStatus=="ontheway" && 'bg-purple-500'} center relative inline-block select-none whitespace-nowrap rounded-lg  py-2 px-3.5 align-baseline font-sans text-xs font-bold  leading-none text-black `}>
                                         <button class="mt-px uppercase" >{order.deliveryStatus}</button>
                                     </div>
                                     <p className="text-sm text-gray-700 uppercase tracking-wide font-semibold mt-2">
@@ -46,9 +70,18 @@ const Orders = () => {
                                         Price : {order.totalAmount}
                                     </p>
                                     
-                                    {/* <p className="text-sm text-gray-700 uppercase tracking-wide font-semibold mt-2">
-                                        SubCategory : {order.subCategoryId.subCategoryTitle}
-                                    </p> */}
+                                    {
+                                        order.deliveryStatus=="dispatched" &&
+                                        <button onClick={() => {handleStartDelivery(order._id)}} className="w-1/3 hover:bg-green-600 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-2 rounded-lg  focus:outline-none focus:shadow-outline">
+                                        Start Delivery
+                                    </button>
+                                    }
+                                    {
+                                        order.deliveryStatus=="ontheway" &&
+                                        <button onClick={() => {handleDeliveredOrder(order._id)}} className="w-1/3 hover:bg-green-600 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
+                                        Delivered
+                                    </button>
+                                    }
                                 </div>
                             </div>
                         ))

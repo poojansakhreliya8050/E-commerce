@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit"
 import userslice from "./user/userSlice"
 import cartslice from "./cart/cartSlice"
+import categorySlice from "./category/categorySlice"
 
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { cartApi } from "./cart/cartApi"
@@ -8,6 +9,7 @@ import { cartApi } from "./cart/cartApi"
     reducer:{
          userData: userslice,
          cartData: cartslice,
+         categoryData: categorySlice,
           [cartApi.reducerPath]: cartApi.reducer,
     },
      middleware: (getDefaultMiddleware) =>

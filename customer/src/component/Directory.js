@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CategoryCard from './CategoryCard'
+import { useDispatch, useSelector } from 'react-redux';
+import { categoryData } from '../redux/category/categorySlice';
 
 const Directory = () => {
-  const [categories, setCategories] = useState([]);
+  const categories =useSelector(state=>state.categoryData.categories);
+const dispatch=useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if(categories==null){
         const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/category/fetchAllCategory`);
-        // console.log(response);
-        setCategories(response.data); 
+        console.log(response.data);
+        dispatch(categoryData(response.data)); 
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -28,7 +33,7 @@ const Directory = () => {
      <div className='w-full flex justify-center items-center'>
        <div className='flex min-h-screen w-4/5 items-center justify-around flex-wrap'>
           {
-            categories.map(category=> <CategoryCard key={category._id} category={category} />)
+            categories!=null && categories.map(category=> <CategoryCard key={category._id} category={category} />)
           }
        </div>
      </div>

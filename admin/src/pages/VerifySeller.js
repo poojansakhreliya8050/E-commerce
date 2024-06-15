@@ -55,8 +55,6 @@ const VerifySeller = () => {
     return (
         <div>
             <div class="flex h-screen w-auto items-center justify-center bg-indigo-50 px-4">
-
-
                 {
                     seller && seller.map((seller) => (
                         <div class="w-2/3 h-52 overflow-hidden rounded-xl bg-white shadow-lg duration-200 hover:scale-105 hover:shadow-xl border">
@@ -113,7 +111,6 @@ const VerifySeller = () => {
                         </div>
                     ))
                 }
-
             </div>
         </div>
     )

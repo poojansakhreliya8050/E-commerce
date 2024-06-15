@@ -11,7 +11,7 @@ const OrderComponent = () => {
           try {
             if(user!=null && user?.accessToken!="" && user.accessToken!=null)
             {
-            const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getOrders/${user.userdata._id}`);
+            const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getOrdersByUserId/${user.userdata._id}`);
             console.log(response);
             setOrders(response.data);
             }

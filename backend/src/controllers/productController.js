@@ -26,7 +26,7 @@ const addProduct = async (req, res) => {
 }
 const fetchAllProduct = async (req, res) => {
     try {
-        const allProduct = await Product.find();
+        const allProduct = await Product.find().populate('categoryId').populate('subCategoryId');
         res.status(200).json(allProduct)
     } catch (err) {
         console.log(err);
@@ -41,7 +41,6 @@ const fetchAllProductByCategoryId = async (req, res) => {
         console.log(err);
     }
 }
-
 
 const changeProductState = async (req, res) => {
     try {

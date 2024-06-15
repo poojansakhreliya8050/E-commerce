@@ -23,7 +23,7 @@ const FilterHeader = ({filterData,setFilterData,products}) => {
 
             
             // console.log(filtered);
-            setFilterData([...filtered]);
+            setFilterData(new Array(...filtered));
             // console.log(filterData);
         }
         else if(filterChoice!=null && products!=null){
@@ -38,7 +38,7 @@ const FilterHeader = ({filterData,setFilterData,products}) => {
 
             
             // console.log(filtered);
-            setFilterData([...filtered]);
+            setFilterData(new Array(...filtered));
             // console.log(filterData);
         }
   }

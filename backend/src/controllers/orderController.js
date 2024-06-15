@@ -70,6 +70,16 @@ const getOrders = async (req, res) => {
   }
 };
 
+//get all orders get by userId
+const getOrdersByUserId = async (req, res) => {
+  try {
+    const orders = await Order.find({ userId: req.params.userId }).populate('items.item').populate('sellerId').populate('address').sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 //get order by id
 const getOrder = async (req, res) => {
   try {
@@ -138,4 +148,4 @@ const deliveredOrder = async (req, res) => {
 
 
 
-module.exports = { addToOrder, getOrders, getOrder, getOrderBySellerId,cancelledOrder,dispatchedOrder,onTheWayOrder,deliveredOrder  }
+module.exports = { addToOrder, getOrders,getOrdersByUserId, getOrder, getOrderBySellerId,cancelledOrder,dispatchedOrder,onTheWayOrder,deliveredOrder  }

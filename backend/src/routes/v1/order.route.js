@@ -1,9 +1,10 @@
 const express=require("express");
-const {addToOrder,getOrders,getOrder,getOrderBySellerId,cancelledOrder,dispatchedOrder,onTheWayOrder,deliveredOrder } = require("../../controllers/orderController");
+const {addToOrder,getOrders,getOrdersByUserId,getOrder,getOrderBySellerId,cancelledOrder,dispatchedOrder,onTheWayOrder,deliveredOrder } = require("../../controllers/orderController");
 const router=express.Router()
 
 router.post("/addToOrder",addToOrder)
-router.get("/getOrders/:userId",getOrders)
+router.get("/getOrders",getOrders)
+router.get("/getOrdersByUserId/:userId",getOrdersByUserId)
 router.get("/getOrder/:orderId",getOrder)
 router.get("/getOrderBySellerId/:sellerId",getOrderBySellerId)
 

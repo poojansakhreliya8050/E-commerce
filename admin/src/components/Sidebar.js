@@ -18,6 +18,7 @@ import { FaUserGroup } from "react-icons/fa6";
 import { FaUserCheck } from "react-icons/fa6";
 import { FaUserSlash } from "react-icons/fa6";
 import { FaUserClock } from "react-icons/fa6";
+import { BsBorderStyle } from "react-icons/bs";
 
 
 
@@ -50,28 +51,28 @@ export default function Sidebar() {
         icons: <FaUserGroup size={30} />,
         label: 'Sellers',
         isOpen: false,
-        id: 5,
+        id: 4,
         subMenu: [
           {
             icons: <FaUserClock size={30} />,
             label: 'pending',
             isOpen: false,
             url: 'verifySeller/pending',
-            id: 7
+            id: 1
           },
           {
             icons: <FaUserCheck size={30} />,
             label: 'approved',
             isOpen: false,
             url: 'verifySeller/approved',
-            id: 8
+            id: 2
           },
           {
             icons: <FaUserSlash size={30} />,
             label: 'rejected',
             isOpen: false,
             url: 'verifySeller/rejected',
-            id: 9
+            id: 3
           }
         ]
       },
@@ -79,14 +80,14 @@ export default function Sidebar() {
         icons: <TbReportSearch size={30} />,
         label: 'Category',
         isOpen: false,
-        id: 6,
+        id: 5,
         subMenu: []
       },
       {
-        icons: <CiSettings size={30} />,
-        label: 'Setting',
+        icons: <BsBorderStyle size={30} />,
+        label: 'Orders',
         isOpen: false,
-        id: 4,
+        id: 6,
         subMenu: []
       }
     ])

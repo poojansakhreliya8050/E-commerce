@@ -27,25 +27,14 @@ const productSchema=mongoose.Schema({
         enum:["active","deactive"],
         default:"active"
     },
+    reviews:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'review'
+    }],
     rating:{
         type:Number,
         default:0
-    },
-    noOfRating:{
-        type:Number,
-        default:0
-    },
-    reviews:[{
-        userId:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'user'
-        },
-        review:String,
-        rating:Number
-    }],
-    
-
-
+    }
 
 },{ timestamps: true})
 

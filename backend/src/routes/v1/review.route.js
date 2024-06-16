@@ -1,8 +1,8 @@
 const express=require('express');
-const {addReview,fetchReviewByProductId}=require('../../controllers/reviewController');
+const {createReview,getReviews}=require('../../controllers/review.controller');
 const router=express.Router();
 
-router.post('/addReview',addReview);
-router.get('/fetchReviewByProductId/:productId',fetchReviewByProductId);
+router.post('/createReview',createReview);
+router.get('/getReviews/:productId',getReviews);
 
 module.exports=router;

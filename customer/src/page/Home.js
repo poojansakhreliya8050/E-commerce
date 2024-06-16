@@ -1,14 +1,21 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Navbar from '../component/Navbar'
-import Popup from '../component/Popup'
+import ReviewCard from '../component/ReviewCard'
 
 const Home = () => {
   return (
     <>
-    <Navbar/>
-    <Outlet/>
-    <Popup show={false}/>
+      <Navbar />
+      <Outlet />
+      {/* <ReviewCard review={{
+        image: 'url-to-image',
+        title: 'Review Title',
+        description: 'Review Description',
+        author: 'Author Name',
+        rating: 'Rating'
+      }} /> */}
+
     </>
   )
 }

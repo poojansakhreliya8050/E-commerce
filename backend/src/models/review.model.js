@@ -9,6 +9,10 @@ const reviewSchema=mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'product'
     },
+    orderId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'order'
+    },
     review:String,
     rating:Number
 },{timestamps:true})

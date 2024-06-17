@@ -4,7 +4,7 @@ import dateFormat from "dateformat";
 import { BsArrowRightCircle } from "react-icons/bs";
 
 const OrderCard = ({ order }) => {
-  console.log(order);
+  // console.log(order);
 
 //  let totalAmount=order.subOrders[0].order.reduce((acc, item) => acc + item.price, 0);
   return (

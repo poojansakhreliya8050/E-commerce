@@ -84,7 +84,7 @@ const getOrdersByUserId = async (req, res) => {
 const getOrder = async (req, res) => {
   try {
     console.log(req.params.orderId);
-    const order = await Order.findById(req.params.orderId).populate('items.item').populate('sellerId').populate('address');
+    const order = await Order.findById(req.params.orderId).populate('items.item').populate('sellerId').populate('address').populate('review');
     res.status(200).json(order);
   } catch (error) {
     res.status(404).json({ message: error.message });

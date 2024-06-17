@@ -16,10 +16,10 @@ const orderSchema = new mongoose.Schema({
     paymentId: {
         type: String
     },
-    review: {
+    review: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'review'
-    }
+    }]
 
 }, { timestamps: true });
 

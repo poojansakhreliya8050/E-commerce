@@ -1,7 +1,8 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Navbar from '../component/Navbar'
-import ReviewCard from '../component/ReviewCard'
+// import ReviewCard from '../component/ReviewCard'
+// import ReceiveReview from '../component/ReceiveReview'
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
         author: 'Author Name',
         rating: 'Rating'
       }} /> */}
+      {/* <ReceiveReview/> */}
 
     </>
   )

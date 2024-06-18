@@ -74,7 +74,7 @@ const SubCategoryPopup = ({setIsOpen, isUpdate, setIsUpdate ,categoryId,subCateg
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if(subCategoryId!=null){
+                if(isUpdate && subCategoryId!=null){
                 const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/subCategory/fetchSubCategoryById/${subCategoryId}`);
                 // console.log(response);
                 setSubCategoryTitle(response.data.subCategoryTitle);

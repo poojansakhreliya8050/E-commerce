@@ -75,7 +75,7 @@ const CategoryPopup = ({setIsOpen, isUpdate, setIsUpdate ,categoryId,setCategory
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if(categoryId!=null){
+                if(isUpdate && categoryId!=null){
                 const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/category/fetchCategoryById/${categoryId}`);
                 // console.log(response);
                 setCategoryTitle(response.data.categoryTitle);

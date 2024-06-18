@@ -5,9 +5,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { cartData } from '../redux/cart/cartSlice';
 import { useNavigate } from "react-router-dom";
 import emptyCart from "../images/emptyCart.png"
+import {loadStripe} from '@stripe/stripe-js';
+
 
 
 const Cart = () => {
+
+
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,6 +31,23 @@ const Cart = () => {
         dispatch(cartData(null))
         console.log(order);
         navigate("/");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const makePayment = async () => {
+    try {
+      if (user != null && user?.accessToken != "") {
+        // const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+        const stripe = await loadStripe("pk_test_51PSiEmSDwUSUpxqTap4MMgiIBmFgiqVL6AtehRUe4snhcA9LZ5DF2IzTaTeGRZv8119CZzDjlHvnyTjtsJuf3Eq600tj1JvcTo");
+        const response = await axios.post(`${process.env.REACT_APP_URL}/api/v1/order/makePayment`, { userId: user.userdata._id,cart:cart})
+        const session = response.data.session;
+        const result = await stripe.redirectToCheckout({
+          sessionId: session.id,
+        });
+        console.log(result);
       }
     } catch (err) {
       console.log(err);
@@ -70,7 +91,7 @@ const Cart = () => {
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
-            <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600" onClick={addToOrder}>Check out</button>
+            <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600" onClick={()=>addToOrder()}>Check out</button>
 
           </div>
 

@@ -1,5 +1,5 @@
 const express=require("express");
-const {addToOrder,getOrders,getOrdersByUserId,getOrder,getOrderBySellerId,cancelledOrder,dispatchedOrder,onTheWayOrder,deliveredOrder } = require("../../controllers/orderController");
+const {addToOrder,getOrders,getOrdersByUserId,getOrder,getOrderBySellerId,cancelledOrder,dispatchedOrder,onTheWayOrder,deliveredOrder,makePayment} = require("../../controllers/orderController");
 const router=express.Router()
 
 router.post("/addToOrder",addToOrder)
@@ -13,5 +13,6 @@ router.patch("/cancelledOrder/:orderId",cancelledOrder)
 router.patch("/dispatchedOrder/:orderId",dispatchedOrder)
 router.patch("/onTheWayOrder/:orderId",onTheWayOrder)
 router.patch("/deliveredOrder/:orderId",deliveredOrder)
+router.post("/makePayment",makePayment)
 
 module.exports=router

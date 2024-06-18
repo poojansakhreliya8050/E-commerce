@@ -1,6 +1,8 @@
 const Order = require("../models/order.model")
 const Cart = require('../models/cart.model')
 const Product = require('../models/product.model');
+const User = require('../models/user.model');
+const stripe = require('stripe')("sk_test_51PSiEmSDwUSUpxqT11f62LvpsICEu3X1d06NmkdovQw1YHM8wraqIV9CIQG8yTuwiE1THL3HfEY1nmq1OAjcMWS6002e05qlGT");
 
 
 
@@ -145,7 +147,35 @@ const deliveredOrder = async (req, res) => {
   }
 };
 
+const makePayment = async (req, res) => {
+  try {
+    const { userId, cart } = req.body;
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: cart.items.map(item => ({
+        price_data: {
+          currency: 'inr',
+          product_data:{
+            name: item.item.productName,
+          },
+          unit_amount: item.item.price*100,
+        },
+        quantity: item.quantity,
+      })),
+      mode: 'payment',
+      success_url: `http://localhost:3000/success`,
+      cancel_url: `http://localhost:3000/cancel`,
+    });
+    res.status(200).json({ session });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 
 
 
-module.exports = { addToOrder, getOrders,getOrdersByUserId, getOrder, getOrderBySellerId,cancelledOrder,dispatchedOrder,onTheWayOrder,deliveredOrder  }
+
+module.exports = { addToOrder, getOrders,getOrdersByUserId, getOrder, getOrderBySellerId,cancelledOrder,dispatchedOrder,onTheWayOrder,deliveredOrder,makePayment}

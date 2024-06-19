@@ -37,7 +37,6 @@ const addToCart=async(req,res)=>{
 const getCart=async(req,res)=>{
     try{
         const userId=req.params.userId
-        // console.log(userId+"hello");
         const cartExist=await cart.findOne({userId:userId}).populate("items.item")
         return res.status(200).json(cartExist)
     }

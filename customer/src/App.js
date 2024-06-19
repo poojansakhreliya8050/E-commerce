@@ -27,16 +27,16 @@ export const App = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.userData.user);
 
-  // const { data, error, isLoading } = useGetCartQuery(user?.userdata?._id, {
-  //   skip: !user?.userdata?._id, // Skip query execution until an ID is provided
-  // });
+  const { data, error, isLoading } = useGetCartQuery(user?.userdata?._id, {
+    skip: !user?.userdata?._id, // Skip query execution until an ID is provided
+  });
   // console.log(data);
 
 
   useEffect(() => {
-    
-      async function checkRefreshToken() {
-        try{
+
+    async function checkRefreshToken() {
+      try {
         const user = await (await fetch(`${process.env.REACT_APP_URL}/api/v1/user/refresh_token`, {
           method: 'POST',
           credentials: 'include', // Needed to include the cookie | also needed in login and register page
@@ -44,34 +44,33 @@ export const App = () => {
             'Content-Type': 'application/json',
           }
         })).json();
-        console.log(user);
+        // console.log(user);
         dispatch(userData(user))
       }
-      catch(err)
-      {
+      catch (err) {
         console.log(err);
       }
-      }
-      checkRefreshToken();
+    }
+    checkRefreshToken();
 
-      // const checkRefreshToken = async () => {
-      //   try {
-      //     const user = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/refresh_token`, {
-      //       credentials: 'include', // Needed to include the cookie | also needed in login and register page
-      //       headers: {
-      //         'Content-Type': 'application/json',
-      //       }
-      //     });
-      //     console.log(user);
-      //     dispatch(userData(user.data))
-      //   } catch (err) {
-      //     console.log(err);
-      //   }
-      // }
-      // checkRefreshToken();
+    // const checkRefreshToken = async () => {
+    //   try {
+    //     const user = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/refresh_token`, {
+    //       credentials: 'include', // Needed to include the cookie | also needed in login and register page
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       }
+    //     });
+    //     console.log(user);
+    //     dispatch(userData(user.data))
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
+    // checkRefreshToken();
 
-     
-    
+
+
   }, []);
 
   //give me above function in axios base
@@ -80,20 +79,20 @@ export const App = () => {
 
 
 
-  useEffect(() => {
-    try {
-      if (user != null && user?.accessToken != "" && user.accessToken != null) {
-        async function cart() {
-          const cart = await (await fetch(`${process.env.REACT_APP_URL}/api/v1/cart/getCart/${user.userdata._id}`)).json();
-          // console.log(cart);
-          dispatch(cartData(cart))
-        }
-        cart();
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  });
+  // useEffect(() => {
+  //   try {
+  //     if (user != null && user?.accessToken != "" && user.accessToken != null) {
+  //       async function cart() {
+  //         const cart = await (await fetch(`${process.env.REACT_APP_URL}/api/v1/cart/getCart/${user.userdata._id}`)).json();
+  //         console.log(cart);
+  //         dispatch(cartData(cart))
+  //       }
+  //       cart();
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // });
 
 
 

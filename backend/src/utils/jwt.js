@@ -29,9 +29,8 @@ const isAuth = (req, res) => {
     }
     const token = authorization.split(" ")[1];
     verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decode) => {
-        console.log(err);
-        console.log("hello");
-        console.log(decode?.id);
+        // console.log(err);
+        // console.log(decode?.id);
         if (err) return res.status(403).json({ message: "forbidden" })
         if (decode?.id != null) {
             return res.json({ message: "this is protected data.." })

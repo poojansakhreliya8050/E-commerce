@@ -173,7 +173,7 @@ const createRefreshToken = async (req, res) => {
     id = user._id
     const accessToken = await createJwtToken(id, res)
     // return res.send({ accessToken });
-    console.log(accessToken);
+    // console.log(accessToken);
     return res.status(200).json({ userdata: user, accessToken: accessToken })
 }
 catch(e)

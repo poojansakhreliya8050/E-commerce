@@ -9,15 +9,6 @@ const Home = () => {
     <>
       <Navbar />
       <Outlet />
-      {/* <ReviewCard review={{
-        image: 'url-to-image',
-        title: 'Review Title',
-        description: 'Review Description',
-        author: 'Author Name',
-        rating: 'Rating'
-      }} /> */}
-      {/* <ReceiveReview/> */}
-
     </>
   )
 }

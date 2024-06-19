@@ -10,16 +10,16 @@ import {loadStripe} from '@stripe/stripe-js';
 
 
 const Cart = () => {
-
-
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   const cart = useSelector(state => state.cartData.cart)
+  const cart1=useSelector(state=>state.cartApi)
+  // console.log(cart1.queries);
+
   const user = useSelector(state => state.userData.user)
   let subTotal = 0;
+
   if (cart != null) {
     cart.items.map(item => subTotal += item.item.price * item.quantity)
   }

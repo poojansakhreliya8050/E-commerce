@@ -1,5 +1,6 @@
 const Category = require("../models/category.model")
 const uploadOnCloudinary = require("../utils/cloudinaryUpload");
+const { getSocket } = require('../utils/socket');
 
 
 const addCategory = async (req, res) => {
@@ -11,6 +12,8 @@ const addCategory = async (req, res) => {
         const data = await uploadOnCloudinary(req.file.path);
         console.log(data);
         const category = await Category.create({ categoryTitle: req.body.categoryTitle, description: req.body.description, image: data.url })
+        const io = getSocket();
+        io.emit('addCategory', category );
 
         return res.status(200).json({
             message: "successfully add category",
@@ -21,6 +24,7 @@ const addCategory = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
+
 const fetchAllCategory = async (req, res) => {
     try {
         const allCategory = await Category.find();

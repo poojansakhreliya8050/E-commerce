@@ -36,7 +36,7 @@ morgan.token('reqCookies', (req) => {
 morgan.token('host', (req) => {
     return JSON.stringify(req.hostname);
 })
-// app.use(morgan(':method :url :status :res[content-length] - :response-time ms  :body :reqCookies :host'));
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms  :body :reqCookies :host'));
 
 
 app.use("/api", api)

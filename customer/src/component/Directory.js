@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CategoryCard from './CategoryCard'
 import { useDispatch, useSelector } from 'react-redux';
-import { categoryData } from '../redux/category/categorySlice';
+import { categoryData,addNewCategory } from '../redux/category/categorySlice';
 import socket from '../config/socket';
 
 
@@ -13,7 +13,7 @@ const Directory = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (categories == null) {
+        if (categories.length === 0) {
           const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/category/fetchAllCategory`);
           console.log(response.data);
           dispatch(categoryData(response.data));
@@ -28,11 +28,10 @@ const Directory = () => {
 
 
   useEffect(() => {
-    socket.emit('message', 'Hello from frontend....');
-
-    return () => {
-      socket.off('message');
-    };
+    socket.on('addCategory', (data) => {
+      console.log(data);
+      dispatch(addNewCategory(data));
+    });
   }, []);
 
 
@@ -46,7 +45,7 @@ const Directory = () => {
          <div className='w-full flex justify-center items-center'>
            <div className='flex min-h-screen w-4/5 items-center justify-around flex-wrap'>
               {
-                categories!=null && categories.map(category=> <CategoryCard key={category._id} category={category} />)
+                categories.length>0 && categories.map(category=> <CategoryCard key={category._id} category={category} />)
               }
            </div>
          </div>

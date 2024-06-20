@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import BuyBazaar from '../images/icons/BuyBazaar.svg'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { userData } from '../redux/user/userSlice';
@@ -20,12 +21,11 @@ const Navbar = () => {
   }
   return (
     <header >
-      <nav class="fixed inset-x-0 top-0 z-10 w-full px-4 py-1 bg-white shadow-md border-slate-500 dark:bg-[#0c1015] transition duration-700 ease-out">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <nav class="h-20 fixed inset-x-0 top-0 z-10 w-full px-4 py-1 bg-white shadow-md border-slate-500 dark:bg-[#0c1015] transition duration-700 ease-out">
+        <div className="h-full max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
 
-          <Link href="https://flowbite.com/" className="flex items-center">
-            <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 mr-3" alt="Flowbite Logo" />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BuyBazaar</span>
+          <Link to="/" className="h-full flex items-center">
+            <img src={BuyBazaar} className="h-full mr-3 scale-150" alt="Logo" />
           </Link>
 
           <div className="hidden w-full md:block md:w-auto" id="navbar-default">

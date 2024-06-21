@@ -4,16 +4,17 @@ import cartslice from "./cart/cartSlice"
 import categorySlice from "./category/categorySlice"
 
 import { setupListeners } from '@reduxjs/toolkit/query'
-import { cartApi } from "./cart/cartApi"
+import {apiSlice} from './app/apiSlice'
+
  const store=configureStore({
     reducer:{
          userData: userslice,
          cartData: cartslice,
          categoryData: categorySlice,
-          [cartApi.reducerPath]: cartApi.reducer,
+          [apiSlice.reducerPath]: apiSlice.reducer,
     },
      middleware: (getDefaultMiddleware) =>
-     getDefaultMiddleware().concat(cartApi.middleware),
+     getDefaultMiddleware().concat(apiSlice.middleware), devTools: true
 })
 
 setupListeners(store.dispatch)

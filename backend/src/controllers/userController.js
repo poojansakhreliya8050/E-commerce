@@ -5,6 +5,7 @@ const UserOtp = require("../models/userOtp.model")
 const { sendEmail } = require("../utils/sendEmail")
 const { sign, verify } = require("jsonwebtoken");
 const { createJwtToken } = require('../utils/jwt');
+const {sendToQueue} = require('../utils/rabbitmq')
 
 //for create user(signup)
 const createUser = async (req, res) => {
@@ -24,7 +25,9 @@ const createUser = async (req, res) => {
         }
 
         // send otp through email
-        await sendEmail(req.body.email, otp);
+        // await sendEmail(req.body.email, otp);
+        await sendToQueue('otp_queue', { email: req.body.email, otp });
+
 
         //otp store in userotp collection
         const userOtp = await UserOtp.create({ email: req.body.email.toLowerCase(), otp: otp })
@@ -38,7 +41,7 @@ const createUser = async (req, res) => {
         // await user.save()
         
         const user = await User.create({ name: req.body.name, email: req.body.email.toLowerCase(), password: hashPassword,mobileNumber:req.body.mobileNumber })
-        console.log(user);
+        console.log(user); 
 
         return res.status(200).json(user)
     }
@@ -74,7 +77,9 @@ const loginUser = async (req, res) => {
                 }
 
                 // send otp through email
-                await sendEmail(req.body.email, otp);
+                // await sendEmail(req.body.email, otp);
+                await sendToQueue('otp_queue', { email: req.body.email, otp });
+
 
 
                 //insert otp in userotp table
@@ -137,7 +142,8 @@ const verifyUser = async (req, res) => {
 }
 
 const userLogout = async (req, res) => {
-    res.clearCookie("refreshToken", { path: "/refresh_token" })
+    
+    res.clearCookie("refreshToken",{httpOnly:true,sameSite:"none",secure:true})
     console.log(req.cookies);
     return res.status(200).json({"message":"user sucessfully logout.."});
 }
@@ -145,7 +151,7 @@ const userLogout = async (req, res) => {
 const createRefreshToken = async (req, res) => {
     try
     {
-    const token = req.cookies.refreshToken;
+    const token = req.cookies    .refreshToken;
     // console.log(req.cookies);
     //token exist ?
     if (!token) {
@@ -168,7 +174,7 @@ const createRefreshToken = async (req, res) => {
     }
     //refreshToken exist ?
     if (user.refreshToken !== token) {
-        return res.status(404).json({ accessToken: null })
+        return res.status(404).json(null)
     }
     id = user._id
     const accessToken = await createJwtToken(id, res)
@@ -180,7 +186,6 @@ catch(e)
 {
     console.log("Error from createRefreshToken!!",e);
 }
-
 }
 
 const fetchAllUser = async (req, res) => {

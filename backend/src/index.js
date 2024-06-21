@@ -6,6 +6,9 @@ const cookieParser = require("cookie-parser")
 const morgan = require('morgan')
 const http = require('http')
 
+const {connectRabbitMQ} = require('./utils/rabbitmq')
+const {startConsumer} = require('./utils/otpConsumer')
+
 
 require("dotenv").config()
 
@@ -46,8 +49,10 @@ async function start() {
     try {
         await mongoose.connect(process.env.MONGODB_URL, await console.log("mongodb connected.."));
 
-        server.listen(process.env.PORT, () => {
+        server.listen(process.env.PORT, async () => {
             console.log(`app listning on port ${process.env.PORT}`);
+            await connectRabbitMQ()
+            startConsumer()
         })
     } catch (err) {
         console.log(err);

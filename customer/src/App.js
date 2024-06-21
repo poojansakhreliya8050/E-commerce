@@ -17,7 +17,6 @@ import { cartData } from './redux/cart/cartSlice';
 import Profile from './page/Profile';
 import OrderDetails from './page/OrderDetails';
 
-import { useGetCartQuery } from './redux/cart/cartApi';
 import ForgetPassword from './page/ForgetPassword';
 
 
@@ -26,11 +25,6 @@ export const App = () => {
 
   const dispatch = useDispatch();
   const user = useSelector(state => state.userData.user);
-
-  const { data, error, isLoading } = useGetCartQuery(user?.userdata?._id, {
-    skip: !user?.userdata?._id, // Skip query execution until an ID is provided
-  });
-  // console.log(data);
 
 
   useEffect(() => {

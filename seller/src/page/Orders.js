@@ -14,7 +14,7 @@ const Orders = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (user != null && user.accessToken != null && user.accessToken != "") {
+                if (user != null ) {
                     const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getOrderBySellerId/65f47716c1f778c761717e1b`);
                     // console.log(response);
                     setOrders(response.data);

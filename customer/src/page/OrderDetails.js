@@ -13,13 +13,13 @@ const OrderDetails = () => {
   const { orderId } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [productId, setProductId] = useState(null);
-  const user = useSelector(state => state.userData.user)
+  const user = useSelector(state => state.auth.user)
   console.log(order);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (user != null && user?.accessToken != "" && user.accessToken != null) {
+        if (user != null) {
           const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getOrder/${orderId}`);
           console.log(response);
           setOrder(response.data);

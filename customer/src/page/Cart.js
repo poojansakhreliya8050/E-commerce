@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CartItem from '../component/CartItem'
 import { useSelector, useDispatch } from 'react-redux';
-import { cartData } from '../redux/cart/cartSlice';
+import { setCart } from '../redux/cart/cartSlice';
 import { useNavigate } from "react-router-dom";
 import emptyCart from "../images/emptyCart.png"
-import {loadStripe} from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { useGetCartQuery } from '../redux/cart/cartApiSlice';
 
 
 
@@ -13,11 +14,12 @@ const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const cart = useSelector(state => state.cartData.cart)
-  const cart1=useSelector(state=>state.cartApi)
-  // console.log(cart1.queries);
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
+  const cart=useSelector(state=>state.cartData.cart);
+  console.log(cart);
 
-  const user = useSelector(state => state.userData.user)
+
   let subTotal = 0;
 
   if (cart != null) {
@@ -26,9 +28,9 @@ const Cart = () => {
 
   const addToOrder = async () => {
     try {
-      if (user != null && user?.accessToken != "") {
-        const order = await axios.post(`${process.env.REACT_APP_URL}/api/v1/order/addToOrder`, { userId: user.userdata._id })
-        dispatch(cartData(null))
+      if (user != null) {
+        const order = await axios.post(`${process.env.REACT_APP_URL}/api/v1/order/addToOrder`, { userId: user._id })
+        dispatch(setCart(null))
         console.log(order);
         navigate("/");
       }
@@ -39,10 +41,10 @@ const Cart = () => {
 
   const makePayment = async () => {
     try {
-      if (user != null && user?.accessToken != "") {
+      if (user != null) {
         // const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
         const stripe = await loadStripe("pk_test_51PSiEmSDwUSUpxqTap4MMgiIBmFgiqVL6AtehRUe4snhcA9LZ5DF2IzTaTeGRZv8119CZzDjlHvnyTjtsJuf3Eq600tj1JvcTo");
-        const response = await axios.post(`${process.env.REACT_APP_URL}/api/v1/order/makePayment`, { userId: user.userdata._id,cart:cart})
+        const response = await axios.post(`${process.env.REACT_APP_URL}/api/v1/order/makePayment`, { userId: user._id, cart: cart })
         const session = response.data.session;
         const result = await stripe.redirectToCheckout({
           sessionId: session.id,
@@ -57,10 +59,10 @@ const Cart = () => {
 
   return (
 
-    cart == null ||(cart!=null && cart.items.length==0) ?
+    cart == null || (cart != null && cart.items.length == 0) ?
       <div className='h-screen w-screen flex items-center flex-col'>
-        <img src={emptyCart} className='w-1/2'/>
-        <button className='w-1/2 h-10 rounded-md bg-green-600 mt-4 hover:bg-green-400' onClick={()=>{navigate("/products");}}>Go Shopping</button>
+        <img src={emptyCart} className='w-1/2' />
+        <button className='w-1/2 h-10 rounded-md bg-green-600 mt-4 hover:bg-green-400' onClick={() => { navigate("/products"); }}>Go Shopping</button>
       </div>
       :
       <div className=" bg-gray-100 pt-20">
@@ -91,7 +93,7 @@ const Cart = () => {
                 <p className="text-sm text-gray-700">including VAT</p>
               </div>
             </div>
-            <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600" onClick={()=>addToOrder()}>Check out</button>
+            <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600" onClick={() => addToOrder()}>Check out</button>
 
           </div>
 

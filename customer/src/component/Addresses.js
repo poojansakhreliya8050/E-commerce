@@ -15,7 +15,7 @@ import AddAddressPopUp from "./AddAddressPopUp";
 const Addresses = () => {
 
 
-    const user = useSelector((state) => state.userData.user);
+    const user = useSelector((state) => state.auth.user);
 
     const [showModal, setShowModal] = useState(false);
     const [isUpdate, setIsUpdate] = useState(false);
@@ -25,8 +25,8 @@ const Addresses = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (user != null && user.accessToken != null) {
-                    const addresses = await axios.get(`${process.env.REACT_APP_URL}/api/v1/address/getAddress/${user.userdata._id}`);
+                if (user != null ) {
+                    const addresses = await axios.get(`${process.env.REACT_APP_URL}/api/v1/address/getAddress/${user._id}`);
                     console.log(addresses);
                     setaddress(addresses.data.address);
                 }
@@ -41,9 +41,9 @@ const Addresses = () => {
 
   const handleDeleteAddress=async(addressId)=>{
     try {
-        const userId=user.userdata._id;
+        const userId=user._id;
         console.log(userId,addressId);
-        if(user!=null && user.accessToken!=null && user.accessToken!="" && addressId!=null){
+        if(user!=null && addressId!=null){
         const deleteAddress = await axios.delete(`${process.env.REACT_APP_URL}/api/v1/address/deleteAddress`, { data: { userId, addressId } });
         setaddress(deleteAddress.data.address);
     }

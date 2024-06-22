@@ -3,12 +3,17 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartData } from '../redux/cart/cartSlice';
 import { useNavigate } from 'react-router-dom';
+import { useGetCartQuery } from '../redux/cart/cartApiSlice';
+import {useAddToCartMutation,useRemoveFromCartMutation} from '../redux/cart/cartApiSlice'
 
 const Productcard = ({ product }) => {
   // console.log(product);
-  const user = useSelector(state => state.userData.user)
-  const cart = useSelector(state => state.cartData.cart)
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const cart=useSelector(state=>state.cartData.cart);
+
+  const [addToCartMutation] = useAddToCartMutation()
+  const [removeFromCartMutation] = useRemoveFromCartMutation()
 
   const navigate=useNavigate()
 
@@ -20,10 +25,8 @@ const Productcard = ({ product }) => {
   const removeFromcart = async () => {
     console.log("remove");
     try {
-      if (user != null && user?.accessToken != "") {
-        const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/removeFromCart`, { userId: user.userdata._id, productId: product._id })
-        console.log(cart);
-        dispatch(cartData(cart.data))
+      if (user != null) {
+       await removeFromCartMutation({userId:user._id,productId:product._id}).unwrap()
       }
     } catch (err) {
       console.log(err);
@@ -32,14 +35,12 @@ const Productcard = ({ product }) => {
 
   const addToCart = async () => {
     
-    if(user==null || user.accessToken==null)
+    if(user==null )
       return navigate("/login")
 
     try {
-      if (user != null && user?.accessToken != "") {
-        const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/addToCart`, { userId: user.userdata._id, productId: product._id })
-        console.log(cart);
-        dispatch(cartData(cart.data))
+      if (user != null) {
+      await addToCartMutation({userId:user._id,productId:product._id}).unwrap()
       }
     } catch (err) {
       console.log(err);

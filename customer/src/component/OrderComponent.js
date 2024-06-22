@@ -4,14 +4,14 @@ import { useSelector } from 'react-redux';
 import axios from "axios";
 const OrderComponent = () => {
     const [orders, setOrders] = useState(null);
-    const user=useSelector(state=>state.userData.user)
+    const user=useSelector(state=>state.auth.user)
     
     useEffect(() => {
         const fetchData = async () => {
           try {
-            if(user!=null && user?.accessToken!="" && user.accessToken!=null)
+            if(user!=null )
             {
-            const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getOrdersByUserId/${user.userdata._id}`);
+            const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getOrdersByUserId/${user._id}`);
             console.log(response);
             setOrders(response.data);
             }

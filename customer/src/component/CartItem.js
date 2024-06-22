@@ -1,20 +1,61 @@
 import React from 'react'
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { cartData } from '../redux/cart/cartSlice';
+import { setCart } from '../redux/cart/cartSlice';
+import { useAddToCartMutation,useRemoveFromCartMutation,useRemoveItemFromCartMutation } from '../redux/cart/cartApiSlice';
 
 const CartItem = ({ item }) => {
   // console.log(item);
-  const user = useSelector(state => state.userData.user)
+  const user = useSelector(state => state.auth.user)
   const dispatch = useDispatch();
+
+  const [addToCartMutation] = useAddToCartMutation()
+  const [removeFromCartMutation] = useRemoveFromCartMutation()
+  const [removeItemFromCartMutation] = useRemoveItemFromCartMutation()
+
+  // const removeFromcart = async () => {
+  //   console.log("remove");
+  //   try {
+  //     if (user != null ) {
+  //       const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/removeFromCart`, { userId: user._id, productId: item.item._id })
+  //       console.log(cart);
+  //       dispatch(setCart(cart.data))
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
+
+  // const addToCart = async () => {
+  //   console.log("add");
+  //   try {
+  //     if (user != null ) {
+  //       const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/addToCart`, { userId: user._id, productId: item.item._id })
+  //       console.log(cart);
+  //       dispatch(setCart(cart.data))
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
+  // const removeItemFromCart=async()=>{
+  //   console.log("removeItemFromCart");
+  //   try {
+  //     if (user != null) {
+  //       const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/removeItemFromCart`, { userId: user._id, productId: item.item._id })
+  //       console.log(cart);
+  //       dispatch(setCart(cart.data))
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   const removeFromcart = async () => {
     console.log("remove");
     try {
-      if (user != null && user?.accessToken != "") {
-        const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/removeFromCart`, { userId: user.userdata._id, productId: item.item._id })
-        console.log(cart);
-        dispatch(cartData(cart.data))
+      if (user != null) {
+       await removeFromCartMutation({ userId: user._id, productId: item.item._id }).unwrap()
       }
     } catch (err) {
       console.log(err);
@@ -22,29 +63,27 @@ const CartItem = ({ item }) => {
   }
 
   const addToCart = async () => {
-    console.log("add");
     try {
-      if (user != null && user?.accessToken != "") {
-        const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/addToCart`, { userId: user.userdata._id, productId: item.item._id })
-        console.log(cart);
-        dispatch(cartData(cart.data))
+      if (user != null) {
+      await addToCartMutation({ userId: user._id, productId: item.item._id }).unwrap()
       }
     } catch (err) {
       console.log(err);
     }
   }
+
   const removeItemFromCart=async()=>{
     console.log("removeItemFromCart");
     try {
-      if (user != null && user?.accessToken != "") {
-        const cart = await axios.post(`${process.env.REACT_APP_URL}/api/v1/cart/removeItemFromCart`, { userId: user.userdata._id, productId: item.item._id })
-        console.log(cart);
-        dispatch(cartData(cart.data))
+      if (user != null) {
+       await removeItemFromCartMutation({ userId: user._id, productId: item.item._id }).unwrap()
       }
     } catch (err) {
       console.log(err);
     }
   }
+
+
   return (
     <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
       <img src={item.item.img} alt="product-image" className="w-full rounded-lg sm:w-40" />

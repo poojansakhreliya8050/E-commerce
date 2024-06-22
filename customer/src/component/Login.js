@@ -3,7 +3,9 @@ import axios from 'axios'
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, createSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { userData } from '../redux/user/userSlice';
+import { setCredentials } from '../redux/user/authSlice';
+
+import { useLoginMutation } from '../redux/user/authApiSlice';
 
 
 
@@ -11,32 +13,21 @@ const Login = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    const [login,{isLoading}]=useLoginMutation();
+
+
     const onSubmit = async data => {
         try {
-
-            const user = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/loginUser`, data, {
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-            console.log(user)
-            if (user?.status == 203) {
-                return navigate({
-                    pathname: "/verifyUser",
-                    search: createSearchParams({
-                        email: user.data.email
-                    }).toString()
-                })
-            }
-            else {
-                dispatch(userData(user?.data))
-                return navigate("/")
-            }
+            const user = await login(data,{withCredentials: true}).unwrap()
+            dispatch(setCredentials(user))
+            return navigate("/")
         } catch (err) {
             console.log(err);
         }
     }
+
+
     return (
         <div className='h-screen w-screen border-2 flex justify-center items-center bg-slate-200'>
             <div class="max-w-lg lg:w-1/2 sm:w-4/5 mt-12 bg-white p-8 rounded-xl shadow shadow-slate-300">

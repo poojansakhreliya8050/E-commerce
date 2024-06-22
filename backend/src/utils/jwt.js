@@ -15,14 +15,14 @@ const createJwtToken=async(id,res)=>{
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
-        sameSite: "none", // cross-site access
-        secure: true // https
+        // sameSite: 'none', // cross-site access
+        secure: false // https
     }) 
 
     return accessToken;
 }
 
-const isAuth = (req, res) => {
+const isAuth = (req, res,next) => {
     // console.log(req);
     const authorization = req.headers["authorization"];
 
@@ -43,7 +43,8 @@ const isAuth = (req, res) => {
             {
                 return res.status(403).json({ message: "user not found" })
             }
-            return res.json({ message: "this is protected data.." })
+            next();
+            // return res.json({ message: "this is protected data.." })
         }
 
         return res.status(403).json({ message: "something error.." })

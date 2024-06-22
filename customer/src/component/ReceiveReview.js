@@ -9,7 +9,7 @@ const ReceiveReview = ({setIsOpen,productId,setProductId,orderId}) => {
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(0);
   const [showModal, setShowModal] = useState(true);
-  const user = useSelector((state) => state.userData.user);
+  const user = useSelector((state) => state.auth);
   
   const handleRatingChange = (newRating) => {
       setRating(newRating);
@@ -19,10 +19,10 @@ const ReceiveReview = ({setIsOpen,productId,setProductId,orderId}) => {
 
   const createReview = async () => {
     try {
-      if (user != null && user?.accessToken != "" && user.accessToken != null) {
+      if (user != null ) {
         const response = await axios.post(`${process.env.REACT_APP_URL}/api/v1/review/createReview`,
           {
-            userId: user.userdata._id,
+            userId: user.user._id,
             productId: productId,
             orderId,
             review: review,

@@ -8,7 +8,7 @@ import WhyChoose from "./WhyChoose";
 const Directory = () => {
     const [sellerData,setSellerData]=useState(null);
     const navigate = useNavigate();
-    const user = useSelector((state) => state.userData.user);
+    const user = useSelector((state) => state.auth.user);
     console.log(user);
     const dispatch = useDispatch();
 
@@ -16,7 +16,7 @@ const Directory = () => {
        useEffect(() => {
         const fetchData = async () => {
             try {
-                if (user != null && user.accessToken != "" && user.accessToken != null) {
+                if (user != null) {
                 const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/seller/fetchSellerByUserId/${user.userdata._id}`);
                 console.log(response);
                 setSellerData(response.data);
@@ -116,7 +116,7 @@ const Directory = () => {
                         </div>
                         <div className="pt-5 flex justify-center">
                             {
-                                user != null && user.accessToken != "" && user.accessToken != null && sellerData==null?
+                                user != null && sellerData==null?
                                     <Link to="/verifySeller" className="bg-yellow-500 text-white px-10 py-2 rounded-md">
                                         Start  Selling
                                     </Link> : <></>

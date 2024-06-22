@@ -30,7 +30,7 @@ const addToCart=async(req,res)=>{
     }
     catch(err){
         console.log(err)
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: err.message });
     }
 }
 
@@ -42,7 +42,7 @@ const getCart=async(req,res)=>{
     }
     catch(err){
         console.log(err)
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: err.message });
     }
 }
 
@@ -70,7 +70,7 @@ const removeFromCart=async(req,res)=>{
     }
     catch(err){
         console.log(err)
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: err.message });
     }
 }
 
@@ -87,7 +87,7 @@ const emptyCart=async(req,res)=>{
     }
     catch(err){
         console.log(err)
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: err.message });
     }
 }
 
@@ -105,7 +105,7 @@ const removeItemFromCart=async(req,res)=>{
     }
     catch(err){
         console.log(err)
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: err.message });
     }
 }
 

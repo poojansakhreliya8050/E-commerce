@@ -3,7 +3,7 @@ import { useSearchParams,useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import axios  from 'axios'
 import { useDispatch } from 'react-redux';
-import { userData } from '../redux/user/userSlice';
+import { setCredentials } from '../redux/user/authSlice';
 
 const VerifyUser = () => {
     const [searchparams] = useSearchParams();
@@ -20,7 +20,7 @@ const VerifyUser = () => {
             console.log(user)
             if(user.status==200)
             {
-                dispatch(userData(user?.data))
+                dispatch(setCredentials(user?.data))
                 navigate("/")
             }
         } catch (err) {

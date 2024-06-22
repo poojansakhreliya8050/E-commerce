@@ -3,10 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import avatar from "../images/avatar.jpg";
 import Addresses from "../component/Addresses";
-import { userData} from "../redux/user/userSlice";
-
+import { logout} from "../redux/user/authSlice";
 // import UserAddress from "../components/UserAddress";
-// import ChangePasswordPopup from "../components/ChangePasswordPopup";
 // import UpdateProfileDetails from "../components/UpdateProfileDetails";
 import axios from "axios";
 import OrderComponent from "../component/OrderComponent";
@@ -16,7 +14,7 @@ import ChangePasswordPopUp from "../component/ChangePasswordPopUp";
 
 const Profile = () => {
 
-const user=useSelector(state=>state.userData.user)
+const user=useSelector(state=>state.auth.user)
 const [openTab,setOpenTab]=useState(1);
 const [changePasswordModel,setChangePasswordModel]=useState(false);
 
@@ -26,9 +24,9 @@ const navigate=useNavigate();
   const handleLogout = async() => {
 
     try{
-      const res=await axios.get(`${process.env.REACT_APP_URL}/api/v1/user/logout`)
+      const res=await axios.get(`${process.env.REACT_APP_URL}/api/v1/user/logout`,{withCredentials:true})
       console.log(res.data);
-      dispatch(userData(null))
+      dispatch(logout())
       navigate("/")
     }
     catch(err){
@@ -89,7 +87,7 @@ const navigate=useNavigate();
                       Name
                     </td>
                     <td className="text-slate-500 font-semibold capitalize  bg-orange-50 w-full md:w-5/6 bg-opacity-20 p-2 rounded">
-                      {user != null ? user?.userdata?.name : ""}
+                      {user != null ? user?.name : ""}
                     </td>
                   </tr>
                   <tr>
@@ -97,7 +95,7 @@ const navigate=useNavigate();
                       Mobile No.
                     </td>
                     <td className="text-slate-500 font-semibold capitalize bg-orange-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
-                      {user != null ? user?.userdata?.name : ""}
+                      {user != null ? user?.name : ""}
                     </td>
                   </tr>
                   <tr>
@@ -105,7 +103,7 @@ const navigate=useNavigate();
                       E-mail
                     </td>
                     <td className="text-slate-500 font-semibold bg-orange-50  w-full md:w-5/6 bg-opacity-20 p-2 rounded ">
-                      {user != null ? user?.userdata?.email : ""}
+                      {user != null ? user?.email : ""}
                     </td>
                   </tr>
                 </table>

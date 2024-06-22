@@ -9,16 +9,16 @@ import { useSelector } from "react-redux";
 const ChangePasswordPopUp = ({showModal,setShowModal}) => {
   // console.log(addressId);
   const { register, handleSubmit, reset } = useForm();
-  const user = useSelector((state) => state.userData.user);
+  const user = useSelector((state) => state.auth.user);
   
   const handleChangePassword = async (data) => {
     try {
       if (data.newpassword !== data.confirmpassword) 
         alert("Password and Confirm Password should be same");
         
-        if(user!=null && user.accessToken!=null && user.accessToken!==""){
+        if(user!=null){
         console.log(data);
-        await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/changePassword`, {"oldPassword":data.oldpassword,"newPassword":data.newpassword,"email":user.userdata.email})
+        await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/changePassword`, {"oldPassword":data.oldpassword,"newPassword":data.newpassword,"email":user.email})
         alert("Password Changed Successfully");
         setShowModal(false);
         reset();

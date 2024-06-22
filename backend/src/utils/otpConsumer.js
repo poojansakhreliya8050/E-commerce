@@ -17,7 +17,7 @@ async function startConsumer() {
             }
         });
 
-        console.log('OTP consumer started');
+        // console.log('OTP consumer started');
     } catch (error) {
         console.error('Error starting consumer', error);
     }

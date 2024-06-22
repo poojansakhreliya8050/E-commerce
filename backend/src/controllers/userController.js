@@ -53,7 +53,7 @@ const createUser = async (req, res) => {
 //for login user
 const loginUser = async (req, res) => {
     try {
-        console.log(req.body);
+        // console.log(req.body);
 
         // user exist or not
         let user = await User.findOne({ email: req.body.email.toLowerCase() })
@@ -90,13 +90,18 @@ const loginUser = async (req, res) => {
 
         }
 
-        console.log(user);
+        // console.log(user);
 
         id = user._id
+
+        
         //create accesstoken and refreshtoken
         const accessToken = await createJwtToken(id, res)
-
+        
         user = await User.findOne({ email: req.body.email })
+
+        console.log('Cookie set: ', res.get('Set-Cookie'));
+
         return res.status(200).json({ userdata: user, accessToken: accessToken })
 
     }
@@ -129,9 +134,11 @@ const verifyUser = async (req, res) => {
         console.log(user);
 
         id = user._id
+
         //create accesstoken and refreshtoken
-        const accessToken = await createJwtToken(id, res)
         user = await User.findOne({ email: req.body.email })
+
+        const accessToken = await createJwtToken(id, res)
 
         return res.status(200).json({ userdata: user, accessToken: accessToken })
 
@@ -142,17 +149,16 @@ const verifyUser = async (req, res) => {
 }
 
 const userLogout = async (req, res) => {
-    
-    res.clearCookie("refreshToken",{httpOnly:true,sameSite:"none",secure:true})
-    console.log(req.cookies);
+    res.clearCookie("refreshToken",{httpOnly:true,secure:false})
+    console.log('Cookie set: ', res.get('Set-Cookie'));
     return res.status(200).json({"message":"user sucessfully logout.."});
 }
 
 const createRefreshToken = async (req, res) => {
     try
     {
-    const token = req.cookies    .refreshToken;
-    // console.log(req.cookies);
+    const token = req.cookies.refreshToken;
+    console.log(req.cookies);
     //token exist ?
     if (!token) {
         return res.status(404).json(null)

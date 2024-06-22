@@ -9,11 +9,11 @@ import { useSelector } from "react-redux";
 const AddAddressPopUp = ({ showModal, setShowModal, setaddress,isUpdate,setIsUpdate,addressId,setAddressId}) => {
   // console.log(addressId);
   const { register, handleSubmit, reset } = useForm();
-  const user = useSelector((state) => state.userData.user);
+  const user = useSelector((state) => state.auth.user);
   
   const handleSubmitForAddress = async (data) => {
     try {
-      if (user != null && user.accessToken != null) {
+      if (user != null ) {
         console.log(data);
         const addresses = await axios.post(`${process.env.REACT_APP_URL}/api/v1/address/createAddress`, { ...data, "userId": user.userdata._id }, {
           withCredentials: true,
@@ -33,7 +33,7 @@ const AddAddressPopUp = ({ showModal, setShowModal, setaddress,isUpdate,setIsUpd
 
   const handleUpdateAddress = async (data) => {
     try {
-      if (user != null && user.accessToken != null) {
+      if (user != null ) {
         console.log(data,user.userdata._id,addressId);
         const addresses = await axios.put(`${process.env.REACT_APP_URL}/api/v1/address/updateAddress`, { ...data, "userId": user.userdata._id,addressId}, {
           withCredentials: true,

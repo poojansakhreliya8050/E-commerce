@@ -1,6 +1,5 @@
 import './App.css';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Navigate } from 'react-router-dom'
-import axios from 'axios'
 import Login from './component/Login';
 import Home from './page/Home'
 import Directory from './component/Directory';
@@ -8,87 +7,48 @@ import Register from './component/Register';
 import VerifyUser from './component/VerifyUser';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Aavade } from './page/Aavade';
 import SubCategory from './page/SubCategory';
 import Cart from './page/Cart';
-
-import { userData } from './redux/user/userSlice';
-import { cartData } from './redux/cart/cartSlice';
 import Profile from './page/Profile';
 import OrderDetails from './page/OrderDetails';
 
 import ForgetPassword from './page/ForgetPassword';
+
+// import useRefreshToken from './hooks/useRefreshToken';
+
+import { useRefreshTokenMutation } from './redux/user/authApiSlice';
+import { setCredentials } from './redux/user/authSlice';
+
+import {useGetCartQuery} from './redux/cart/cartApiSlice';
 
 
 
 export const App = () => {
 
   const dispatch = useDispatch();
-  const user = useSelector(state => state.userData.user);
+  const auth=useSelector(state=>state.auth);
+  // console.log(auth);
 
 
-  useEffect(() => {
+  const [refreshToken] = useRefreshTokenMutation();
+    useEffect(() => {
+      const handleRefreshToken = async () => {
+        try {
+          const newAccessToken = await refreshToken().unwrap();
+          // console.log('newAccessToken: ', newAccessToken);
+          dispatch(setCredentials(newAccessToken));
+        } catch (error) {
+          console.error('Error refreshing token:', error);
+        }
+      };
+  
+      handleRefreshToken();
+    }, [refreshToken]);
 
-    async function checkRefreshToken() {
-      try {
-        const user = await (await fetch(`${process.env.REACT_APP_URL}/api/v1/user/refresh_token`, {
-          method: 'POST',
-          credentials: 'include', // Needed to include the cookie | also needed in login and register page
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })).json();
-        // console.log(user);
-        dispatch(userData(user))
-      }
-      catch (err) {
-        console.log(err);
-      }
-    }
-    checkRefreshToken();
-
-    // const checkRefreshToken = async () => {
-    //   try {
-    //     const user = await axios.post(`${process.env.REACT_APP_URL}/api/v1/user/refresh_token`, {
-    //       credentials: 'include', // Needed to include the cookie | also needed in login and register page
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       }
-    //     });
-    //     console.log(user);
-    //     dispatch(userData(user.data))
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }
-    // checkRefreshToken();
-
-
-
-  }, []);
-
-  //give me above function in axios base
-
-
-
-
-
-  // useEffect(() => {
-  //   try {
-  //     if (user != null && user?.accessToken != "" && user.accessToken != null) {
-  //       async function cart() {
-  //         const cart = await (await fetch(`${process.env.REACT_APP_URL}/api/v1/cart/getCart/${user.userdata._id}`)).json();
-  //         console.log(cart);
-  //         dispatch(cartData(cart))
-  //       }
-  //       cart();
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // });
-
-
+    const { data: cart } = useGetCartQuery(auth?.user?._id);
+    // console.log(cart);
+   
+    
 
   const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Home />}>

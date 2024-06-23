@@ -161,6 +161,7 @@ const createRefreshToken = async (req, res) => {
     console.log(req.cookies);
     //token exist ?
     if (!token) {
+        console.log("token not found!!");
         return res.status(404).json(null)
     }
     let payload = null;
@@ -173,13 +174,15 @@ const createRefreshToken = async (req, res) => {
         res.status(404).json(err)
     }
 
-    const user = await User.findOne(null)
+    const user = await User.findOne({_id:payload.id})
     //user exist ?
     if (!user) {
+        console.log("user not found !!");
         return res.status(404).json(null)
     }
     //refreshToken exist ?
     if (user.refreshToken !== token) {
+        console.log("wrong refresh Token !!");
         return res.status(404).json(null)
     }
     id = user._id

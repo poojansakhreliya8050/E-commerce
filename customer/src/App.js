@@ -16,7 +16,7 @@ import ForgetPassword from './page/ForgetPassword';
 
 // import useRefreshToken from './hooks/useRefreshToken';
 
-import { useRefreshTokenMutation } from './redux/user/authApiSlice';
+import { useRefreshTokenQuery } from './redux/user/authApiSlice';
 import { setCredentials } from './redux/user/authSlice';
 
 import {useGetCartQuery} from './redux/cart/cartApiSlice';
@@ -30,21 +30,14 @@ export const App = () => {
   // console.log(auth);
 
 
-  const [refreshToken] = useRefreshTokenMutation();
-    useEffect(() => {
-      const handleRefreshToken = async () => {
-        try {
-          const newAccessToken = await refreshToken().unwrap();
-          // console.log('newAccessToken: ', newAccessToken);
-          dispatch(setCredentials(newAccessToken));
-        } catch (error) {
-          console.error('Error refreshing token:', error);
-        }
-      };
+  const { data: refreshToken } = useRefreshTokenQuery();
+  // console.log(refreshToken);
+  useEffect(() => {
+    if (refreshToken) {
+      dispatch(setCredentials(refreshToken));
+    }
+  }, [refreshToken, dispatch]);
   
-      handleRefreshToken();
-    }, [refreshToken]);
-
     const { data: cart } = useGetCartQuery(auth?.user?._id);
     // console.log(cart);
    

@@ -2,56 +2,75 @@ const { sign, verify } = require("jsonwebtoken")
 const User = require("../models/user.model")
 
 
-const createJwtToken=async(id,res)=>{
+const createJwtToken = async (id, res) => {
     const accessToken = sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "15s"
+        expiresIn: "15m"
     })
     const refreshToken = sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
         expiresIn: "7d"
     })
-    
-    await User.updateOne({ _id: id}, { refreshToken: refreshToken });
+
+    await User.updateOne({ _id: id }, { refreshToken: refreshToken });
 
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
         // sameSite: 'none', // cross-site access
         secure: false // https
-    }) 
+    })
 
     return accessToken;
 }
 
-const isAuth = (req, res,next) => {
-    // console.log(req);
-    const authorization = req.headers["authorization"];
+// const isAuth = async (req, res, next) => {
+//     // console.log(req);
+//     const authorization = req.headers["authorization"];
+//     console.log(authorization);
+//     // return res.send("user invalid");
+//     if (!authorization) {
+//         return res.status(403).json({ message: "user not found" })
+//     }
+//     const token = authorization.split(" ")[1];
+//     verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decode) => {
+//         // console.log(err);
+//         // console.log(decode?.id);
+//         if (err) return res.status(403).json({ message: "forbidden" })
+//         if (decode?.id != null) {
+//             const user = await User.findOne({ _id: decode.id });
+//             if (!user) {
+//                 return res.status(403).json({ message: "user not found" })
+//             }
+//             next();
+//         }
+//         return res.status(403).json({ message: "something error.." })
+//     })
+// }
 
-    // return res.send("user invalid");
-    if (!authorization) {
-        throw new Error("invalid user") 
+const isAuth=(req, res, next) => {
+    const authHeader = req.headers.authorization || req.headers.Authorization
+
+    if (!authHeader?.startsWith('Bearer ')) {
+        return res.status(403).json({ message: 'Unauthorized' })
     }
 
-    const token = authorization.split(" ")[1];
-    verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decode) => {
-        // console.log(err);
-        // console.log(decode?.id);
-        if (err) return res.status(403).json({ message: "forbidden" })
+    const token = authHeader.split(' ')[1]
 
-        if (decode?.id != null) {
-            const user= User.findOne({ _id: decode.id });
-            if(!user)
-            {
-                return res.status(403).json({ message: "user not found" })
+    verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET,
+        async (err, decoded) => {
+            if (err) return res.status(403).json({ message: 'Forbidden' })
+            let id = decoded.id
+            const user = await User.findOne({ _id :id})
+            if (!user) {
+                return res.status(403).json({ message: 'User not found' })
             }
-            next();
-            // return res.json({ message: "this is protected data.." })
+            next()
         }
-
-        return res.status(403).json({ message: "something error.." })
-    })
+    )
 }
 
-module.exports={
+module.exports = {
     createJwtToken,
     isAuth
 }

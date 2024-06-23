@@ -3,6 +3,8 @@ const uploadOnCloudinary = require("../utils/cloudinaryUpload");
 const Category = require("../models/category.model");
 const SubCategory = require("../models/subCategory.model");
 
+const {getSocket}=require("../utils/socket");
+
 
 const addProduct = async (req, res) => {
     console.log(req.body);
@@ -12,9 +14,12 @@ const addProduct = async (req, res) => {
             return res.status(404).json({ message: "please enter valid data.." })
         }
         const imageData = await uploadOnCloudinary(req.file.path);
-        console.log(imageData);
+        // console.log(imageData);
         const product = await Product.create({ categoryId: req.body.categoryId, subCategoryId: req.body.subCategoryId, productName: req.body.productName, productDescription: req.body.productDescription, price: req.body.price, quantity: req.body.quantity, img: imageData.url,userId:req.body.userId})
-        console.log(product);
+        console.log(product,req.body.categoryId);
+
+        const io = getSocket();
+        io.to(req.body.categoryId).emit('newProduct', product);
 
         return res.status(200).json({
             message: "successfully add product"

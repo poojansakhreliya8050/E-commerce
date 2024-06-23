@@ -8,7 +8,7 @@ import WhyChoose from "./WhyChoose";
 const Directory = () => {
     const [sellerData,setSellerData]=useState(null);
     const navigate = useNavigate();
-    const user = useSelector((state) => state.auth.user);
+    const user = useSelector((state) => state.userData.user);
     console.log(user);
     const dispatch = useDispatch();
 

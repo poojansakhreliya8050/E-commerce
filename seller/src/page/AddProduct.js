@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import ImageUpload from '../components/ImageUpload'
+import { useSelector } from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 const AddProduct = () => {
     const [categoryId, setCategoryId] = useState(null);
     const [subCategoryId, setSubCategoryId] = useState(null);
@@ -12,6 +14,10 @@ const AddProduct = () => {
     const[productName,setProductName]=useState("");
     const[price,setPrice]=useState(0);
     const[quantity,setQuantity]=useState(0);
+
+    const user = useSelector(state => state.userData.user)
+    const navigate=useNavigate();
+
 
 
 
@@ -51,7 +57,8 @@ const AddProduct = () => {
     const addProduct = async (e) => {
         e.preventDefault();
  
-        if (categoryId == null || subCategoryId == null || productName==""|| productDescription=="" ||price==""||quantity==""|| image == null)
+        try{
+        if (categoryId == null || subCategoryId == null || productName==""|| productDescription=="" ||price==""||quantity==""|| image == null || user == null)
             return;
 
         console.log(image);
@@ -63,6 +70,8 @@ const AddProduct = () => {
         formData.append('productDescription', productDescription);
         formData.append('price', price); 
         formData.append('quantity', quantity);
+        formData.append('userId', user.userdata._id);
+
         console.log(categoryId,subCategoryId,productName,productDescription,price,quantity);
 
 
@@ -73,6 +82,11 @@ const AddProduct = () => {
             },
         })
         console.log(res);
+        navigate('/products');
+    }
+    catch(e){
+        console.log(e);
+    }
 
     }
 

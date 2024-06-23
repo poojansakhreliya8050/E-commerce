@@ -9,7 +9,7 @@ const Product = () => {
     const [products, setProducts] = useState(null);
     const [productId, setProductId] = useState(null);
     const [showModel, setShowModel] = useState(false);
-    const user = useSelector(state => state.auth.user)
+    const user = useSelector(state => state.userData.user)
 
 
     useEffect(() => {

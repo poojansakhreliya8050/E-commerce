@@ -18,6 +18,18 @@ const initSocket = (server) => {
             console.log('Message received: ', message);
         });
 
+        // When a client joins a category room
+        socket.on('joinCategory', (categoryId) => {
+            console.log("Joining category room: ", categoryId);
+            socket.join(categoryId);
+        });
+
+        // When a client leaves a specific category room
+        socket.on('leaveCategory', (categoryId) => {
+            socket.leave(categoryId);
+            console.log(`Left category: ${categoryId}`);
+        });
+
         socket.on('disconnect', () => {
             console.log('user disconnected');
         });

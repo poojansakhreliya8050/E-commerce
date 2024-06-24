@@ -3,12 +3,15 @@ const express = require("express")
 const mongoose = require('mongoose');
 const cors = require("cors")
 const cookieParser = require("cookie-parser")
+const session = require('express-session');
 const morgan = require('morgan')
 const http = require('http')
 
 const {connectRabbitMQ} = require('./utils/rabbitmq')
 const {startConsumer} = require('./utils/otpConsumer')
 
+//passport
+const passport = require('./utils/passport');
 
 require("dotenv").config()
 
@@ -42,7 +45,20 @@ morgan.token('host', (req) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms  :body :reqCookies :host'));
 
 
+//google auth
+app.use(session({
+    secret: 'googleAuth',
+    resave: false,
+    saveUninitialized: true
+  }));
+  
+//   // Passport middleware
+  app.use(passport.initialize());
+  app.use(passport.session());
+
 app.use("/api", api)
+
+
 
 
 async function start() {

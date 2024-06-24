@@ -15,7 +15,7 @@ const AddProduct = () => {
     const[price,setPrice]=useState(0);
     const[quantity,setQuantity]=useState(0);
 
-    const user = useSelector(state => state.userData.user)
+    const user = useSelector(state => state.auth.user)
     const navigate=useNavigate();
 
 

@@ -9,7 +9,7 @@ import axios from "axios";
 const UpdateProductPopup = ({ showModel, setShowModel, productId, setProductId }) => {
     console.log(productId);
     const { register, handleSubmit, reset } = useForm();
-    //   const user = useSelector((state) => state.userData.user);
+    //   const user = useSelector((state) => state.auth.user);
 
     const [categoryId, setCategoryId] = useState(null);
     const [subCategoryId, setSubCategoryId] = useState(null);

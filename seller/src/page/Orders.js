@@ -8,7 +8,7 @@ const Orders = () => {
 
     const [orders, setOrders] = useState(null);
     // const [showModel, setShowModel] = useState(false);
-    const user = useSelector(state => state.userData.user)
+    const user = useSelector(state => state.auth.user)
 
 
     useEffect(() => {

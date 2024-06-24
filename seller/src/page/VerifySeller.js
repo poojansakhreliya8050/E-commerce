@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { userData } from "../redux/user/userSlice";
 import swal from "sweetalert";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
@@ -25,7 +24,7 @@ const VerifySeller = () => {
   const [tabOpen, setTabOpen] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  const seller = useSelector((state) => state.userData.user);
+  const seller = useSelector((state) => state.auth.user);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

@@ -19,6 +19,7 @@ const userSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"product"
     }],
+    googleId: String
 }, { timestamps: true})
 
 module.exports = mongoose.model("user", userSchema)

@@ -46,9 +46,11 @@ const Login = () => {
                 <p class="text-slate-500">Hi, Welcome back 👋</p>
 
                 <div class="my-5">
+                    <a href="http://localhost:8000/api/v1/user/google">
                     <button class="w-full text-center py-3 my-3 border flex space-x-2 items-center justify-center border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
                         <img src="https://www.svgrepo.com/show/355037/google.svg" class="w-6 h-6" alt="" /> <span>Login with Google</span>
                     </button>
+                    </a>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} class="my-10">
                     <div class="flex flex-col space-y-5">

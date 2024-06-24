@@ -2,7 +2,7 @@ const { sign, verify } = require("jsonwebtoken")
 const User = require("../models/user.model")
 
 
-const createJwtToken = async (id, res) => {
+const createJwtToken = async (id) => {
     const accessToken = sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "15m"
     })
@@ -12,14 +12,9 @@ const createJwtToken = async (id, res) => {
 
     await User.updateOne({ _id: id }, { refreshToken: refreshToken });
 
-    res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
-        // sameSite: 'none', // cross-site access
-        secure: false // https
-    })
+    console.log("refresh_token from jwt : "+refreshToken);
 
-    return accessToken;
+    return {accessToken,refreshToken};
 }
 
 // const isAuth = async (req, res, next) => {

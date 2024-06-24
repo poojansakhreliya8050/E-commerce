@@ -1,5 +1,5 @@
 import './App.css';
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider ,Navigate} from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Navigate } from 'react-router-dom'
 import Home from './page/Home'
 import AddProduct from './page/AddProduct';
 import Product from './page/Product';
@@ -7,48 +7,49 @@ import Login from './page/Login';
 import Register from './page/Register';
 import VerifyUser from './page/VerifyUser';
 import Directory from './components/Directory';
-
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { userData } from './redux/user/userSlice';
-import Orders from './page/Orders';
 import VerifySeller from './page/VerifySeller';
+import Orders from './page/Orders';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useRefreshTokenQuery } from './redux/user/authApiSlice';
+import { setCredentials } from './redux/user/authSlice';
+
 
 export const App = () => {
 
   const dispatch = useDispatch();
 
+  const auth = useSelector(state => state.auth.user);
+  // console.log(auth);
+
+  const { data: refreshToken } = useRefreshTokenQuery();
+  // console.log(refreshToken);
   useEffect(() => {
-    try {
-      async function checkRefreshToken() {
-        const user = await (await fetch(`${process.env.REACT_APP_URL}/api/v1/user/refresh_token`, {
-          method: 'POST',
-          credentials: 'include', // Needed to include the cookie | also needed in login and register page
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })).json();
-        // console.log(user);
-        dispatch(userData(user))
-      }
-      checkRefreshToken();
-    } catch (err) {
-      console.log(err);
+    if (refreshToken) {
+      dispatch(setCredentials(refreshToken));
     }
-  }, []);
+  }, [refreshToken, dispatch]);
+
 
   const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Home />}>
       <Route index element={<Directory />} />
-      <Route path="/addProduct" element={<AddProduct />} />
-      <Route path="/products" element={<Product />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/verifyUser" element={<VerifyUser />} />
-      <Route path="/orders" element={<Orders />} />
-      <Route path="/VerifySeller" element={<VerifySeller />} />
-      <Route path="*"  element={<Navigate replace to="/" />}/>
+      {
+        auth != null ?
+          <>
+            <Route path="/addProduct" element={<AddProduct />} />
+            <Route path="/products" element={<Product />} />
+            <Route path="/orders" element={<Orders />} />
+          </> :
+          <>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/verifyUser" element={<VerifyUser />} />
+            <Route path="/VerifySeller" element={<VerifySeller />} />
+          </>
+      }
+      <Route path="*" element={<Navigate replace to="/" />} />
     </Route>
 
   ));

@@ -5,12 +5,12 @@ const UserOtp = require("../models/userOtp.model")
 const { sendEmail } = require("../utils/sendEmail")
 const { sign, verify } = require("jsonwebtoken");
 const { createJwtToken } = require('../utils/jwt');
-const {sendToQueue} = require('../utils/rabbitmq')
+const { sendToQueue } = require('../utils/rabbitmq')
 
 //for create user(signup)
 const createUser = async (req, res) => {
     try {
-        console.log(req.body,"create....");
+        console.log(req.body, "create....");
 
         // user exist or not
         const userExist = await User.findOne({ email: req.body.email.toLowerCase() })
@@ -39,9 +39,9 @@ const createUser = async (req, res) => {
         //create user in database
         // const user = user({name:req.body.name,email: req.body.email, password: hashPassword})
         // await user.save()
-        
-        const user = await User.create({ name: req.body.name, email: req.body.email.toLowerCase(), password: hashPassword,mobileNumber:req.body.mobileNumber })
-        console.log(user); 
+
+        const user = await User.create({ name: req.body.name, email: req.body.email.toLowerCase(), password: hashPassword, mobileNumber: req.body.mobileNumber })
+        console.log(user);
 
         return res.status(200).json(user)
     }
@@ -70,22 +70,22 @@ const loginUser = async (req, res) => {
         //check if user verify or not
         if (user.isVerify == false) {
 
-                //generate otp
-                let otp = '';
-                for (let i = 0; i < 4; i++) {
-                    otp += Math.floor(Math.random() * 10);
-                }
+            //generate otp
+            let otp = '';
+            for (let i = 0; i < 4; i++) {
+                otp += Math.floor(Math.random() * 10);
+            }
 
-                // send otp through email
-                // await sendEmail(req.body.email, otp);
-                await sendToQueue('otp_queue', { email: req.body.email, otp });
+            // send otp through email
+            // await sendEmail(req.body.email, otp);
+            await sendToQueue('otp_queue', { email: req.body.email, otp });
 
 
 
-                //insert otp in userotp table
-                const userOtp = await UserOtp.updateOne({email:req.body.email.toLowerCase()}, {$set: { otp: otp }}, {upsert: true})
+            //insert otp in userotp table
+            const userOtp = await UserOtp.updateOne({ email: req.body.email.toLowerCase() }, { $set: { otp: otp } }, { upsert: true })
 
-            
+
             return res.status(203).json(user)
 
         }
@@ -94,14 +94,20 @@ const loginUser = async (req, res) => {
 
         id = user._id
 
-        
+
         //create accesstoken and refreshtoken
-        const accessToken = await createJwtToken(id, res)
-        
+        const { accessToken, refreshToken } = await createJwtToken(id, res)
+
         user = await User.findOne({ email: req.body.email })
 
-        console.log('Cookie set: ', res.get('Set-Cookie'));
+        // console.log('Cookie set: ', res.get('Set-Cookie'));
 
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
+            // sameSite: 'none', // cross-site access
+            secure: false // https
+        })
         return res.status(200).json({ userdata: user, accessToken: accessToken })
 
     }
@@ -138,8 +144,14 @@ const verifyUser = async (req, res) => {
         //create accesstoken and refreshtoken
         user = await User.findOne({ email: req.body.email })
 
-        const accessToken = await createJwtToken(id, res)
+        const {accessToken,refreshToken} = await createJwtToken(id, res)
 
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
+            // sameSite: 'none', // cross-site access
+            secure: false // https
+        })
         return res.status(200).json({ userdata: user, accessToken: accessToken })
 
     } catch (err) {
@@ -149,52 +161,56 @@ const verifyUser = async (req, res) => {
 }
 
 const userLogout = async (req, res) => {
-    res.clearCookie("refreshToken",{httpOnly:true,secure:false})
+    res.clearCookie("refreshToken", { httpOnly: true, secure: false })
     console.log('Cookie set: ', res.get('Set-Cookie'));
-    return res.status(200).json({"message":"user sucessfully logout.."});
+    return res.status(200).json({ "message": "user sucessfully logout.." });
 }
 
 const createRefreshToken = async (req, res) => {
-    try
-    {
-    const token = req.cookies.refreshToken;
-    console.log(req.cookies);
-    //token exist ?
-    if (!token) {
-        console.log("token not found!!");
-        return res.status(404).json(null)
-    }
-    let payload = null;
-
-    //refreshToken valid ?
     try {
-        payload = verify(token, process.env.REFRESH_TOKEN_SECRET)
-    }
-    catch (err) {
-        res.status(404).json(err)
-    }
+        const token = req.cookies.refreshToken;
+        console.log(req.cookies);
+        //token exist ?
+        if (!token) {
+            console.log("token not found!!");
+            return res.status(404).json(null)
+        }
+        let payload = null;
 
-    const user = await User.findOne({_id:payload.id})
-    //user exist ?
-    if (!user) {
-        console.log("user not found !!");
-        return res.status(404).json(null)
+        //refreshToken valid ?
+        try {
+            payload = verify(token, process.env.REFRESH_TOKEN_SECRET)
+        }
+        catch (err) {
+            res.status(404).json(err)
+        }
+
+        const user = await User.findOne({ _id: payload.id })
+        //user exist ?
+        if (!user) {
+            console.log("user not found !!");
+            return res.status(404).json(null)
+        }
+        //refreshToken exist ?
+        if (user.refreshToken !== token) {
+            console.log("wrong refresh Token !!");
+            return res.status(404).json(null)
+        }
+        id = user._id
+        const {accessToken,refreshToken} = await createJwtToken(id, res)
+        // return res.send({ accessToken });
+        // console.log(accessToken);
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
+            // sameSite: 'none', // cross-site access
+            secure: false // https
+        })
+        return res.status(200).json({ userdata: user, accessToken: accessToken })
     }
-    //refreshToken exist ?
-    if (user.refreshToken !== token) {
-        console.log("wrong refresh Token !!");
-        return res.status(404).json(null)
+    catch (e) {
+        console.log("Error from createRefreshToken!!", e);
     }
-    id = user._id
-    const accessToken = await createJwtToken(id, res)
-    // return res.send({ accessToken });
-    // console.log(accessToken);
-    return res.status(200).json({ userdata: user, accessToken: accessToken })
-}
-catch(e)
-{
-    console.log("Error from createRefreshToken!!",e);
-}
 }
 
 const fetchAllUser = async (req, res) => {
@@ -218,7 +234,7 @@ const fetchUserByEmail = async (req, res) => {
 const deleteUserByEmail = async (req, res) => {
     try {
         await User.deleteOne({ email: req.params.email })
-        res.status(200).json({message:`delete user : ${req.params.email}`})
+        res.status(200).json({ message: `delete user : ${req.params.email}` })
     } catch (err) {
         console.log(err);
     }
@@ -230,7 +246,7 @@ const changePassword = async (req, res) => {
         console.log(req.body);
 
         // user exist or not
-        let user=   await User.findOne({ email: req.body.email.toLowerCase() })
+        let user = await User.findOne({ email: req.body.email.toLowerCase() })
         if (!user) {
             return res.status(404).json({ message: "user not found" })
         }
@@ -247,7 +263,7 @@ const changePassword = async (req, res) => {
 
         //update password
         await User.updateOne({ email: req.body.email }, { password: hashPassword });
-         user = await User.findOne({ email: req.body.email })
+        user = await User.findOne({ email: req.body.email })
         return res.status(200).json({ userdata: user })
     }
     catch (err) {
@@ -262,7 +278,7 @@ const forgetPassword = async (req, res) => {
         console.log(req.body);
 
         // user exist or not
-        let user=   await User.findOne({ email: req.body.email.toLowerCase() })
+        let user = await User.findOne({ email: req.body.email.toLowerCase() })
         if (!user) {
             return res.status(404).json({ message: "user not found" })
         }
@@ -277,7 +293,7 @@ const forgetPassword = async (req, res) => {
         await sendEmail(req.body.email, otp);
 
         //insert otp in userotp table
-        const userOtp = await UserOtp.updateOne({email:req.body.email.toLowerCase()}, {$set: { otp: otp }}, {upsert: true})
+        const userOtp = await UserOtp.updateOne({ email: req.body.email.toLowerCase() }, { $set: { otp: otp } }, { upsert: true })
 
         return res.status(200).json({ message: "otp send to your email" })
 
@@ -293,17 +309,17 @@ const resetPassword = async (req, res) => {
         console.log(req.body);
 
         // user exist or not
-        let user=   await User.findOne({ email: req.body.email.toLowerCase() })
+        let user = await User.findOne({ email: req.body.email.toLowerCase() })
         if (!user) {
             return res.status(404).json({ message: "user not found" })
         }
 
         //find otp from userotp table
-        const userExist = await UserOtp.findOne({ email:req.body.email.toLowerCase() })
+        const userExist = await UserOtp.findOne({ email: req.body.email.toLowerCase() })
         if (!userExist) {
             return res.status(404).json({ message: "user not found" })
         }
-        
+
         //otp match
         if (req.body.otp != userExist.otp) {
             return res.status(406).json({ message: "otp wrong!" })
@@ -314,7 +330,7 @@ const resetPassword = async (req, res) => {
         const hashPassword = await bcrypt.hash(req.body.password, saltRounds);
 
         //update password
-        await User.updateOne({email: req.body.email },{password: hashPassword });
+        await User.updateOne({ email: req.body.email }, { password: hashPassword });
         await UserOtp.deleteMany({ email: req.body.email })
         user = await User.findOne({ email: req.body.email })
 
@@ -324,6 +340,11 @@ const resetPassword = async (req, res) => {
         console.log(err);
     }
 }
+
+
+//google auth
+
+
 
 
 

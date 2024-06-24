@@ -1,3 +1,4 @@
+require("dotenv").config()
 const {initSocket} = require('./utils/socket')
 const express = require("express")
 const mongoose = require('mongoose');
@@ -12,8 +13,6 @@ const {startConsumer} = require('./utils/otpConsumer')
 
 //passport
 const passport = require('./utils/passport');
-
-require("dotenv").config()
 
 const api = require("./routes/index");
 
@@ -47,7 +46,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms  :
 
 //google auth
 app.use(session({
-    secret: 'googleAuth',
+    secret: process.env.CLIENT_SECRET,
     resave: false,
     saveUninitialized: true
   }));

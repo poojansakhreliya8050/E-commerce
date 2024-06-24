@@ -2,8 +2,8 @@ const express = require("express")
 const passport = require('passport');
 const router = express.Router()
 const { createUser, loginUser, verifyUser, userLogout, createRefreshToken, fetchAllUser, fetchUserByEmail, deleteUserByEmail, changePassword, forgetPassword, resetPassword } = require("../../controllers/userController")
-const {createJwtToken} =require("../../utils/jwt")
-const {verify} =require("jsonwebtoken")
+const { createJwtToken } = require("../../utils/jwt")
+const { verify } = require("jsonwebtoken")
 
 router.post("/createUser", createUser)
 router.post("/loginUser", loginUser)
@@ -21,8 +21,25 @@ router.delete("/deleteUserByEmail/:email", deleteUserByEmail)
 //google auth
 // router.get("/google")
 
-router.get('/google',
-    passport.authenticate('google', { scope: ['profile', 'email'] })
+const determineRedirectURL = (req, res, next) => {
+    console.log(req.query.origin);
+    // Example: check if request is coming from customer or seller
+    if (req.query.origin === 'http://localhost:3000') {
+        req.session.redirectURL = `http://localhost:3000/`;
+    }
+    else if (req.query.origin === 'http://localhost:3001') {
+        req.session.redirectURL = `http://localhost:3001/`;
+    }
+    else if (req.query.origin === 'http://localhost:3002') {
+        req.session.redirectURL = `http://localhost:3002/`;
+    }
+    else {
+        // res.status(404).json({ message: "invalid url" });
+    }
+    next();
+};
+
+router.get('/google', determineRedirectURL, passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
 router.get('/google/callback',
@@ -30,9 +47,10 @@ router.get('/google/callback',
     async (req, res) => {
         // // Successful authentication, redirect home.
         const user = req.user;
-        const id=user._id.toString()
+        const id = user._id.toString()
         // console.log("userId : "+id);
-        const {refreshToken} = await createJwtToken(id); // Assuming you have a method to generate JWT
+        // console.log(req.headers.host);
+        const { refreshToken } = await createJwtToken(id); // Assuming you have a method to generate JWT
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
@@ -40,7 +58,7 @@ router.get('/google/callback',
             secure: false // https
         })
         // console.log("refresh_token : "+refreshToken);
-        res.redirect(`http://localhost:3000/`);
+        res.redirect(req.session.redirectURL);
     }
 );
 

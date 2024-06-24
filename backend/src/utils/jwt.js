@@ -12,7 +12,6 @@ const createJwtToken = async (id) => {
 
     await User.updateOne({ _id: id }, { refreshToken: refreshToken });
 
-    console.log("refresh_token from jwt : "+refreshToken);
 
     return {accessToken,refreshToken};
 }

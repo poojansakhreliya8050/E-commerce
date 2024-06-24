@@ -15,7 +15,7 @@ const AddAddressPopUp = ({ showModal, setShowModal, setaddress,isUpdate,setIsUpd
     try {
       if (user != null ) {
         console.log(data);
-        const addresses = await axios.post(`${process.env.REACT_APP_URL}/api/v1/address/createAddress`, { ...data, "userId": user.userdata._id }, {
+        const addresses = await axios.post(`${process.env.REACT_APP_URL}/api/v1/address/createAddress`, { ...data, "userId": user._id }, {
           withCredentials: true,
           headers: {
             'Content-Type': 'application/json',

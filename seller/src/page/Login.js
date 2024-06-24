@@ -29,15 +29,22 @@ const Login = () => {
                     }).toString()
                 })
             }
-            else{
-             dispatch(setCredentials(user?.data))
-            navigate("/")
+            else {
+                dispatch(setCredentials(user?.data))
+                navigate("/")
             }
         }
         catch (err) {
             console.log(err);
         }
     }
+
+    const handleGoogleLogin = async (event) => {
+        event.preventDefault();
+        const origin = window.location.origin;
+        window.location.href = `http://localhost:8000/api/v1/user/google?origin=${encodeURIComponent(origin)}`;
+    }
+
 
     return (
         <div className='h-screen w-screen border-2 flex justify-center items-center bg-slate-200'>
@@ -46,9 +53,11 @@ const Login = () => {
                 <p class="text-slate-500">Hi, Welcome back 👋</p>
 
                 <div class="my-5">
-                    <button class="w-full text-center py-3 my-3 border flex space-x-2 items-center justify-center border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
-                        <img src="https://www.svgrepo.com/show/355037/google.svg" class="w-6 h-6" alt="" /> <span>Login with Google</span>
-                    </button>
+                    <a href="http://localhost:8000/api/v1/user/google" onClick={handleGoogleLogin}>
+                        <button class="w-full text-center py-3 my-3 border flex space-x-2 items-center justify-center border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150">
+                            <img src="https://www.svgrepo.com/show/355037/google.svg" class="w-6 h-6" alt="" /> <span>Login with Google</span>
+                        </button>
+                    </a>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} class="my-10">
                     <div class="flex flex-col space-y-5">
@@ -77,7 +86,7 @@ const Login = () => {
                             </svg>
                             <span>Login</span>
                         </button>
-                        <p class="text-center flex">Not registered yet? 
+                        <p class="text-center flex">Not registered yet?
                             &nbsp;
                             <Link to="/register" class="text-indigo-600 font-medium inline-flex space-x-1 items-center"><span>Register now </span><span><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg></span>

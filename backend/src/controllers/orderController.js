@@ -2,6 +2,7 @@ const Order = require("../models/order.model")
 const Cart = require('../models/cart.model')
 const Product = require('../models/product.model');
 const User = require('../models/user.model');
+const { getSocket } = require("../utils/socket");
 const stripe = require('stripe')("sk_test_51PSiEmSDwUSUpxqT11f62LvpsICEu3X1d06NmkdovQw1YHM8wraqIV9CIQG8yTuwiE1THL3HfEY1nmq1OAjcMWS6002e05qlGT");
 
 
@@ -40,10 +41,10 @@ const addToOrder = async (req, res) => {
     const uniqueSellerIds = [...new Set(sellerIds)];
     console.log(uniqueSellerIds);
     uniqueSellerIds.forEach(async (sellerId) => {
-      const items = cart.items.filter((item) => item.item.userId == sellerId );
+      const items = cart.items.filter((item) => item.item.userId == sellerId);
       const totalAmount = items.reduce((acc, item) => acc + item.item.price * item.quantity, 0);
       // console.log(...items);
-      const order = new Order({
+      let order = new Order({
         userId,
         sellerId,
         items,
@@ -51,6 +52,9 @@ const addToOrder = async (req, res) => {
         address: addressId
       })
       await order.save()
+      order=await Order.findById(order._id).populate('userId').populate('items.item');
+      const io=getSocket();
+      io.to(sellerId).emit('newOrder',order);
     });
 
     await Cart.findOneAndDelete({ userId });
@@ -96,7 +100,7 @@ const getOrder = async (req, res) => {
 //get order by seller id
 const getOrderBySellerId = async (req, res) => {
   try {
-    const orders = await Order.find({ sellerId: req.params.sellerId}).populate('items.item').populate('userId').populate('address').sort({ createdAt: -1 });
+    const orders = await Order.find({ sellerId: req.params.sellerId }).populate('items.item').populate('userId').populate('address').sort({ createdAt: -1 });
     res.status(200).json(orders);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -158,10 +162,10 @@ const makePayment = async (req, res) => {
       line_items: cart.items.map(item => ({
         price_data: {
           currency: 'inr',
-          product_data:{
+          product_data: {
             name: item.item.productName,
           },
-          unit_amount: item.item.price*100,
+          unit_amount: item.item.price * 100,
         },
         quantity: item.quantity,
       })),
@@ -178,4 +182,4 @@ const makePayment = async (req, res) => {
 
 
 
-module.exports = { addToOrder, getOrders,getOrdersByUserId, getOrder, getOrderBySellerId,cancelledOrder,dispatchedOrder,onTheWayOrder,deliveredOrder,makePayment}
+module.exports = { addToOrder, getOrders, getOrdersByUserId, getOrder, getOrderBySellerId, cancelledOrder, dispatchedOrder, onTheWayOrder, deliveredOrder, makePayment }

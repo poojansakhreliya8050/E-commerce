@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 
 const OrderCard = ({ order }) => {
-    console.log(order);
+    // console.log(order);
     return (
         <div className="w-full h-48 bg-white rounded-lg p-4 mb-3">
 

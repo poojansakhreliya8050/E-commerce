@@ -17,7 +17,7 @@ const Directory = () => {
         const fetchData = async () => {
             try {
                 if (user != null) {
-                const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/seller/fetchSellerByUserId/${user.userdata._id}`);
+                const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/seller/fetchSellerByUserId/${user._id}`);
                 console.log(response);
                 setSellerData(response.data);
                 }

@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 import OrderCard from '../components/OrderCard';
 import dateFormat from 'dateformat'
+import socket from '../config/socket';
 
 const Orders = () => {
 
@@ -14,7 +15,7 @@ const Orders = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (user != null ) {
+                if (user != null) {
                     const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getOrderBySellerId/65f47716c1f778c761717e1b`);
                     // console.log(response);
                     setOrders(response.data);
@@ -26,6 +27,26 @@ const Orders = () => {
 
         fetchData(); // call the function to fetch data when the component mounts
     }, []);
+
+    useEffect(() => {
+        if (user != null) {
+
+            console.log("Joining seller room: ", user._id);
+            // Join seller's room
+            socket.emit('joinSeller', user._id);
+
+            // Listen for new orders
+            socket.on('newOrder', (order) => {
+                setOrders((prevOrders) => [order, ...prevOrders]);
+                console.log(order);
+            });
+
+            return () => {
+                socket.off('newOrder');
+                socket.emit('leaveSeller', user._id);
+            };
+        }
+    }, [user._id]);
 
     const handelCancleOrder = async (orderId) => {
         try {
@@ -61,7 +82,7 @@ const Orders = () => {
                     orders != null ?
                         orders.map(order =>
 
-                            <div key={order._id} className='w-full border-2 mb-4 bg-slate-200'>
+                            <div key={order._id} className='w-full mt-24 border-2 mb-4 bg-slate-200'>
 
 
                                 <div className='w-full flex justify-between'>
@@ -90,7 +111,7 @@ const Orders = () => {
                                         </div>
                                     </div>
                                     {
-                                        order.deliveryStatus=="pending" &&
+                                        order.deliveryStatus == "pending" &&
                                         <div className='w-2/5 flex flex-col '>
                                             <button onClick={(e) => handelCancleOrder(order._id)} className="w-2/3 hover:bg-red-500  mt-5 uppercase text-sm font-bold tracking-wide bg-gray-600 text-gray-100 p-3 rounded-lg  focus:outline-none focus:shadow-outline">
                                                 Cancle Order

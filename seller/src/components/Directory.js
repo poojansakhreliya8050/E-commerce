@@ -27,7 +27,7 @@ const Directory = () => {
             }
         };
         fetchData(); // call the function to fetch data when the component mounts
-    }, []);
+    }, [user?._id]);
 
 
 

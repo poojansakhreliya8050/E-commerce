@@ -198,12 +198,10 @@ const createRefreshToken = async (req, res) => {
         }
         id = user._id
         const {accessToken,refreshToken} = await createJwtToken(id, res)
-        // return res.send({ accessToken });
         // console.log(accessToken);
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
-            // sameSite: 'none', // cross-site access
             secure: false // https
         })
         return res.status(200).json({ userdata: user, accessToken: accessToken })

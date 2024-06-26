@@ -9,15 +9,17 @@ import VerifyUser from './page/VerifyUser';
 import Directory from './components/Directory';
 import VerifySeller from './page/VerifySeller';
 import Orders from './page/Orders';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useRefreshTokenQuery } from './redux/user/authApiSlice';
 import { setCredentials } from './redux/user/authSlice';
+import socket from './config/socket';
+import { recivedOrder } from './redux/notification/notificationSlice';
 
 
 export const App = () => {
-
+  const [notificationPermission, setNotificationPermission] = useState(null);
   const dispatch = useDispatch();
 
   const auth = useSelector(state => state.auth.user);
@@ -30,6 +32,39 @@ export const App = () => {
       dispatch(setCredentials(refreshToken));
     }
   }, [refreshToken, dispatch]);
+
+  useEffect(() => {
+    console.log("Notification permission: ", Notification.permission);
+    if (Notification.permission != 'granted') {
+      Notification.requestPermission();
+    }
+
+    if (auth != null) {
+      console.log("Joining seller room: ", auth._id);
+      // Join seller's room
+      socket.emit('joinSeller', auth._id);
+
+      // Listen for new orders
+      socket.on('newOrder', (order) => {
+        dispatch(recivedOrder());
+        console.log(order);
+
+        // Show browser notification
+        if (Notification.permission == 'granted') {
+          console.log("notification received");
+          new Notification('New Order Received', {
+            body: `Order Details: ${order.items.map(item => item.item.productName).join(', ')}`,
+            icon: order.items[0].item.img // Optional: URL to an icon
+          });
+        }
+      });
+
+      return () => {
+        socket.off('newOrder');
+        socket.emit('leaveSeller', auth._id);
+      };
+    }
+  });
 
 
   const router = createBrowserRouter(createRoutesFromElements(

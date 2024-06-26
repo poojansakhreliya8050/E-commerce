@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import OrderCard from '../components/OrderCard';
 import dateFormat from 'dateformat'
 import socket from '../config/socket';
+import { clearOrder } from '../redux/notification/notificationSlice';
 
 const Orders = () => {
 
     const [orders, setOrders] = useState(null);
+    const dispatch = useDispatch();
     // const [showModel, setShowModel] = useState(false);
     const user = useSelector(state => state.auth.user)
 
@@ -25,6 +27,7 @@ const Orders = () => {
             }
         };
 
+        dispatch(clearOrder());
         fetchData(); // call the function to fetch data when the component mounts
     }, []);
 
@@ -46,7 +49,7 @@ const Orders = () => {
                 socket.emit('leaveSeller', user._id);
             };
         }
-    }, [user._id]);
+    }, [user?._id]);
 
     const handelCancleOrder = async (orderId) => {
         try {

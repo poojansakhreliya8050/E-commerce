@@ -18,8 +18,6 @@ router.get("/fetchAllUser", fetchAllUser)
 router.get("/fetchUserByEmail/:email", fetchUserByEmail)
 router.delete("/deleteUserByEmail/:email", deleteUserByEmail)
 
-//google auth
-// router.get("/google")
 
 const determineRedirectURL = (req, res, next) => {
     console.log(req.query.origin);
@@ -43,20 +41,19 @@ router.get('/google', determineRedirectURL, passport.authenticate('google', { sc
 );
 
 router.get('/google/callback',
-    passport.authenticate('google', { failureRedirect: "/login", session: false }),
+    passport.authenticate('google', { failureRedirect: `/login`, session: false }),
     async (req, res) => {
-        // // Successful authentication, redirect home.
+        //  Successful authentication, redirect home.
         const user = req.user;
         const id = user._id.toString()
-        // console.log("userId : "+id);
-        // console.log(req.headers.host);
         const { refreshToken } = await createJwtToken(id); // Assuming you have a method to generate JWT
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
-            // sameSite: 'none', // cross-site access
             secure: false // https
         })
+        // console.log("refresh_token from callback function: " + refreshToken);
+
         // console.log("refresh_token : "+refreshToken);
         res.redirect(req.session.redirectURL);
     }
@@ -71,12 +68,6 @@ router.get('/google/logout', (req, res) => {
         res.redirect('/');
     });
 });
-
-// router.get('/google/me',(req,res)=>{
-//     let refreshToken=req.cookies.refreshToken
-
-// })
-
 
 
 module.exports = router

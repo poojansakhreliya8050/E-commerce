@@ -70,7 +70,7 @@ const AddProduct = () => {
         formData.append('productDescription', productDescription);
         formData.append('price', price); 
         formData.append('quantity', quantity);
-        formData.append('userId', user.userdata._id);
+        formData.append('userId', user._id);
 
         console.log(categoryId,subCategoryId,productName,productDescription,price,quantity);
 

@@ -1,5 +1,6 @@
 import './App.css';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Navigate } from 'react-router-dom'
+import axios from 'axios';
 import Home from './page/Home'
 import AddProduct from './page/AddProduct';
 import Product from './page/Product';
@@ -16,13 +17,14 @@ import { useRefreshTokenQuery } from './redux/user/authApiSlice';
 import { setCredentials } from './redux/user/authSlice';
 import socket from './config/socket';
 import { recivedOrder } from './redux/notification/notificationSlice';
+import {setSellerData} from './redux/seller/sellerSlice';
 
 
 export const App = () => {
-  const [notificationPermission, setNotificationPermission] = useState(null);
   const dispatch = useDispatch();
 
   const auth = useSelector(state => state.auth.user);
+  const seller=useSelector(state=>state.seller.sellerData)
   // console.log(auth);
 
   const { data: refreshToken } = useRefreshTokenQuery();
@@ -66,12 +68,27 @@ export const App = () => {
     }
   });
 
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            if (auth != null && seller==null) {
+            const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/seller/fetchSellerByUserId/${auth._id}`);
+            console.log(response);
+            dispatch(setSellerData(response.data));
+            }
+        }
+        catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+    fetchData(); // call the function to fetch data when the component mounts
+}, []);
 
   const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Home />}>
       <Route index element={<Directory />} />
       {
-        auth != null ?
+        auth != null && seller!=null?
           <>
             <Route path="/addProduct" element={<AddProduct />} />
             <Route path="/products" element={<Product />} />

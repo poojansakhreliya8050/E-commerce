@@ -1,36 +1,13 @@
-import React, { useState,useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import HowToSell from "./HowToSell";
 import WhyChoose from "./WhyChoose";
 
-const Directory = () => {
-    const [sellerData,setSellerData]=useState(null);
-    const navigate = useNavigate();
+const Directory = () => { 
     const user = useSelector((state) => state.auth.user);
+    const sellerData = useSelector((state) => state.seller.sellerData);
     console.log(user);
-    const dispatch = useDispatch();
-
-        //fetch seller data using useEffect
-       useEffect(() => {
-        const fetchData = async () => {
-            try {
-                if (user != null) {
-                const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/seller/fetchSellerByUserId/${user._id}`);
-                console.log(response);
-                setSellerData(response.data);
-                }
-            }
-            catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchData(); // call the function to fetch data when the component mounts
-    }, [user?._id]);
-
-
-
 
     const checkMark = (
         <svg

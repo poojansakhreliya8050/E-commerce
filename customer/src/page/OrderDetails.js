@@ -52,7 +52,7 @@ const OrderDetails = () => {
   const handelCancleOrder = async () => {
     try {
       if (orderId != null) {
-        const response = await axios.put(`${process.env.REACT_APP_URL}/api/v1/order/cancelledOrder/${orderId}`);
+        const response = await axios.patch(`${process.env.REACT_APP_URL}/api/v1/order/cancelledOrder/${orderId}`);
         console.log(response);
         setOrder({ ...order, deliveryStatus: 'cancelled' });
       }

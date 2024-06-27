@@ -13,6 +13,9 @@ const SearchBar = ({setFilterData}) => {
                 setFilterData(product.data)
                 console.log(product.data);
                 }
+                else{
+                    setFilterData(null)
+                }
             } catch (err) {
                 console.log(err);
             }

@@ -4,29 +4,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartData } from '../redux/cart/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import { useGetCartQuery } from '../redux/cart/cartApiSlice';
-import {useAddToCartMutation,useRemoveFromCartMutation} from '../redux/cart/cartApiSlice'
+import { useAddToCartMutation, useRemoveItemFromCartMutation } from '../redux/cart/cartApiSlice'
 
 const Productcard = ({ product }) => {
   // console.log(product);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const cart=useSelector(state=>state.cartData.cart);
+  const cart = useSelector(state => state.cartData.cart);
 
   const [addToCartMutation] = useAddToCartMutation()
-  const [removeFromCartMutation] = useRemoveFromCartMutation()
+  const [removeItemFromCartMutation] = useRemoveItemFromCartMutation()
 
-  const navigate=useNavigate()
+  const navigate = useNavigate()
 
   let isAvailable = false;
   if (cart != null) {
     isAvailable = cart.items.find(item => item.item._id == product._id)
   }
 
-  const removeFromcart = async () => {
-    console.log("remove");
+
+  const removeItemFromCart=async()=>{
+    console.log("removeItemFromCart");
     try {
       if (user != null) {
-       await removeFromCartMutation({userId:user._id,productId:product._id}).unwrap()
+       await removeItemFromCartMutation({ userId: user._id, productId: product._id }).unwrap()
       }
     } catch (err) {
       console.log(err);
@@ -34,71 +35,57 @@ const Productcard = ({ product }) => {
   }
 
   const addToCart = async () => {
-    
-    if(user==null )
+
+    if (user == null)
       return navigate("/login")
 
     try {
       if (user != null) {
-      await addToCartMutation({userId:user._id,productId:product._id}).unwrap()
+        await addToCartMutation({ userId: user._id, productId: product._id }).unwrap()
       }
     } catch (err) {
       console.log(err);
     }
   }
 
- 
+
   return (
-    <div className="w-full md:w-1/2 lg:w-1/4 pl-5 pr-5 mb-5 lg:pl-2 lg:pr-2">
-      <div className="bg-white rounded-lg m-h-64 p-2 transform hover:translate-y-2 hover:shadow-xl transition duration-300">
-        <figure className="mb-2">
-          <img src={product.img} alt="" className="h-64 ml-auto mr-auto" />
-        </figure>
-        <div className="rounded-lg p-4 bg-purple-700 flex flex-col">
-          <div>
-            <h5 className="text-white text-2xl font-bold leading-none">
-              {product.productName}
-            </h5>
-            <span className="text-xs text-gray-400 leading-none">{product.productDescription}</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="text-lg text-white font-light">
-              {product.price}
-            </div>
+    <div class="group w-[340px] overflow-hidden cursor-pointer flex flex-col group m-4   rounded-lg shadow-lg duration-200 hover:scale-105">
+      <div class="h-48 md:h-56 lg:h-[16rem]  border-2 border-white flex items-center justify-center text-white text-base mb-3 md:mb-5 overflow-hidden relative">
+        <img
+          src={product.img}
+          class=" object-cover w-full h-full scale-100 group-hover:scale-110 transition-all duration-400"
+          alt="product"
+        />
 
-            {
-              isAvailable == false || isAvailable==undefined?
-                <button href="javascript:;" className="flex justify-center rounded-full bg-green-600 text-white hover:bg-white hover:text-purple-900 hover:shadow-xl focus:outline-none w-10 h-10 ml-auto transition duration-300" onClick={addToCart}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="stroke-current m-auto">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </button> :
-                <div className='flex justify-evenly w-1/2'>
-                  <button href="javascript:;" className="justify-center rounded-full bg-green-600 text-white hover:bg-white hover:text-purple-900 hover:shadow-xl focus:outline-none w-10 h-10 flex ml-auto transition duration-300" onClick={addToCart}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="stroke-current m-auto">
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                  </button>
+        <div class="absolute z-10 border-4 border-primary w-[95%] h-[95%] invisible group-hover:visible opacity-0 group-hover:opacity-100 group-hover:scale-90 transition-all duration-500"></div>
+      </div>
+      <p class=" block text-black text-center hover:text-primary transition-colors duration-150 text-lg md:text-xl mb-1">
+        {product.productName}
+      </p>
 
-                  <div className='flex justify-center w-10 h-10 align-middle' >{isAvailable.quantity}</div>
+      <p class="mb-4 font-light  text-sm md:text-sm text-center text-gray-950">
+        {product.productDescription.length > 30 ? product.productDescription.substring(0, 30) + " ..." : product.productDescription}
+      </p>
 
-                  <button href="javascript:;" className="justify-center rounded-full bg-red-600 text-white hover:bg-white hover:text-purple-900 hover:shadow-xl focus:outline-none w-10 h-10 flex ml-auto transition duration-300" onClick={removeFromcart}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="stroke-current m-auto">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                  </button>
-                </div>
-            }
+      <div className="mb-4 text-sm md:text-sm text-center text-gray-950 font-light">
+        {product.price}
+      </div>
+
+      <div class="flex justify-center gap-x-3">
+        {
+          isAvailable == false || isAvailable == undefined ?
+            <button onClick={()=>addToCart()} class="group-hover:bottom-2 relative -bottom-12 rounded-md px-5 py-2 border border-primary text-primary hover:bg-primary  transition-all outline-none bg-black border-black text-white hover:text-black hover:bg-white font-bold">
+              Add To Cart
+            </button> :
+            <button onClick={()=>removeItemFromCart()} class="group-hover:bottom-2 relative -bottom-12 rounded-md px-5 py-2 border border-primary text-primary hover:bg-primary  transition-all outline-none bg-black border-black text-white hover:text-black hover:bg-white font-bold">
+              Remove From Cart
+            </button>
+        }
 
 
-
-          </div>
-        </div>
       </div>
     </div>
-
   )
 }
 

@@ -10,7 +10,7 @@ const createJwtToken = async (id) => {
         expiresIn: "7d"
     })
 
-    // console.log("refrsh token from jwt : ",refreshToken);
+    // console.log("refresh token from jwt : ",refreshToken);
     await User.updateOne({ _id: id }, { refreshToken: refreshToken },{ new: true });
 
 

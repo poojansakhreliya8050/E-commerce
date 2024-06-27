@@ -29,8 +29,8 @@ const Product = () => {
     }, []);
 
     return (
-        <div className='w-screen flex justify-center'>
-            <div className=' w-3/5 flex-col justify-around justify-items-center '>
+        <div className='w-screen flex justify-center bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%'>
+            <div className=' w-3/5 flex-col justify-around justify-items-center mt-16'>
                 {
                     products != null ?
                         products.map(product => <ProductCard key={product._id} product={product} setProducts={setProducts} setShowModel={setShowModel} setProductId={setProductId} />) : <></>

@@ -169,7 +169,7 @@ const userLogout = async (req, res) => {
 const createRefreshToken = async (req, res) => {
     try {
         const token = req.cookies.refreshToken;
-        console.log(req.cookies);
+        // console.log(req.cookies);
         //token exist ?
         if (!token) {
             console.log("token not found!!");
@@ -191,6 +191,11 @@ const createRefreshToken = async (req, res) => {
             console.log("user not found !!");
             return res.status(404).json(null)
         }
+
+        console.log("refreshToken from cookies:", token);
+        console.log("refreshToken from database :", user.refreshToken);
+
+
         //refreshToken exist ?
         if (user.refreshToken !== token) {
             console.log("wrong refresh Token !!");
@@ -198,8 +203,9 @@ const createRefreshToken = async (req, res) => {
         }
         id = user._id
         const {accessToken,refreshToken} = await createJwtToken(id, res)
-        // console.log(accessToken);
-        res.cookie("refreshToken", refreshToken, {
+        console.log("newly send refreshToken :", refreshToken);  
+
+        res.cookie("refreshToken", refreshToken, { 
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
             secure: false // https

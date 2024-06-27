@@ -41,7 +41,7 @@ router.get('/google', determineRedirectURL, passport.authenticate('google', { sc
 );
 
 router.get('/google/callback',
-    passport.authenticate('google', { failureRedirect: `/login`, session: false }),
+    passport.authenticate('google', { failureRedirect: `http://localhost:3000/login`, session: false }),
     async (req, res) => {
         //  Successful authentication, redirect home.
         const user = req.user;

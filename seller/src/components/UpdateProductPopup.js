@@ -82,8 +82,8 @@ const UpdateProductPopup = ({ showModel, setShowModel, productId, setProductId }
     if (!showModel) return;
 
     return (
-        <div className="fixed inset-0 pt-20 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll">
-            <div className="bg-white rounded-lg shadow-lg w-2/3 ">
+        <div className="fixed inset-0 pt-20 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 overflow-y-scroll ">
+            <div className="backdrop-blur-sm bg-white/50 rounded-lg shadow-lg w-2/3 ">
                 <div className="p-4">
                     <button className="z-50 float-right text-gray-600 hover:text-gray-800 text-3xl" onClick={() => { setShowModel(false);setProductId(null); }}>
                         &times;
@@ -99,8 +99,8 @@ const UpdateProductPopup = ({ showModel, setShowModel, productId, setProductId }
 
                         {/* category dropdown */}
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
-                            <div className="relative border border-gray-300 text-gray-900 bg-gray-100 focus:outline-none focus:shadow-outline">
-                                <select className="appearance-none w-full py-1 px-2 bg-gray-100" name="whatever" id="frm-whatever" onChange={e => setCategoryId(e.target.value)}>
+                            <div className="relative border border-gray-300 text-gray-900 bg-gray-300 focus:outline-none focus:shadow-outline">
+                                <select className="appearance-none w-full py-1 px-2 bg-gray-300" name="whatever" id="frm-whatever" onChange={e => setCategoryId(e.target.value)}>
                                     <option value="">Select Category</option>
                                     {categories != null && categories.map(category => <option key={category._id} value={category._id} selected={categoryId != null && categoryId == category._id}>{category.categoryTitle} </option>)}
                                 </select>
@@ -115,8 +115,8 @@ const UpdateProductPopup = ({ showModel, setShowModel, productId, setProductId }
                         {/* subcategory dropdown */}
 
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
-                            <div className="relative border border-gray-300 text-gray-900 bg-gray-100 focus:outline-none focus:shadow-outline">
-                                <select className="appearance-none w-full py-1 px-2 bg-gray-100" name="whatever" id="frm-whatever" onChange={e => setSubCategoryId(e.target.value)}>
+                            <div className="relative border border-gray-300 text-gray-900 bg-gray-300 focus:outline-none focus:shadow-outline">
+                                <select className="appearance-none w-full py-1 px-2 bg-gray-300" name="whatever" id="frm-whatever" onChange={e => setSubCategoryId(e.target.value)}>
                                     <option value="">Select SubCategory</option>
                                     {subCategories != null && subCategories.map(subCategory => <option key={subCategory._id} value={subCategory._id} selected={subCategoryId != null && subCategoryId == subCategory._id}>{subCategory.subCategoryTitle}</option>)}
                                 </select>
@@ -129,19 +129,19 @@ const UpdateProductPopup = ({ showModel, setShowModel, productId, setProductId }
                         </div>
 
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
-                            <input value={productName} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="text" placeholder="Product name*" onChange={e => setProductName(e.target.value)} />
+                            <input value={productName} className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="text" placeholder="Product name*" onChange={e => setProductName(e.target.value)} />
                         </div>
 
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
-                            <input value={productDescription} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="text" placeholder="Product description*" onChange={e => setProductDescription(e.target.value)} />
+                            <input value={productDescription} className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="text" placeholder="Product description*" onChange={e => setProductDescription(e.target.value)} />
                         </div>
 
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
-                            Price : <input value={price} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="number" placeholder="Price*" onChange={e => setPrice(e.target.value)} />
+                            Price : <input value={price} className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="number" placeholder="Price*" onChange={e => setPrice(e.target.value)} />
                         </div>
 
                         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
-                            Quantity : <input value={quantity} className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="number" placeholder="quantity*" onChange={e => setQuantity(e.target.value)} />
+                            Quantity : <input value={quantity} className="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline" type="number" placeholder="quantity*" onChange={e => setQuantity(e.target.value)} />
                         </div>
 
 

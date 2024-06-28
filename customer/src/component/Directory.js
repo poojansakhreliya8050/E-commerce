@@ -4,6 +4,7 @@ import CategoryCard from './CategoryCard'
 import { useDispatch, useSelector } from 'react-redux';
 import { categoryData,addNewCategory } from '../redux/category/categorySlice';
 import socket from '../config/socket';
+import ProductSimmer from './ProductSimmer';
 
 
 const Directory = () => {
@@ -45,7 +46,8 @@ const Directory = () => {
          <div className='w-full flex justify-center items-center'>
            <div className='flex min-h-screen w-4/5 items-center justify-around flex-wrap'>
               {
-                categories.length>0 && categories.map(category=> <CategoryCard key={category._id} category={category} />)
+                categories.length>0 ? categories.map(category=> <CategoryCard key={category._id} category={category} />):
+                Array(8).fill().map(()=><ProductSimmer/>)
               }
            </div>
          </div>

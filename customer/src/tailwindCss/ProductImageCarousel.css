@@ -1,0 +1,17 @@
+.custom-dots {
+    @apply flex justify-center p-2 -bottom-16 ;
+  }
+  
+
+  .slick-dots li {
+    @apply mx-4 mt-5; /* Add margin between dots */
+  }
+  
+ 
+  .slick-dots .slick-active img{
+    @apply border-black grayscale-0;
+  }
+  
+  .slick-prev, .slick-next {
+    @apply z-10 top-1/2 transform -translate-y-1/2 text-2xl text-black;
+  }

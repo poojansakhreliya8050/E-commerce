@@ -3,20 +3,26 @@ const uploadOnCloudinary = require("../utils/cloudinaryUpload");
 const Category = require("../models/category.model");
 const SubCategory = require("../models/subCategory.model");
 
-const {getSocket}=require("../utils/socket");
+const { getSocket } = require("../utils/socket");
 
 
 const addProduct = async (req, res) => {
     console.log(req.body);
-    console.log(req.file);
+    console.log(req.files);
     try {
-        if (!req.body.categoryId || !req.body.subCategoryId || !req.body.productName || !req.body.productDescription || !req.body.price || !req.body.quantity || !req.body.userId ||!req.file) {
+        if (!req.body.categoryId || !req.body.subCategoryId || !req.body.productName || !req.body.productDescription || !req.body.price || !req.body.quantity || !req.body.userId || req.files.length == 0) {
             return res.status(404).json({ message: "please enter valid data.." })
         }
-        const imageData = await uploadOnCloudinary(req.file.path);
+        const imagePromises = req.files.map(async (file) => {
+            const image= await uploadOnCloudinary(file.path);
+            return image.url;
+        })
+        const imageData=await Promise.all(imagePromises);
+
+        // const imageData = await uploadOnCloudinary(req.file.path);
         // console.log(imageData);
-        const product = await Product.create({ categoryId: req.body.categoryId, subCategoryId: req.body.subCategoryId, productName: req.body.productName, productDescription: req.body.productDescription, price: req.body.price, quantity: req.body.quantity, img: imageData.url,userId:req.body.userId})
-        console.log(product,req.body.categoryId);
+        const product = await Product.create({ categoryId: req.body.categoryId, subCategoryId: req.body.subCategoryId, productName: req.body.productName, productDescription: req.body.productDescription, price: req.body.price, quantity: req.body.quantity, img: imageData, userId: req.body.userId })
+        console.log(product, req.body.categoryId);
 
         const io = getSocket();
         io.to(req.body.categoryId).emit('newProduct', product);
@@ -27,23 +33,29 @@ const addProduct = async (req, res) => {
     }
     catch (e) {
         console.log(e);
+        return res.status(404).json({ message: "something went wrong" })
     }
 }
+
 const fetchAllProduct = async (req, res) => {
     try {
         const allProduct = await Product.find().populate('categoryId').populate('subCategoryId');
         res.status(200).json(allProduct)
     } catch (err) {
         console.log(err);
+        return res.status(404).json({ message: "something went wrong" })
+
     }
 }
 
 const fetchAllProductByCategoryId = async (req, res) => {
     try {
-        const allProduct = await Product.find({categoryId:req.params.categoryId});
+        const allProduct = await Product.find({ categoryId: req.params.categoryId });
         res.status(200).json(allProduct)
     } catch (err) {
         console.log(err);
+        return res.status(404).json({ message: "something went wrong" })
+
     }
 }
 
@@ -52,11 +64,10 @@ const changeProductState = async (req, res) => {
         console.log(req.params.productId);
         const product = await
             Product.findOne({ _id: req.params.productId });
-            console.log(product);
+        console.log(product);
 
-        if(product==null)
-        {
-            return res.status(404).json({message:"product not found"})
+        if (product == null) {
+            return res.status(404).json({ message: "product not found" })
         }
 
         if (product.status == "active") {
@@ -70,15 +81,17 @@ const changeProductState = async (req, res) => {
     }
     catch (e) {
         console.log(e);
+        return res.status(404).json({ message: "something went wrong" })
     }
 }
 
 const fetchAllProductBySubCategoryId = async (req, res) => {
     try {
-        const allProduct = await Product.find({subCategoryId:req.params.subCategoryId});
+        const allProduct = await Product.find({ subCategoryId: req.params.subCategoryId });
         res.status(200).json(allProduct)
     } catch (err) {
         console.log(err);
+        return res.status(404).json({ message: "something went wrong" })
     }
 }
 
@@ -88,6 +101,8 @@ const fetchProductByName = async (req, res) => {
         res.status(200).json(product)
     } catch (err) {
         console.log(err);
+        return res.status(404).json({ message: "something went wrong" })
+
     }
 }
 
@@ -97,23 +112,26 @@ const deleteProductByid = async (req, res) => {
         res.status(200).json({ message: `delete product : ${req.params.id}` })
     } catch (err) {
         console.log(err);
+        return res.status(404).json({ message: "something went wrong" })
+
     }
 }
 
 const fetchProductById = async (req, res) => {
     try {
-        const product = await
-            Product.findOne({ _id: req.params.productId });
+        const product = await Product.findOne({ _id: req.params.productId }).populate('categoryId').populate('subCategoryId').populate('userId').populate('reviews').populate('reviews.userId');
         res.status(200).json(product)
     }
     catch (e) {
         console.log(e);
+        return res.status(404).json({ message: "something went wrong" })
+
     }
 }
 
-const fetchProductByUserId=async (req,res)=>{
+const fetchProductByUserId = async (req, res) => {
     try {
-        const allProduct = await Product.find({userId:req.params.userId});
+        const allProduct = await Product.find({ userId: req.params.userId });
         res.status(200).json(allProduct)
     } catch (err) {
         console.log(err);
@@ -122,37 +140,38 @@ const fetchProductByUserId=async (req,res)=>{
 
 //give me efficient search query to search product by name and also after append category and subcategory name wise product
 
-const searchProducts=async (req,res)=>{
+const searchProducts = async (req, res) => {
     try {
-        let query=req.query.query;
-        const products = await Product.find({productName: { $regex: query, $options: 'i' }});
+        let query = req.query.query;
+        const products = await Product.find({ productName: { $regex: query, $options: 'i' } });
         //also append category and subcategory name wise product
-        const subCategoriesId=await SubCategory.find({subCategoryTitle: { $regex: query, $options: 'i' }},{_id:1});
-        const categoryId=await Category.find({categoryTitle: { $regex: query, $options: 'i' }},{_id:1});
-        const subCategoryProduct=await Product.find({subCategoryId:{$in:subCategoriesId}});
-        const categoryProduct=await Product.find({categoryId:{$in:categoryId}});
+        const subCategoriesId = await SubCategory.find({ subCategoryTitle: { $regex: query, $options: 'i' } }, { _id: 1 });
+        const categoryId = await Category.find({ categoryTitle: { $regex: query, $options: 'i' } }, { _id: 1 });
+        const subCategoryProduct = await Product.find({ subCategoryId: { $in: subCategoriesId } });
+        const categoryProduct = await Product.find({ categoryId: { $in: categoryId } });
 
-        const allProduct=products.concat(subCategoryProduct).concat(categoryProduct);
+        const allProduct = products.concat(subCategoryProduct).concat(categoryProduct);
         res.status(200).json(allProduct)
     }
     catch (e) {
         console.log(e);
-        res.status(404).json({message:"product not found"})
+        res.status(404).json({ message: "product not found" })
     }
 }
 
 
 
 
-module.exports = 
-{ addProduct, 
-fetchAllProduct, 
-fetchProductByName, 
-deleteProductByid ,
-fetchAllProductByCategoryId,
-fetchAllProductBySubCategoryId,
-changeProductState,
-fetchProductById,
-fetchProductByUserId,
-searchProducts
+module.exports =
+{
+    addProduct,
+    fetchAllProduct,
+    fetchProductByName,
+    deleteProductByid,
+    fetchAllProductByCategoryId,
+    fetchAllProductBySubCategoryId,
+    changeProductState,
+    fetchProductById,
+    fetchProductByUserId,
+    searchProducts
 }

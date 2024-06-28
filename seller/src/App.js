@@ -82,7 +82,7 @@ export const App = () => {
         }
     };
     fetchData(); // call the function to fetch data when the component mounts
-}, []);
+}, [auth]);
 
   const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Home />}>

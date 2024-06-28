@@ -63,7 +63,6 @@ const AddProduct = () => {
 
         console.log(image);
         const formData = new FormData();
-        formData.append('image', image);
         formData.append('categoryId', categoryId);
         formData.append('subCategoryId', subCategoryId);
         formData.append('productName', productName);
@@ -71,6 +70,10 @@ const AddProduct = () => {
         formData.append('price', price); 
         formData.append('quantity', quantity);
         formData.append('userId', user._id);
+        // formData.append('image', image);
+        image.forEach((image) => {
+            formData.append('image', image);
+          });
 
         console.log(categoryId,subCategoryId,productName,productDescription,price,quantity);
 

@@ -3,7 +3,6 @@ import axios from "axios";
 import SubCategorySlider from "../component/SubCategorySlider";
 import Productcard from "../component/ProductCard";
 import { useParams } from "react-router-dom";
-import Loading from "../component/Loading";
 import FilterHeader from "../component/FilterHeader";
 import socket from "../config/socket";
 import ProductSimmer from "../component/ProductSimmer";

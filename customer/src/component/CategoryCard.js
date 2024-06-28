@@ -6,7 +6,7 @@ const CategoryCard = ({category}) => {
 
     return (
         <div>
-                <article className='group relative aspect-video h-96 w-[20rem] cursor-pointer overflow-hidden rounded-xl shadow-md hover:shadow-2xl m-4'>
+                <article className='group relative aspect-video h-96 w-[20rem] cursor-pointer overflow-hidden rounded-xl shadow-md hover:shadow-2xl hover:scale-105 duration-200 m-4'>
                     <img className='absolute inset-0 h-full w-full object-cover opacity-90 transition-opacity duration-300 ease-out group-hover:opacity-100 group-hover:transition-opacity group-hover:duration-300'
                         src={category.image}
                         alt='image'

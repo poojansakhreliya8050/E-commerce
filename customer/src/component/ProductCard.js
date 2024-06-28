@@ -50,7 +50,7 @@ const Productcard = ({ product }) => {
 
 
   return (
-    <div class="group w-[340px] overflow-hidden cursor-pointer flex flex-col group m-4   rounded-lg shadow-lg duration-200 hover:scale-105">
+    <div class="group w-[340px] overflow-hidden cursor-pointer flex flex-col group m-4   rounded-lg shadow-lg duration-300 hover:scale-105">
       <div class="h-48 md:h-56 lg:h-[16rem]  border-2 border-white flex items-center justify-center text-white text-base mb-3 md:mb-5 overflow-hidden relative">
         <img
           src={product.img}
@@ -69,7 +69,7 @@ const Productcard = ({ product }) => {
       </p>
 
       <div className="mb-4 text-sm md:text-sm text-center text-gray-950 font-light">
-        {product.price}
+      &#8377; {product.price}
       </div>
 
       <div class="flex justify-center gap-x-3">

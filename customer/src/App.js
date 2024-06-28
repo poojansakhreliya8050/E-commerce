@@ -21,6 +21,7 @@ import Loading from './component/Loading';
 // import Cart from './page/Cart';
 // import Profile from './page/Profile';
 // import OrderDetails from './page/OrderDetails';
+// import ProductDetails from './page/ProductDetails';
 
 const Login = lazy(() => import('./component/Login'));
 const Register = lazy(() => import('./component/Register'));
@@ -30,6 +31,7 @@ const SubCategory = lazy(() => import('./page/SubCategory'));
 const Cart = lazy(() => import('./page/Cart'));
 const Profile = lazy(() => import('./page/Profile'));
 const OrderDetails = lazy(() => import('./page/OrderDetails'));
+const ProductDetails = lazy(() => import('./page/ProductDetails'));
 
 
 
@@ -67,6 +69,7 @@ export const App = () => {
               <Route path="/cart" element={<Cart />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/orderDetails/:orderId" element={<OrderDetails />} />
+              <Route path="/productDetails" element={<ProductDetails/>} />
             </> :
             <>
               <Route path="/login" element={<Login />} />

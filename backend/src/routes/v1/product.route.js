@@ -14,7 +14,7 @@ const {
 } = require("../../controllers/productController");
 const router = express.Router();
 
-router.post("/addProduct", upload.single("image"), addProduct);
+router.post("/addProduct", upload.array('image', 10), addProduct);
 router.get("/fetchAllProduct", fetchAllProduct);
 router.get("/fetchAllProductByCategoryId/:categoryId",fetchAllProductByCategoryId);
 router.get("/fetchAllProductBySubCategoryId/:subCategoryId",fetchAllProductBySubCategoryId);

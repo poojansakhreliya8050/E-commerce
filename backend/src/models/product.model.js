@@ -15,7 +15,7 @@ const productSchema=mongoose.Schema({
     } ,
     productName:String,
     productDescription:String,
-    img:String,
+    img:[String],
     price:Number,
     attributes: mongoose.Schema.Types.Mixed,
     quantity:{

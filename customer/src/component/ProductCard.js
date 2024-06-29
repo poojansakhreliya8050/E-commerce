@@ -52,7 +52,7 @@ const Productcard = ({ product }) => {
 
   return (
     <div class="group w-[340px] overflow-hidden  flex flex-col group m-4   rounded-lg shadow-lg duration-300 hover:scale-105">
-      <Link to={"/productDetails"} class="h-48 md:h-56 lg:h-[16rem]  border-2 border-white flex items-center justify-center text-white text-base mb-3 md:mb-5 overflow-hidden relative">
+      <Link to={`/productDetails/${product._id}`} class="h-48 md:h-56 lg:h-[16rem]  border-2 border-white flex items-center justify-center text-white text-base mb-3 md:mb-5 overflow-hidden relative">
         <img
           src={product.img}
           class=" object-cover w-full h-full scale-100 group-hover:scale-110 transition-all duration-400"

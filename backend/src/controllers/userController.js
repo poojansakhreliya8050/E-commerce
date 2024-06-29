@@ -108,6 +108,7 @@ const loginUser = async (req, res) => {
             // sameSite: 'none', // cross-site access
             secure: false // https
         })
+        
         return res.status(200).json({ userdata: user, accessToken: accessToken })
 
     }

@@ -14,6 +14,7 @@ const SubCategory = () => {
   const [products, setProducts] = useState(null);
   const [filterData, setFilterData] = useState(null);
   console.log(filterData);
+  console.log(products);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -125,8 +126,8 @@ const SubCategory = () => {
         ) : filterData != null && filterData.length != 0 ? (
           filterData.map((product) => (
             <Productcard key={product._id} product={product} />
-          ))
-        ) : (
+          ))) :
+          (
           products.map((product) => (
             <Productcard key={product._id} product={product} />
           ))

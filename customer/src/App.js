@@ -69,7 +69,7 @@ export const App = () => {
               <Route path="/cart" element={<Cart />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/orderDetails/:orderId" element={<OrderDetails />} />
-              <Route path="/productDetails" element={<ProductDetails/>} />
+              <Route path="/productDetails/:productId" element={<ProductDetails/>} />
             </> :
             <>
               <Route path="/login" element={<Login />} />

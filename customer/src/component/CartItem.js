@@ -7,6 +7,7 @@ import { useAddToCartMutation,useRemoveFromCartMutation,useRemoveItemFromCartMut
 const CartItem = ({ item }) => {
   // console.log(item);
   const user = useSelector(state => state.auth.user)
+  
   const dispatch = useDispatch();
 
   const [addToCartMutation] = useAddToCartMutation()

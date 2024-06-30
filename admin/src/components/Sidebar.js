@@ -20,6 +20,14 @@ import { FaUserSlash } from "react-icons/fa6";
 import { FaUserClock } from "react-icons/fa6";
 import { BsBorderStyle } from "react-icons/bs";
 
+import { MdOutlinePendingActions } from "react-icons/md";
+import { FaTruckMoving } from "react-icons/fa";
+import { TbTruckDelivery } from "react-icons/tb";
+import { IoMdCloudDone } from "react-icons/io";
+import { MdCancel } from "react-icons/md";
+
+
+
 
 
 export default function Sidebar() {
@@ -88,7 +96,43 @@ export default function Sidebar() {
         label: 'Orders',
         isOpen: false,
         id: 6,
-        subMenu: []
+        subMenu: [
+          {
+            icons: <MdOutlinePendingActions size={30} />,
+            label: 'pending',
+            isOpen: false,
+            url: 'orders/pending',
+            id: 1
+          },
+          {
+            icons: <FaTruckMoving  size={30} />,
+            label: 'dispatched',
+            isOpen: false,
+            url: 'orders/dispatched',
+            id: 2
+          },
+          {
+            icons: <TbTruckDelivery size={30} />,
+            label: 'ontheway',
+            isOpen: false,
+            url: 'orders/ontheway',
+            id: 3
+          },
+          {
+            icons: <IoMdCloudDone size={30} />,
+            label: 'delivered',
+            isOpen: false,
+            url: 'orders/delivered',
+            id: 4
+          },
+          {
+            icons: <MdCancel size={30} />,
+            label: 'cancelled',
+            isOpen: false,
+            url: 'orders/cancelled',
+            id: 5
+          }
+        ]
       }
     ])
 
@@ -111,7 +155,7 @@ export default function Sidebar() {
   }
 
   return (
-    <nav className={`h-screen sticky top-0 left-0 shadow-md  p-2 flex flex-col duration-500 bg-blue-600 text-white ${open ? 'w-60' : 'w-16'}`}>
+    <nav className={`h-screen overflow-y-scroll sticky top-0 left-0 shadow-md  p-2 flex flex-col duration-500 bg-blue-600 text-white ${open ? 'w-60' : 'w-16'}`}>
 
       {/* Header */}
       <div className=' px-3 py-2 h-20 flex justify-between items-center'>

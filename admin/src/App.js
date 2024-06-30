@@ -17,7 +17,7 @@ function App() {
       <Route path="/verifySeller/:status" element={<VerifySeller/>}/>
       <Route path="/sellerDetails/:userId" element={<SellerDetails/>}/>
       <Route path="/products" element={<Products/>}/>
-      <Route path="/orders" element={<Orders/>}/>
+      <Route path="/orders/:status" element={<Orders/>}/>
       <Route path="*"  element={<Navigate replace to="/" />}/>
     </Route>
 

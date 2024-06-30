@@ -179,7 +179,58 @@ const makePayment = async (req, res) => {
   }
 }
 
+const getPendingOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ deliveryStatus: 'pending' }).populate('items.item').populate('sellerId').populate('address').sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  }
+  catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+}
+
+const getDispatchedOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ deliveryStatus: 'dispatched' }).populate('items.item').populate('sellerId').populate('address').sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  }
+  catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+}
+
+const getOnTheWayOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ deliveryStatus: 'ontheway' }).populate('items.item').populate('sellerId').populate('address').sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  }
+  catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+}
+
+const getDeliveredOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ deliveryStatus: 'delivered' }).populate('items.item').populate('sellerId').populate('address').sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  }
+  catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+}
+
+const getCancelledOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ deliveryStatus: 'cancelled' }).populate('items.item').populate('sellerId').populate('address').sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  }
+  catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+}
 
 
 
-module.exports = { addToOrder, getOrders, getOrdersByUserId, getOrder, getOrderBySellerId, cancelledOrder, dispatchedOrder, onTheWayOrder, deliveredOrder, makePayment }
+
+
+module.exports = { addToOrder, getOrders, getOrdersByUserId, getOrder, getOrderBySellerId, cancelledOrder, dispatchedOrder, onTheWayOrder, deliveredOrder, makePayment, getPendingOrders, getDispatchedOrders, getOnTheWayOrders, getDeliveredOrders, getCancelledOrders}

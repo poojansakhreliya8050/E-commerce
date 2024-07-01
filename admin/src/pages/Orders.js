@@ -1,28 +1,43 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useParams } from 'react-router-dom'
 
 const Orders = () => {
+    const { status } = useParams()
     const [orders, setOrders] = useState(null);
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getOrders`);
-                console.log(response);
-                setOrders(response.data);
+                let response;
+                if (status === 'pending')
+                    response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getPendingOrders`)
+                else if (status === 'dispatched')
+                    response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getDispatchedOrders`)
+                else if (status === 'ontheway')
+                    response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getOnTheWayOrders`)
+                else if (status === 'delivered')
+                    response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getDeliveredOrders`)
+                else if (status === 'cancelled')
+                    response = await axios.get(`${process.env.REACT_APP_URL}/api/v1/order/getCancelledOrders`)
+                setOrders(response.data)
+                console.log(response.data);
             }
-            catch (error) {
-                console.error('Error fetching data:', error);
+            catch (err) {
+                console.log(err);
             }
-        };
-        fetchData();
-    }, []);
+        }
+        fetchData()
+    }
+    , [status])
 
     const handleStartDelivery = async (orderId) => {
         try {
             if (orderId != null) {
                 const response = await axios.patch(`${process.env.REACT_APP_URL}/api/v1/order/onTheWayOrder/${orderId}`);
                 console.log(response);
-                setOrders(orders.map(order => order._id == orderId ? { ...order, deliveryStatus: 'ontheway' } : order))
+                setOrders(orders.filter(order => order._id !== orderId))
+               
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -34,7 +49,9 @@ const Orders = () => {
             if (orderId != null) {
                 const response = await axios.patch(`${process.env.REACT_APP_URL}/api/v1/order/deliveredOrder/${orderId}`);
                 console.log(response);
-                setOrders(orders.map(order => order._id == orderId ? { ...order, deliveryStatus: 'delivered' } : order))
+                // setOrders(orders.map(order => order._id == orderId ? { ...order, deliveryStatus: 'delivered' } : order))
+                setOrders(orders.filter(order => order._id !== orderId))
+
             }
         } catch (error) {
             console.error('Error fetching data:', error);

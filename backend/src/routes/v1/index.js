@@ -8,6 +8,7 @@ const cartRoute=require("./cart.route")
 const addressRoute=require("./address.route")
 const sellerRoute=require("./seller.route")
 const reviewRoute=require("./review.route")
+const feedbackRoute=require("./feedback.route")
 const {isAuth} =require("../../utils/jwt")
 
 const router=express.Router()
@@ -22,6 +23,7 @@ router.use("/cart",isAuth,cartRoute)
 router.use("/address",addressRoute)
 router.use("/seller",sellerRoute)
 router.use("/review",reviewRoute)
+router.use("/feedback",feedbackRoute)
 
 
 

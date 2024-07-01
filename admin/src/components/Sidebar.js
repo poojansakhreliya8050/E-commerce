@@ -25,6 +25,7 @@ import { FaTruckMoving } from "react-icons/fa";
 import { TbTruckDelivery } from "react-icons/tb";
 import { IoMdCloudDone } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
+import { MdFeedback } from "react-icons/md";
 
 
 
@@ -133,6 +134,13 @@ export default function Sidebar() {
             id: 5
           }
         ]
+      },
+      {
+        icons: <MdFeedback  size={30} />,
+        label: 'Feedback',
+        isOpen: false,
+        id: 7,
+        subMenu: []
       }
     ])
 
@@ -155,7 +163,7 @@ export default function Sidebar() {
   }
 
   return (
-    <nav className={`h-screen overflow-y-scroll sticky top-0 left-0 shadow-md  p-2 flex flex-col duration-500 bg-blue-600 text-white ${open ? 'w-60' : 'w-16'}`}>
+    <nav style={{"scrollbarWidth":"none"}} className={`h-screen overflow-y-scroll sticky top-0 left-0 shadow-md  p-2 flex flex-col duration-500 bg-blue-600 text-white ${open ? 'w-60' : 'w-16'}`}>
 
       {/* Header */}
       <div className=' px-3 py-2 h-20 flex justify-between items-center'>

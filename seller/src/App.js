@@ -18,6 +18,7 @@ import { setCredentials } from './redux/user/authSlice';
 import socket from './config/socket';
 import { recivedOrder } from './redux/notification/notificationSlice';
 import {setSellerData} from './redux/seller/sellerSlice';
+import ContactUs from './page/ContactUs';
 
 
 export const App = () => {
@@ -101,6 +102,7 @@ export const App = () => {
             <Route path="/VerifySeller" element={<VerifySeller />} />
           </>
       }
+      <Route path="/contactUs" element={<ContactUs />} />
       <Route path="*" element={<Navigate replace to="/" />} />
     </Route>
 

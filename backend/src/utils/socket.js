@@ -42,6 +42,12 @@ const initSocket = (server) => {
             console.log(`Left seller: ${sellerId}`);
         });
 
+        //when customer cancel the order
+        socket.on('cancelOrderByCustomer', (data) => {
+            // Broadcast cancellation to the specific seller
+            io.to(data.sellerId).emit('orderCancelled', data);
+          });
+
         socket.on('disconnect', () => {
             console.log('user disconnected');
         });

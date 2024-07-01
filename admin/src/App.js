@@ -7,6 +7,7 @@ import VerifySeller from './pages/VerifySeller';
 import SellerDetails from './pages/SellerDetails';
 import Products from './pages/Products';
 import Orders from './pages/Orders';
+import Feedback from './pages/Feedback';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
       <Route path="/sellerDetails/:userId" element={<SellerDetails/>}/>
       <Route path="/products" element={<Products/>}/>
       <Route path="/orders/:status" element={<Orders/>}/>
+      <Route path="feedback" element={<Feedback/>}/>
       <Route path="*"  element={<Navigate replace to="/" />}/>
     </Route>
 

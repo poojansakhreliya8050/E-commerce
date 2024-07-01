@@ -12,6 +12,7 @@ import Home from './page/Home'
 import Directory from './component/Directory';
 import OfflinePage from './page/OfflinePage';
 import Loading from './component/Loading';
+import ContactUs from './page/ContactUs';
 
 // import Login from './component/Login';
 // import Register from './component/Register';
@@ -58,31 +59,33 @@ export const App = () => {
   // console.log(cart);
 
   const router = createBrowserRouter(createRoutesFromElements(
-    
-      <Route path="/" element={<Home />}>
-        <Route index element={<Directory />} />
-        {
-          auth?.user != null ?
-            <>
-              <Route path="/category/:categoryId" element={<SubCategory />} />
-              <Route path="/products" element={<SubCategory />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/orderDetails/:orderId" element={<OrderDetails />} />
-              <Route path="/productDetails/:productId" element={<ProductDetails/>} />
-            </> :
-            <>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/verifyUser" element={<VerifyUser />} />
-              <Route path="/forgetPassword" element={<ForgetPassword />} />
-            </>
-        }
 
-        <Route path="*" element={<Navigate replace to="/" />} />
+    <Route path="/" element={<Home />}>
+      <Route index element={<Directory />} />
+      {
+        auth?.user != null ?
+          <>
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/orderDetails/:orderId" element={<OrderDetails />} />
+          </> :
+          <>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/verifyUser" element={<VerifyUser />} />
+            <Route path="/forgetPassword" element={<ForgetPassword />} />
+          </>
 
-      </Route>
-   
+      }
+      <Route path="/category/:categoryId" element={<SubCategory />} />
+      <Route path="/products" element={<SubCategory />} />
+      <Route path="/productDetails/:productId" element={<ProductDetails />} />
+      <Route path="/contactUs" element={<ContactUs />} />
+
+      <Route path="*" element={<Navigate replace to="/" />} />
+
+    </Route>
+
 
   ));
 
@@ -93,7 +96,7 @@ export const App = () => {
   return (
     <div>
       <Suspense fallback={<Loading />}>
-      <RouterProvider router={router} />
+        <RouterProvider router={router} />
       </Suspense>
     </div>
   )

@@ -4,6 +4,7 @@ const Category = require("../models/category.model");
 const SubCategory = require("../models/subCategory.model");
 
 const { getSocket } = require("../utils/socket");
+const { default: mongoose } = require("mongoose");
 
 
 const addProduct = async (req, res) => {
@@ -119,7 +120,8 @@ const deleteProductByid = async (req, res) => {
 
 const fetchProductById = async (req, res) => {
     try {
-        const product = await Product.findOne({ _id: req.params.productId }).populate('categoryId').populate('subCategoryId').populate('userId').populate('reviews');
+        const product = await Product.findOne({ _id: req.params.productId }).populate('categoryId').populate('subCategoryId').populate('userId')
+        console.log(product);
         res.status(200).json(product)
     }
     catch (e) {
@@ -160,36 +162,36 @@ const fetchProductByUserId = async (req, res) => {
 // }
 
 const searchProducts = async (req, res) => {
-    const searchString  = req.query.query;
-  
+    const searchString = req.query.query;
+
     try {
-      // Create a case-insensitive search query
-      const regex = new RegExp(searchString, 'i');
-  
-      // Find categories and subcategories that match the search string
-      const categories = await Category.find({ categoryTitle: regex }).exec();
-      const subCategories = await SubCategory.find({ subCategoryTitle: regex }).exec();
-  
-      const categoryIds = categories.map(category => category._id);
-      const subCategoryIds = subCategories.map(subCategory => subCategory._id);
-  
-      // Find products that match the search string in name or category
-      const products = await Product.find({
-        $or: [
-          { productName: regex },
-          { categoryId: { $in: categoryIds } },
-          { subCategoryId: { $in: subCategoryIds } }
-        ]
-      })
-      .populate('categoryId')
-      .populate('subCategoryId')
-      .exec();
-  
-      res.json(products);
+        // Create a case-insensitive search query
+        const regex = new RegExp(searchString, 'i');
+
+        // Find categories and subcategories that match the search string
+        const categories = await Category.find({ categoryTitle: regex }).exec();
+        const subCategories = await SubCategory.find({ subCategoryTitle: regex }).exec();
+
+        const categoryIds = categories.map(category => category._id);
+        const subCategoryIds = subCategories.map(subCategory => subCategory._id);
+
+        // Find products that match the search string in name or category
+        const products = await Product.find({
+            $or: [
+                { productName: regex },
+                { categoryId: { $in: categoryIds } },
+                { subCategoryId: { $in: subCategoryIds } }
+            ]
+        })
+            .populate('categoryId')
+            .populate('subCategoryId')
+            .exec();
+
+        res.json(products);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
-  };
+};
 
 
 

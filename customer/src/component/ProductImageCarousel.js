@@ -8,9 +8,6 @@ import "../tailwindCss/ProductImageCarousel.css";
 const ProductImageCarousel = ({ images }) => {
   const CustomPaging = (i) => {
     return (
-      // <div className='h-5 md:h-3 lg:h-[1.5rem] lg:w-[2rem] ml-2'>
-      //   <img src={images[i]} alt={`dot-${i}`} class=" object-cover w-full h-full"/>
-      // </div>
       <div className="w-12 h-12 overflow-hidden border-2 border-transparent  transition-colors duration-300">
       <img src={images[i]} alt={`dot-${i}`} className="w-full h-full object-cover grayscale" />
     </div>

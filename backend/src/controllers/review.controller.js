@@ -53,7 +53,7 @@ const createReview=async(req,res)=>{
 
 const getReviews=async(req,res)=>{
     try{
-        const reviews=await Review.find({productId:req.params.productId}).populate('userId productId').select('-password');
+        const reviews=await Review.find({productId:req.params.productId}).populate('userId').select('-password');
         res.json(reviews);
     }
     catch(err){

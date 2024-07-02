@@ -18,7 +18,7 @@ const addFeedback = async (req, res) => {
 
 const getFeedback = async (req, res) => {
     try {
-        const feedback = await Feedback.find();
+        const feedback = await Feedback.find().sort({ createdAt: -1 });
         return res.status(200).json({ feedback })
     }
     catch (err) {

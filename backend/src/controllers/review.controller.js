@@ -53,7 +53,7 @@ const createReview=async(req,res)=>{
 
 const getReviews=async(req,res)=>{
     try{
-        const reviews=await Review.find({productId:req.params.productId}).populate('userId').select('-password');
+        const reviews=await Review.find({productId:req.params.productId}).populate('userId').select('-password').sort({createdAt:-1});
         res.json(reviews);
     }
     catch(err){
@@ -63,7 +63,7 @@ const getReviews=async(req,res)=>{
 
 const getReviewsByOrderId=async(req,res)=>{
     try{
-        const reviews=await Review.find({orderId:req.params.orderId}).populate('productId').select('-password');
+        const reviews=await Review.find({orderId:req.params.orderId}).populate('productId').select('-password').sort({createdAt:-1});
         res.json(reviews);
     }
     catch(err){

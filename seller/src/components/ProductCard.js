@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import { GrUpdate } from "react-icons/gr";
 
 
 const ProductCard = ({ product, setProducts, setShowModel, setProductId }) => {
